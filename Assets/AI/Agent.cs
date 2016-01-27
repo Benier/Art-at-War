@@ -8,17 +8,17 @@ public class Agent : MonoBehaviour {
 
     StateMachine a_FSM;
 
-    State s_Wander = new State();
-    State s_Attack = new State();
+    State s_Wander;
+    State s_Attack;
 
     Transition t_AttackWander;
     Transition t_WanderAttack;
 
-    List<Action> attackTransList = new List<Action>();
-    List<Action> wanderTransList = new List<Action>();
+    List<Action> attackTransList;
+    List<Action> wanderTransList;
 
-    AttackCondition c_Attack = new AttackCondition();
-    WanderCondition c_Wander = new WanderCondition();
+    AttackCondition c_Attack;
+    WanderCondition c_Wander;
 
 
 	// Use this for initialization
@@ -39,8 +39,17 @@ public class Agent : MonoBehaviour {
 
     void InitAllState()
     {
-        attackTransList.Add(new PrintAction("Attacking"));
-        wanderTransList.Add(new PrintAction("Wandering"));
+        s_Attack = new State();
+        s_Wander = new State();
+
+        attackTransList = new List<Action>();
+        wanderTransList = new List<Action>();
+
+        c_Attack = new AttackCondition();
+        c_Wander = new WanderCondition();
+
+        attackTransList.Add(new PrintAction("Starting Attack"));
+        wanderTransList.Add(new PrintAction("Starting Wander"));
 
         t_AttackWander = new Transition(s_Wander, wanderTransList, c_Wander);
         t_WanderAttack = new Transition(s_Attack, attackTransList, c_Attack);

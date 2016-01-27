@@ -5,8 +5,8 @@ using System.Collections.Generic;
 /// <summary>
 /// Interface for all states to implement
 /// </summary>
-public class State : MonoBehaviour
-{
+public class State
+{ 
     List<Action> actions = new List<Action>();
     List<Action> entActions = new List<Action>();
     List<Action> extActions = new List<Action>();

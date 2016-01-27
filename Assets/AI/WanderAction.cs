@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WanderAction : MonoBehaviour, Action {
+public class WanderAction : Action {
 
 	// Use this for initialization
 	void Start () {
@@ -15,6 +15,6 @@ public class WanderAction : MonoBehaviour, Action {
 
     public void Execute()
     {
-
+        Debug.Log("Wandering");
     }
 }

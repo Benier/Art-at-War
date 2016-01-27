@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WanderCondition : MonoBehaviour, Condition {
+public class WanderCondition : Condition {
 
 	// Use this for initialization
 	void Start () {
@@ -15,6 +15,13 @@ public class WanderCondition : MonoBehaviour, Condition {
 
     public bool Test()
     {
-        return false;
+        if (Input.GetKey(KeyCode.W))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

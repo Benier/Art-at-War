@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PrintAction : MonoBehaviour, Action
+public class PrintAction : Action
 {
     string output;
     // Use this for initialization
@@ -23,6 +23,6 @@ public class PrintAction : MonoBehaviour, Action
 
     public void Execute()
     {
-        //Debug.Log(output);
+        Debug.Log(output);
     }
 }

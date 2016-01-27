@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Transition : MonoBehaviour
+public class Transition 
 {
     State targetState;
     List<Action> actions;

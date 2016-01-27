@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class StateMachine : MonoBehaviour {
+public class StateMachine {
 
     ArrayList statesList = new ArrayList();
     State initialState;

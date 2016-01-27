@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AttackCondition : MonoBehaviour, Condition {
+public class AttackCondition : Condition {
 
 	// Use this for initialization
 	void Start () {

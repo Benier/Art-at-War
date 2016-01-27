@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AttackAction : MonoBehaviour, Action {
+public class AttackAction : Action {
 
 	// Use this for initialization
 	void Start () {
