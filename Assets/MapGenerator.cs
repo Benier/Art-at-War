@@ -13,8 +13,8 @@ public class MapGenerator : MonoBehaviour {
     float y_max = 1;
     float y_min = 0;
     float max_radius = 4;
-
-    Dictionary<Coordinate, GameObject> map = new Dictionary<Coordinate, GameObject>();
+    static CoordinateComparer coordComp = new CoordinateComparer();
+    Dictionary<Coordinate, GameObject> map = new Dictionary<Coordinate, GameObject>(coordComp);
     //int[,] map;
 
     //Dictionary<>
@@ -47,7 +47,7 @@ public class MapGenerator : MonoBehaviour {
         int iterations = 0;
         float radius = max_radius;
         
-        for (int i = 0; i < num_hills; i++)
+        /*for (int i = 0; i < num_hills; i++)
         {
             float x = Random.Range(MAP_WIDTH / 2 * -1, MAP_WIDTH / 2);
             float z = Random.Range(MAP_LENGTH / 2 * -1, MAP_LENGTH / 2);
@@ -65,7 +65,12 @@ public class MapGenerator : MonoBehaviour {
                 }
             }
             //map[x, z] += 1;
+        }*/
+        if(map.ContainsKey(new Coordinate(0, 0)))
+        {
+            Debug.Log("boo");
         }
+        map[new Coordinate(0, 0)].transform.position += new Vector3(0, 2, 0);
         
         return;
     }
