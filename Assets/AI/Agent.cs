@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections;
 
 public class Agent : MonoBehaviour {
+    [SerializeField]
+    public int health = 5;
 
     List<Action> actionList;
 

@@ -14,7 +14,7 @@ public class MapGenerator : MonoBehaviour {
     float y_min = 0;
     float max_radius = 4;
     static CoordinateComparer coordComp = new CoordinateComparer();
-    Dictionary<Coordinate, GameObject> map = new Dictionary<Coordinate, GameObject>(coordComp);
+    public Dictionary<Coordinate, GameObject> map = new Dictionary<Coordinate, GameObject>(coordComp);
     //int[,] map;
 
     //Dictionary<>

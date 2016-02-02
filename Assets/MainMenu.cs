@@ -19,6 +19,6 @@ public class MainMenu : MonoBehaviour {
 
     public void OnPlayClick()
     {
-        SceneManager.LoadScene("GameLvl1");
+        SceneManager.LoadScene("UnitSelection");
     }
 }
