@@ -8,6 +8,7 @@ public class MapGenerator : MonoBehaviour {
 
     static int MAP_WIDTH = 40;
     static int MAP_LENGTH = 40;
+    static int scale_factor = 1;
 
     int num_hills = 10;
     float y_max = 1;
@@ -39,7 +40,7 @@ public class MapGenerator : MonoBehaviour {
             for(int z = MAP_LENGTH / 2 * -1; z < MAP_LENGTH/ 2; z++)
             {
                 blockPrefab = Instantiate(Resources.Load("MapBlockPrefab", typeof(GameObject))) as GameObject;
-                blockPrefab.transform.position = new Vector3(x, 0, z);
+                blockPrefab.transform.position = new Vector3(x * scale_factor, 0 * scale_factor, z * scale_factor);
                 map.Add(new Coordinate(x, z), blockPrefab);
             }
         }
@@ -70,7 +71,7 @@ public class MapGenerator : MonoBehaviour {
         {
             Debug.Log("boo");
         }
-        map[new Coordinate(0, 0)].transform.position += new Vector3(0, 2, 0);
+        map[new Coordinate(0, 0)].transform.position += new Vector3(0, 2 * scale_factor, 0);
         
         return;
     }
