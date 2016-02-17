@@ -22,7 +22,7 @@ public class MapGenerator : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-        GenerateMap();
+        //GenerateMap();
 	}
 	
 	// Update is called once per frame

@@ -4,6 +4,7 @@ using System.Timers;
 
 public class ProjectilePhysics : MonoBehaviour
 {
+    float colliPrec;
     bool upArr;
     bool downArr;
     bool rightArr;
@@ -56,8 +57,6 @@ public class ProjectilePhysics : MonoBehaviour
     float timer;
     float elapsedTime;
     Vector3 gunRot; //alpha, y, gamma
-    float gunRotDegY;
-    float gunRotDegZ;
     float correctRotDegY;
     float correctRotDegZ;
 
@@ -71,19 +70,10 @@ public class ProjectilePhysics : MonoBehaviour
     GameObject target;
     int frameCount;
 
-    //------------Asn8
-    int ballMass;
-    float drag; //Cd
-    float windVel;
-    float windDir;
-    float windC; //Cw
-    bool dragOn;
-    float tau;
-    float gravity;
-
     // Use this for initialization
     void Start()
     {
+        colliPrec = 1.0f;
         fontstyle = new GUIStyle();
         fontstyle.fontSize = 60;
         fontstyle.normal.textColor = Color.white;
@@ -104,7 +94,7 @@ public class ProjectilePhysics : MonoBehaviour
 
         trajVec = new Vector3(1, 0, 0);
         ballPosXInit = origin.transform.position.x;
-        ballPosYInit = origin.transform.position.y;
+        ballPosYInit = origin.transform.position.y + 2;
         ballPosZInit = origin.transform.position.z;
         ballPosX = ballPosXInit;
         ballPosY = ballPosYInit;
@@ -118,8 +108,7 @@ public class ProjectilePhysics : MonoBehaviour
         targetPosY = target.transform.position.y;
         targetPosZ = target.transform.position.z;
 
-        gunRotDegZ = 0;
-        gunRot = new Vector3(0, Mathf.Deg2Rad * gunRotDegY, Mathf.Deg2Rad * gunRotDegZ);
+        gunRot = new Vector3(0, Mathf.Deg2Rad * 180.0f, 0);
 
         accelX = 0.0f;
         accelY = -9.81f;
@@ -133,20 +122,10 @@ public class ProjectilePhysics : MonoBehaviour
         frameCount = 0;
 
         gameObject.transform.position = new Vector3(ballPosX, ballPosY, -ballPosZ);
-
-        //--------------------Asn8
-        ballMass = 1;
-        drag = 0.2f;
-        windVel = 10;
-        windDir = ((Mathf.Deg2Rad * 360) - gunRot.y);
-        windC = 0.1f;
-        dragOn = false;
-        tau = ballMass / drag;
-        gravity = 9.81f;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         gameObject.transform.position = new Vector3(ballPosX, ballPosY, -ballPosZ);
 
@@ -156,60 +135,28 @@ public class ProjectilePhysics : MonoBehaviour
             if (!shotFired)
             {
                 postRotVec = Quaternion.Euler(Mathf.Rad2Deg * gunRot.x, Mathf.Rad2Deg * gunRot.y, Mathf.Rad2Deg * gunRot.z) * trajVec;
-                //postRotVec = Quaternion.AngleAxis(gunRot.z, Vector3.back) * trajVec;
                 velocityX = postRotVec.x * velocity;
                 velocityY = postRotVec.y * velocity;
                 velocityZ = postRotVec.z * velocity;
                 shotFired = true;
             }
-            deltaTime = Time.deltaTime;
+            deltaTime = Time.fixedDeltaTime;
             timer -= deltaTime;
             elapsedTime += deltaTime;
 
-            if (!dragOn)
-            {
-                ballPosX += (float)(velocityX * deltaTime) + (float)(1.0f / 2.0f * accelX * Mathf.Pow(deltaTime, 2));
-                velocityX += (float)(accelX * deltaTime);
-                ballPosY += (float)(velocityY * deltaTime) + (float)(1.0f / 2.0f * accelY * Mathf.Pow(deltaTime, 2));
-                velocityY += (float)(accelY * deltaTime);
-                ballPosZ += (float)(velocityZ * deltaTime) + (float)(1.0f / 2.0f * accelZ * Mathf.Pow(deltaTime, 2));
-                velocityZ += (float)(accelZ * deltaTime);
-            }
-            else
-            {
-                ballPosX += (float)(velocityX * tau * (1 - Mathf.Exp(-(deltaTime / tau))) + (((windC * windVel * Mathf.Cos(((Mathf.Deg2Rad * 360) - gunRot.y))) / drag) * tau * (1 - Mathf.Exp(-(deltaTime / tau)))) - (((windC * windVel * Mathf.Cos(((Mathf.Deg2Rad * 360) - gunRot.y))) / drag) * deltaTime));
-                ballPosY += (float)(velocityY * tau * (1 - Mathf.Exp(-(deltaTime / tau))) + (gravity * Mathf.Pow(tau, 2) * (1 - Mathf.Exp(-deltaTime / tau))) - (gravity * tau * deltaTime));
-                ballPosZ += (float)(velocityZ * tau * (1 - Mathf.Exp(-(deltaTime / tau))) + (((windC * windVel * Mathf.Sin(((Mathf.Deg2Rad * 360) - gunRot.y))) / drag) * tau * (1 - Mathf.Exp(-(deltaTime / tau)))) - (((windC * windVel * Mathf.Sin(((Mathf.Deg2Rad * 360) - gunRot.y))) / drag) * deltaTime));
-                velocityX = (float)((Mathf.Exp(-(deltaTime / tau)) * velocityX) + (Mathf.Exp(-(deltaTime / tau)) - 1) * ((windC * windVel * Mathf.Cos(((Mathf.Deg2Rad * 360) - gunRot.y))) / drag));
-                velocityY = (float)((Mathf.Exp(-(deltaTime / tau)) * velocityY) + (Mathf.Exp(-(deltaTime / tau)) - 1) * gravity * tau);
-                velocityZ = (float)((Mathf.Exp(-(deltaTime / tau)) * velocityZ) + (Mathf.Exp(-(deltaTime / tau)) - 1) * ((windC * windVel * Mathf.Sin(((Mathf.Deg2Rad * 360) - gunRot.y))) / drag));
-            }
+            ballPosX += (float)(velocityX * deltaTime) + (float)(1.0f / 2.0f * accelX * Mathf.Pow(deltaTime, 2));
+            velocityX += (float)(accelX * deltaTime);
+            ballPosY += (float)(velocityY * deltaTime) + (float)(1.0f / 2.0f * accelY * Mathf.Pow(deltaTime, 2));
+            velocityY += (float)(accelY * deltaTime);
+            ballPosZ += (float)(velocityZ * deltaTime) + (float)(1.0f / 2.0f * accelZ * Mathf.Pow(deltaTime, 2));
+            velocityZ += (float)(accelZ * deltaTime);
 
-            /*if (((correctRotDegZ - (float)(Mathf.Rad2Deg * gunRot.z)) <= 0.1f) && ((correctRotDegY - (360.0f - (float)(Mathf.Rad2Deg * gunRot.y))) <= 0.1f))
-            {
-                if (ballPosX >= targetPosX)
-                {
-                    startTime = false;
-                    shotFired = false;
-                    hit = 1;
-                }
-            }
-            else
-            {
-                if (ballPosX >= rangeBoundX)
-                {
-                    startTime = false;
-                    shotFired = false;
-                    hit = 2;
-                }
-            }*/
-
-            if (ballPosY <= 0)
+            if (ballPosY <= targetPosY)
             {
                 startTime = false;
                 shotFired = false;
 
-                if ((Mathf.Abs(ballPosX - targetPosX) < 20) && (Mathf.Abs(ballPosZ - targetPosZ) < 20))
+                if ((Mathf.Abs(ballPosX - targetPosX) < colliPrec) && (Mathf.Abs(ballPosZ - targetPosZ) < colliPrec))
                 {
                     hit = 1;
                 }
@@ -238,13 +185,10 @@ public class ProjectilePhysics : MonoBehaviour
             }
             arc.Clear();
         }
-        //CheckInput();
         correctRotDegY = (float)(Mathf.Rad2Deg * ((float)(Mathf.Acos(Mathf.Abs(targetPosX - gunPosX) / Mathf.Sqrt(Mathf.Pow(targetPosX - gunPosX, 2) + Mathf.Pow(targetPosZ - gunPosZ, 2))))));
-        //correctRotDegZ = (float)(Mathf.Rad2Deg * ((float)(Mathf.Asin(2 * (((targetPosX - gunPosX) / velocity * 1.0f / 2.0f * Mathf.Abs(accelY)) / velocity)) / 2)));
         correctRotDegZ = (float)(Mathf.Rad2Deg * ((float)(Mathf.Asin(Mathf.Abs(accelY) * Mathf.Sqrt(Mathf.Pow((targetPosX - gunPosX), 2) + Mathf.Pow((targetPosZ - gunPosZ), 2)) / Mathf.Pow(velocity, 2)))) / 2);
-        //Console.WriteLine(correctRotDeg);
-        gunRot.y = Mathf.Deg2Rad * (360.0f - (correctRotDegY + gunRotDegY));
-        gunRot.z = Mathf.Deg2Rad * ((correctRotDegZ + gunRotDegZ));
+        gunRot.y = Mathf.Deg2Rad * (360.0f - correctRotDegY);
+        gunRot.z = Mathf.Deg2Rad * correctRotDegZ;
 
         if (frameCount > 5)
         {
@@ -253,7 +197,6 @@ public class ProjectilePhysics : MonoBehaviour
             frameCount = 0;
         }
         frameCount++;
-        tau = ballMass / drag;
 
         CheckInput();
     }
@@ -313,7 +256,7 @@ public class ProjectilePhysics : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Z) && velocityDown)
         {
             velocityDown = false;
-            velocity -= 10.0f;
+            velocity -= 1.0f;
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
@@ -322,54 +265,7 @@ public class ProjectilePhysics : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.X) && velocityUp)
         {
             velocityUp = false;
-            velocity += 10.0f;
-        }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            gunRotZ = true;
-        }
-        if (Input.GetKeyUp(KeyCode.W) && gunRotZ)
-        {
-            gunRotZ = false;
-            gunRotDegZ += Mathf.Rad2Deg * 0.02f;
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            gunRotZ = true;
-        }
-        if (Input.GetKeyUp(KeyCode.S) && gunRotZ)
-        {
-            gunRotZ = false;
-            gunRotDegZ -= Mathf.Rad2Deg * 0.02f;
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            gunRotY = true;
-        }
-        if (Input.GetKeyUp(KeyCode.A) && gunRotY)
-        {
-            gunRotY = false;
-            gunRotDegY += Mathf.Rad2Deg * 0.02f;
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            gunRotY = true;
-        }
-        if (Input.GetKeyUp(KeyCode.D) && gunRotY)
-        {
-            gunRotY = false;
-            gunRotDegY -= Mathf.Rad2Deg * 0.02f;
-        }
-
-        if (Input.GetKeyUp(KeyCode.C))
-        {
-            dragOn = !dragOn;
-            timer = timerInit;
-            elapsedTime = 0;
-            ballPosX = ballPosXInit;
-            ballPosY = ballPosYInit;
-            ballPosZ = ballPosZInit;
-            velocity = velocityInit;
+            velocity += 1.0f;
         }
     }
 
@@ -378,32 +274,15 @@ public class ProjectilePhysics : MonoBehaviour
         GUI.Label(new Rect(0, 0 * 30, 300, 300), "Projectile Position: (" + ballPosX + ", " + ballPosY + ", " + ballPosZ + ")");
         GUI.Label(new Rect(0, 1 * 30, 300, 300), "Target Position: (" + targetPosX + ", " + targetPosY + ", " + targetPosZ + ")");
         GUI.Label(new Rect(0, 2 * 30, 300, 300), "Range: (" + Mathf.Abs(ballPosX - targetPosX) + ", " + Mathf.Abs(ballPosY - targetPosY) + ", " + Mathf.Abs(ballPosZ - targetPosZ) + ")");
-        //GUI.Label(new Rect(0, 3 * 30, 300, 300), "Correct Rotation: " + correctRotDegZ);
         GUI.Label(new Rect(0, 3 * 30, 300, 300), "Correct Alpha: " + (Mathf.Rad2Deg * ((Mathf.Deg2Rad * (90 - correctRotDegZ)))));
         GUI.Label(new Rect(0, 4 * 30, 300, 300), "Correct Gamma: " + (Mathf.Rad2Deg * ((Mathf.Deg2Rad * (correctRotDegY)))));
         GUI.Label(new Rect(0, 5 * 30, 300, 300), "Current Alpha: " + (Mathf.Rad2Deg * ((Mathf.Deg2Rad * 90) - gunRot.z)));
         GUI.Label(new Rect(0, 6 * 30, 300, 300), "Current Gamma: " + (Mathf.Rad2Deg * ((Mathf.Deg2Rad * 360) - gunRot.y)));
         GUI.Label(new Rect(0, 7 * 30, 300, 300), "Time: " + elapsedTime + " s");
         GUI.Label(new Rect(0, 8 * 30, 300, 300), "Velocity: " + velocity + " m/s");
-        GUI.Label(new Rect(0, 9 * 30, 300, 300), "Tau: " + tau + " s");
-        if (dragOn)
-        {
-            if (hit == 1)
-            {
-                GUI.Label(new Rect(0, 10 * 30, 300, 300), "Hit or Miss with Drag and Wind: Hit");
-            }
-            else if (hit == 2)
-            {
-                GUI.Label(new Rect(0, 10 * 30, 300, 300), "Hit or Miss with Drag and Wind: Miss");
-            }
-        }
-        else
-        {
-            GUI.Label(new Rect(0, 10 * 30, 300, 300), "Hit or Miss with Drag and Wind: NA");
-        }
-        GUI.Label(new Rect(0, 11 * 30, 300, 300), "Wind: (" + windVel + " m/s, " + (Mathf.Rad2Deg * windDir) + " degrees)");
-        GUI.Label(new Rect(0, 12 * 30, 300, 300), "Projectile Mass: " + ballMass + " kg");
-        GUI.Label(new Rect(0, 13 * 30, 300, 300), "Drag Constant: " + drag + " N/m/s");
+
+
+        GUI.Label(new Rect(0, 10 * 30, 300, 300), "Hit or Miss with Drag and Wind: NA");
 
         if (hit == 1)
         {
