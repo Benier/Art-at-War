@@ -3,13 +3,11 @@ using System.Collections;
 
 public class RangedWeapon : MonoBehaviour {
 
-    [SerializeField]
-    GameObject target;
-    [SerializeField]
-    GameObject projectile;
+    public GameObject target;
 
     GameObject projectilePrefab;
     float timeToTarget = 1.0f;
+    float destroyTimer = 10.0f;
     // Use this for initialization
     void Start () {
 
@@ -18,21 +16,23 @@ public class RangedWeapon : MonoBehaviour {
 	// Update is called once per frame
 	void Update () { 
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            projectilePrefab = Instantiate(Resources.Load("Projectile", typeof(GameObject))) as GameObject;
-            //projectilePrefab.GetComponent<Rigidbody>().velocity = BallisticVelocity(target, 60.0f);
-            //Vector3 temp = projectilePrefab.GetComponent<Rigidbody>().velocity;
-            projectilePrefab.transform.position = this.transform.position;
-            projectilePrefab.GetComponent<Rigidbody>().AddForce(calculateThrowSpeed(this.transform.position, target.transform.position, timeToTarget), ForceMode.VelocityChange);
-        }
+    }
+
+    public void FireWeapon()
+    {
+        projectilePrefab = Instantiate(Resources.Load("Projectile", typeof(GameObject))) as GameObject;
+        //projectilePrefab.GetComponent<Rigidbody>().velocity = BallisticVelocity(target, 60.0f);
+        //Vector3 temp = projectilePrefab.GetComponent<Rigidbody>().velocity;
+        projectilePrefab.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
+        projectilePrefab.GetComponent<Rigidbody>().AddForce(calculateThrowSpeed(this.transform.position, target.transform.position, timeToTarget), ForceMode.VelocityChange);
+        Destroy(projectilePrefab, destroyTimer);
     }
 
     Vector3 calculateThrowSpeed(Vector3 orig, Vector3 targ, float timeToTarg)
     {
         Vector3 toTarget = targ - orig;
         Vector3 toTargetXZ = toTarget;
-        toTargetXZ.y = 0;
+        //toTargetXZ.y = 0;
 
         float y = toTargetXZ.y;
         float xz = toTargetXZ.magnitude;

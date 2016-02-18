@@ -8,6 +8,8 @@ public class Unit : MonoBehaviour{
     int damage;
     [SerializeField]
     int health;
+    [SerializeField]
+    GameObject weapon;
     int enemyInd;
     ArrayList availEnem;
 	// Use this for initialization
@@ -22,8 +24,8 @@ public class Unit : MonoBehaviour{
 	// Update is called once per frame
 	void Update ()
     {
-	
-        if(Input.GetKey(KeyCode.Alpha1))
+	    // Old code for testing whether enemies are in range
+        /*if(Input.GetKey(KeyCode.Alpha1))
         {
             TargetSearch();
         }
@@ -53,12 +55,43 @@ public class Unit : MonoBehaviour{
             {
                 Attack();
             }
+        }*/
+        if(Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("LMB Down");
+            RaycastHit hitInfo = new RaycastHit();
+            bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
+            if(hit)
+            {
+                Debug.Log("Hit " + hitInfo.transform.gameObject.name);
+                Debug.Log(hitInfo.transform.gameObject.GetComponent<Renderer>().material.name);
+                hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.red;
+                SetTarget(hitInfo.transform.gameObject);
+                weapon.GetComponent<RangedWeapon>().FireWeapon();
+                if(hitInfo.transform.gameObject.tag == "GroundTile")
+                {
+                    Debug.Log("Hit Ground");
+                }
+                else
+                {
+                    Debug.Log("Hit something else");
+                }
+            }
+            else
+            {
+                Debug.Log("Hit nothing");
+            }
         }
     }
 
     Unit(float r)
     {
         range = r;
+    }
+
+    void SetTarget(GameObject targ)
+    {
+        weapon.GetComponent<RangedWeapon>().target = targ;
     }
 
     /**

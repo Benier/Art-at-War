@@ -37,7 +37,7 @@ public class AIManager : MonoBehaviour
 
         foreach (Action a in actionList)
         {
-            a.Execute();
+        //    a.Execute();
         }
     }
 

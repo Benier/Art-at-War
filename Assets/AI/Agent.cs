@@ -35,7 +35,7 @@ public class Agent : MonoBehaviour {
 
         foreach (Action a in actionList)
         {
-            a.Execute();
+        //    a.Execute();
         }
 	}
 

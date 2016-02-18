@@ -3,9 +3,9 @@
 # XSI Version: 12.0.921.0
 mtllib mapblock.mtl
 
-o headusOBJexport
+o MapBlock
 # Hierarchy (from self to top father)
-g headusOBJexport
+g MapBlock
 
 #begin 8 vertices
 v -0.500000 -11.000000 -0.500000
