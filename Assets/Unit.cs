@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class Unit : MonoBehaviour{
     [SerializeField]
@@ -12,19 +13,32 @@ public class Unit : MonoBehaviour{
     GameObject weapon;
     int enemyInd;
     ArrayList availEnem;
-	// Use this for initialization
-	void Start () {
+    public bool attackAbil;
+    public bool tarAbil;
+    public bool moveAbil;
+    public bool enabled;
+
+    void Awake()
+    {
         availEnem = new ArrayList();
         //range = 2;
         //damage = 2;
         enemyInd = 0;
         //health = 5;
+        enabled = false;
+        attackAbil = false;
+        tarAbil = false;
+        moveAbil = true;
+    }
+	// Use this for initialization
+	void Start () {
+
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-	    // Old code for testing whether enemies are in range
+        // Old code for testing whether enemies are in range
         /*if(Input.GetKey(KeyCode.Alpha1))
         {
             TargetSearch();
@@ -56,19 +70,27 @@ public class Unit : MonoBehaviour{
                 Attack();
             }
         }*/
-        if(Input.GetMouseButtonDown(0))
+        if (enabled)
+        {
+            HandleInput();
+        }
+    }
+
+    void HandleInput()
+    {
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             Debug.Log("LMB Down");
             RaycastHit hitInfo = new RaycastHit();
             bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
-            if(hit)
+            if (hit)
             {
                 Debug.Log("Hit " + hitInfo.transform.gameObject.name);
                 Debug.Log(hitInfo.transform.gameObject.GetComponent<Renderer>().material.name);
-                hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.red;
-                SetTarget(hitInfo.transform.gameObject);
-                weapon.GetComponent<RangedWeapon>().FireWeapon();
-                if(hitInfo.transform.gameObject.tag == "GroundTile")
+
+                ExecuteAbility(hitInfo);
+
+                if (hitInfo.transform.gameObject.tag == "GroundTile")
                 {
                     Debug.Log("Hit Ground");
                 }
@@ -82,6 +104,31 @@ public class Unit : MonoBehaviour{
                 Debug.Log("Hit nothing");
             }
         }
+    }
+
+    void ExecuteAbility(RaycastHit hitInfo)
+    {
+        if (attackAbil)
+        {
+            AttackTarget(hitInfo.transform.gameObject);
+            hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.red;
+        }
+        if (tarAbil)
+        {
+            AttackTarget(hitInfo.transform.gameObject);
+            hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.black;
+        }
+        if (moveAbil)
+        {
+            AttackTarget(hitInfo.transform.gameObject);
+            hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.green;
+        }
+    }
+
+    void AttackTarget(GameObject targ)
+    {
+        SetTarget(targ);
+        weapon.GetComponent<RangedWeapon>().FireWeapon();
     }
 
     Unit(float r)

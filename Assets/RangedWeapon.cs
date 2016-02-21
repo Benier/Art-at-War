@@ -24,11 +24,11 @@ public class RangedWeapon : MonoBehaviour {
         //projectilePrefab.GetComponent<Rigidbody>().velocity = BallisticVelocity(target, 60.0f);
         //Vector3 temp = projectilePrefab.GetComponent<Rigidbody>().velocity;
         projectilePrefab.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
-        projectilePrefab.GetComponent<Rigidbody>().AddForce(calculateThrowSpeed(this.transform.position, target.transform.position, timeToTarget), ForceMode.VelocityChange);
+        projectilePrefab.GetComponent<Rigidbody>().AddForce(CalculateThrowSpeed(this.transform.position, target.transform.position, timeToTarget), ForceMode.VelocityChange);
         Destroy(projectilePrefab, destroyTimer);
     }
 
-    Vector3 calculateThrowSpeed(Vector3 orig, Vector3 targ, float timeToTarg)
+    Vector3 CalculateThrowSpeed(Vector3 orig, Vector3 targ, float timeToTarg)
     {
         Vector3 toTarget = targ - orig;
         Vector3 toTargetXZ = toTarget;
