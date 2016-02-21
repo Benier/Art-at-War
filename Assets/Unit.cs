@@ -16,7 +16,9 @@ public class Unit : MonoBehaviour{
     public bool attackAbil;
     public bool tarAbil;
     public bool moveAbil;
-    public bool enabled;
+    public bool active;
+    public int AP;
+    public float mobilityDist;
 
     void Awake()
     {
@@ -25,10 +27,12 @@ public class Unit : MonoBehaviour{
         //damage = 2;
         enemyInd = 0;
         //health = 5;
-        enabled = false;
+        active = false;
         attackAbil = false;
         tarAbil = false;
         moveAbil = true;
+        AP = 2;
+        mobilityDist = 6;
     }
 	// Use this for initialization
 	void Start () {
@@ -70,7 +74,7 @@ public class Unit : MonoBehaviour{
                 Attack();
             }
         }*/
-        if (enabled)
+        if (active)
         {
             HandleInput();
         }
@@ -120,7 +124,7 @@ public class Unit : MonoBehaviour{
         }
         if (moveAbil)
         {
-            AttackTarget(hitInfo.transform.gameObject);
+            MoveToTarget(hitInfo.transform.gameObject);
             hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.green;
         }
     }
@@ -129,6 +133,26 @@ public class Unit : MonoBehaviour{
     {
         SetTarget(targ);
         weapon.GetComponent<RangedWeapon>().FireWeapon();
+    }
+
+    void MoveToTarget(GameObject targ)
+    {
+        if (CalculateDistance(gameObject.transform.position, targ.transform.position) <= mobilityDist / 2.0f)
+        {
+            gameObject.transform.position = targ.transform.position;
+            AP -= 1;
+        }
+        else if (CalculateDistance(gameObject.transform.position, targ.transform.position) <= mobilityDist)
+        {
+            gameObject.transform.position = targ.transform.position;
+            AP -= 2;
+        }
+
+    }
+
+    float CalculateDistance(Vector3 orig, Vector3 dest)
+    {
+        return Mathf.Sqrt(Mathf.Pow((dest.x - orig.x), 2.0f) + Mathf.Pow((dest.y - orig.y), 2.0f));
     }
 
     Unit(float r)

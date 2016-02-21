@@ -6,7 +6,7 @@ public class GameLevel1 : MonoBehaviour {
     [SerializeField]
     GameObject mapGenerator;
     List<GameObject> playerUnits = new List<GameObject>();
-    static int playerUnitCount = 6;
+    static int playerUnitCount = 2;
     public int curUnitInd;
     MapGenerator mapGen;
 
@@ -26,7 +26,13 @@ public class GameLevel1 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        int i = 0;
+        if(playerUnits[curUnitInd].GetComponent<Unit>().AP <= 0)
+        {
+            if(!SelectNextUnit())
+            {
+                Debug.Log("Turn Ended");
+            }
+        }
 	}
 
     void SpawnUnits()
@@ -57,23 +63,33 @@ public class GameLevel1 : MonoBehaviour {
         return unitPrefab;
     }
 
-    public void SelectNextUnit()
+    public bool SelectNextUnit()
     {
         if (curUnitInd < playerUnits.Count -1)
         {
             DisableUnit(playerUnits, curUnitInd);
             curUnitInd++;
             EnableUnit(playerUnits, curUnitInd);
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
-    public void SelectPreviousUnit()
+    public bool SelectPreviousUnit()
     {
         if (curUnitInd > 0)
         {
             DisableUnit(playerUnits, curUnitInd);
             curUnitInd--;
             EnableUnit(playerUnits, curUnitInd);
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -100,11 +116,11 @@ public class GameLevel1 : MonoBehaviour {
 
     void EnableUnit(List<GameObject> units, int index)
     {
-        units[index].GetComponent<Unit>().enabled = true;
+        units[index].GetComponent<Unit>().active = true;
     }
 
     void DisableUnit(List<GameObject> units, int index)
     {
-        units[index].GetComponent<Unit>().enabled = false;
+        units[index].GetComponent<Unit>().active = false;
     }
 }
