@@ -95,23 +95,26 @@ public class GameLevel1 : MonoBehaviour {
 
     public void EnableAttack()
     {
-        playerUnits[curUnitInd].GetComponent<Unit>().attackAbil = true;
-        playerUnits[curUnitInd].GetComponent<Unit>().tarAbil = false;
-        playerUnits[curUnitInd].GetComponent<Unit>().moveAbil = false;
+        playerUnits[curUnitInd].GetComponent<Unit>().ability = Unit.Ability.Attack;
+        //playerUnits[curUnitInd].GetComponent<Unit>().attackAbil = true;
+        //playerUnits[curUnitInd].GetComponent<Unit>().tarAbil = false;
+        //playerUnits[curUnitInd].GetComponent<Unit>().moveAbil = false;
     }
 
     public void EnableTar()
     {
-        playerUnits[curUnitInd].GetComponent<Unit>().attackAbil = false;
-        playerUnits[curUnitInd].GetComponent<Unit>().tarAbil = true;
-        playerUnits[curUnitInd].GetComponent<Unit>().moveAbil = false;
+        playerUnits[curUnitInd].GetComponent<Unit>().ability = Unit.Ability.Tar;
+        //playerUnits[curUnitInd].GetComponent<Unit>().attackAbil = false;
+        //playerUnits[curUnitInd].GetComponent<Unit>().tarAbil = true;
+        //playerUnits[curUnitInd].GetComponent<Unit>().moveAbil = false;
     }
 
     public void EnableMove()
     {
-        playerUnits[curUnitInd].GetComponent<Unit>().attackAbil = false;
-        playerUnits[curUnitInd].GetComponent<Unit>().tarAbil = false;
-        playerUnits[curUnitInd].GetComponent<Unit>().moveAbil = true;
+        playerUnits[curUnitInd].GetComponent<Unit>().ability = Unit.Ability.Move;
+        //playerUnits[curUnitInd].GetComponent<Unit>().attackAbil = false;
+        //playerUnits[curUnitInd].GetComponent<Unit>().tarAbil = false;
+        //playerUnits[curUnitInd].GetComponent<Unit>().moveAbil = true;
     }
 
     void EnableUnit(List<GameObject> units, int index)

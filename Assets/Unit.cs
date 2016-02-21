@@ -4,44 +4,57 @@ using UnityEngine.EventSystems;
 
 public class Unit : MonoBehaviour{
     [SerializeField]
-    float range;
+    float attRange;
     [SerializeField]
     int damage;
     [SerializeField]
     int health;
     [SerializeField]
     GameObject weapon;
+    GameObject prevTile;
+
+    public enum Ability
+    {
+        None,
+        Move,
+        Attack,
+        Tar
+    };
+
+    public Ability ability;
     int enemyInd;
     ArrayList availEnem;
-    public bool attackAbil;
-    public bool tarAbil;
-    public bool moveAbil;
+    //public bool attackAbil;
+    //public bool tarAbil;
+    //public bool moveAbil;
     public bool active;
     public int AP;
     public float mobilityDist;
 
     void Awake()
     {
+        ability = Ability.Move;
         availEnem = new ArrayList();
-        //range = 2;
         //damage = 2;
-        enemyInd = 0;
         //health = 5;
+        enemyInd = 0;
         active = false;
-        attackAbil = false;
-        tarAbil = false;
-        moveAbil = true;
+        //attackAbil = false;
+        //tarAbil = false;
+        //moveAbil = true;
         AP = 2;
+        attRange = 8;
         mobilityDist = 6;
     }
 	// Use this for initialization
 	void Start () {
-
+        
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
+        #region old calls to when we used to attack other Units
         // Old code for testing whether enemies are in range
         /*if(Input.GetKey(KeyCode.Alpha1))
         {
@@ -74,15 +87,28 @@ public class Unit : MonoBehaviour{
                 Attack();
             }
         }*/
+        #endregion
         if (active)
         {
             HandleInput();
         }
     }
 
+    /// <summary>
+    /// Constructor for Unit with attack range initializer.
+    /// </summary>
+    /// <param name="r">Attack range in float.</param>
+    Unit(float r)
+    {
+        attRange = r;
+    }
+    
+    /// <summary>
+    /// Handles click events from the player. 
+    /// </summary>
     void HandleInput()
     {
-        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+        if (/*Input.GetMouseButtonDown(0) &&*/ !EventSystem.current.IsPointerOverGameObject())
         {
             Debug.Log("LMB Down");
             RaycastHit hitInfo = new RaycastHit();
@@ -110,31 +136,113 @@ public class Unit : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// Calls appropriate ability on hitInfo tile depending on active ability
+    /// </summary>
+    /// <param name="hitInfo">Ray that we derive target GameObject from</param>
     void ExecuteAbility(RaycastHit hitInfo)
     {
-        if (attackAbil)
+        if (prevTile == null)
         {
-            AttackTarget(hitInfo.transform.gameObject);
-            hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.red;
+            prevTile = hitInfo.transform.gameObject;
+        }
+        if (prevTile != hitInfo.transform.gameObject)
+        {
+            prevTile.GetComponent<Renderer>().material.color = Color.white;
+        }
+        switch(ability)
+        {
+            case Ability.Attack:
+                if (Input.GetMouseButtonDown(0) && CalculateDistance(gameObject.transform.position, hitInfo.transform.gameObject.transform.position) < attRange)
+                {
+                    AttackTarget(hitInfo.transform.gameObject);
+                    hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.red;
+                }
+                else if(CalculateDistance(gameObject.transform.position, hitInfo.transform.gameObject.transform.position) < attRange)
+                {
+                    hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.yellow;
+                }
+                break;
+            case Ability.Tar:
+                if (Input.GetMouseButtonDown(0) && CalculateDistance(gameObject.transform.position, hitInfo.transform.gameObject.transform.position) < attRange)
+                {
+                    AttackTarget(hitInfo.transform.gameObject);
+                    hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.black;
+                }
+                else if (CalculateDistance(gameObject.transform.position, hitInfo.transform.gameObject.transform.position) < attRange)
+                {
+                    hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.gray;
+                }
+                break;
+            case Ability.Move:
+                if (Input.GetMouseButtonDown(0) && CalculateDistance(gameObject.transform.position, hitInfo.transform.gameObject.transform.position) < mobilityDist)
+                {
+                    MoveToTarget(hitInfo.transform.gameObject);
+                    hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.green;
+                }
+                else if(CalculateDistance(gameObject.transform.position, hitInfo.transform.gameObject.transform.position) < mobilityDist)
+                {
+                    hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.blue;
+                }
+                break;
+            default:
+                break;
+        }
+        #region old ability switching using booleans
+        /*if (attackAbil)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                AttackTarget(hitInfo.transform.gameObject);
+                hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.red;
+            }
+            else
+            {
+                hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.yellow;
+            }
         }
         if (tarAbil)
         {
-            AttackTarget(hitInfo.transform.gameObject);
-            hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.black;
+            if (Input.GetMouseButtonDown(0))
+            {
+                AttackTarget(hitInfo.transform.gameObject);
+                hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.black;
+            }
+            else
+            {
+                hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.gray;
+            }
         }
         if (moveAbil)
         {
-            MoveToTarget(hitInfo.transform.gameObject);
-            hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.green;
-        }
+            if (Input.GetMouseButtonDown(0))
+            {
+                MoveToTarget(hitInfo.transform.gameObject);
+                hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.green;
+            }
+            else
+            {
+                hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.blue;
+            }
+        }*/
+        #endregion
+        prevTile = hitInfo.transform.gameObject;
     }
 
+    /// <summary>
+    /// Calls SetTarget to set weapon target and then fire weapon
+    /// </summary>
+    /// <param name="targ">target GameObject</param>
     void AttackTarget(GameObject targ)
     {
         SetTarget(targ);
         weapon.GetComponent<RangedWeapon>().FireWeapon();
     }
 
+    /// <summary>
+    /// Move to target GameObject's position, decrementing AP according to distance travelled
+    /// </summary>
+    /// <param name="targ">Target GameObject</param>
     void MoveToTarget(GameObject targ)
     {
         if (CalculateDistance(gameObject.transform.position, targ.transform.position) <= mobilityDist / 2.0f)
@@ -150,28 +258,40 @@ public class Unit : MonoBehaviour{
 
     }
 
+    /// <summary>
+    /// Calculates distance between two points
+    /// </summary>
+    /// <param name="orig">Origin point</param>
+    /// <param name="dest">Destination point</param>
+    /// <returns>float distance between two points using pythagoras</returns>
     float CalculateDistance(Vector3 orig, Vector3 dest)
     {
-        return Mathf.Sqrt(Mathf.Pow((dest.x - orig.x), 2.0f) + Mathf.Pow((dest.y - orig.y), 2.0f));
+        return Mathf.Sqrt(Mathf.Pow((dest.x - orig.x), 2.0f) + Mathf.Pow((dest.z - orig.z), 2.0f));
     }
 
-    Unit(float r)
-    {
-        range = r;
-    }
-
+    /// <summary>
+    /// Sets target of the weapon of this Unit.
+    /// </summary>
+    /// <param name="targ"> GameObject target that we'll set the weapon target to.</param>
     void SetTarget(GameObject targ)
     {
         weapon.GetComponent<RangedWeapon>().target = targ;
     }
 
+    #region old code that allows for enemy detection from when we attack enemy units
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // PAST THIS POINT IS THE OLD CODE FOR WHEN WE USED TO ATTACK OTHER UNITS.
+    // CODE IS KEPT IN CASE WE NEED TO USE SOMETHING SIMILAR.
+    //
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
     * Scans all objects within range zone to add all attackable enemies into available enemies list.
     **/
     bool TargetSearch()
     {
         bool hit = false;
-        Collider[] hitColliders = Physics.OverlapSphere(new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1, gameObject.transform.position.z), range);
+        Collider[] hitColliders = Physics.OverlapSphere(new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 1, gameObject.transform.position.z), attRange);
         int i = 0;
         while(i < hitColliders.Length)
         {
@@ -206,4 +326,5 @@ public class Unit : MonoBehaviour{
             return false;
         }
     }
+    #endregion
 }
