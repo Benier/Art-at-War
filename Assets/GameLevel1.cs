@@ -5,10 +5,12 @@ using System.Collections.Generic;
 public class GameLevel1 : MonoBehaviour {
     [SerializeField]
     GameObject mapGenerator;
+    public static Dictionary<Coordinate, GameObject> map;
     List<GameObject> playerUnits = new List<GameObject>();
     static int playerUnitCount = 2;
     public int curUnitInd;
     MapGenerator mapGen;
+    
 
     void Awake()
     {
@@ -18,7 +20,7 @@ public class GameLevel1 : MonoBehaviour {
     void Start ()
     {
         mapGen = mapGenerator.GetComponent<MapGenerator>();
-        mapGen.GenerateMap();
+        map = mapGen.GenerateMap();
         SpawnUnits();
         curUnitInd = 0;
         EnableUnit(playerUnits, curUnitInd);

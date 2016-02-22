@@ -17,10 +17,10 @@ public class MapGenerator : MonoBehaviour {
     static CoordinateComparer coordComp = new CoordinateComparer();
     public Dictionary<Coordinate, GameObject> map = new Dictionary<Coordinate, GameObject>(coordComp);
     //int[,] map;
-
-    //Dictionary<>
-	// Use this for initialization
-	void Start ()
+    Node[,] nodeGrid;
+    //Dictionary<>    
+    // Use this for initialization
+    void Start ()
     {
 
 	}
@@ -31,10 +31,21 @@ public class MapGenerator : MonoBehaviour {
 	
 	}
 
-    public void GenerateMap()
+    public int ConvertXToWorld(int num)
+    {
+        return num + MAP_WIDTH / 2;
+    }
+
+    public int ConvertZToWorld(int num)
+    {
+        return num + MAP_LENGTH / 2;
+    }
+
+    public Dictionary<Coordinate, GameObject> GenerateMap()
     {
         GameObject blockPrefab;
         //map = new int[MAP_WIDTH, MAP_LENGTH];
+        nodeGrid = new Node[MAP_LENGTH, MAP_WIDTH];
         for(int x = MAP_WIDTH / 2 * -1; x < MAP_WIDTH / 2; x++)
         {
             for(int z = MAP_LENGTH / 2 * -1; z < MAP_LENGTH/ 2; z++)
@@ -42,10 +53,11 @@ public class MapGenerator : MonoBehaviour {
                 blockPrefab = Instantiate(Resources.Load("MapBlockPrefab", typeof(GameObject))) as GameObject;
                 blockPrefab.transform.position = new Vector3(x * scale_factor, 0 * scale_factor, z * scale_factor);
                 map.Add(new Coordinate(x, z), blockPrefab);
+                //populate array of Nodes
+                nodeGrid[ConvertZToWorld(z), ConvertXToWorld(x)] = new Node(x, z);
             }
         }
 
-        int iterations = 0;
         float radius = max_radius;
         
         for (int i = 0; i < num_hills; i++)
@@ -73,6 +85,8 @@ public class MapGenerator : MonoBehaviour {
         }
         //map[new Coordinate(0, 0)].transform.position += new Vector3(0, 2 * scale_factor, 0);
         
-        return;
+        return map;
     }
+
+
 }

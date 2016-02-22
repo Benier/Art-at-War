@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
 public class Unit : MonoBehaviour{
@@ -31,6 +32,16 @@ public class Unit : MonoBehaviour{
     public int AP;
     public float mobilityDist;
 
+    #region A* variables
+    Heap frontier;
+    //ArrayList pathList = new ArrayList();
+    //Node[,] nodeGrid;
+    Node startNode;
+    Node goalNode;
+    //Object[,] floorTiles;
+    //char[,] layOut;
+    #endregion
+
     void Awake()
     {
         ability = Ability.Move;
@@ -45,6 +56,7 @@ public class Unit : MonoBehaviour{
         AP = 2;
         attRange = 8;
         mobilityDist = 6;
+        startNode = new Node((int)transform.position.x, (int)transform.position.z);
     }
 	// Use this for initialization
 	void Start () {
@@ -245,6 +257,7 @@ public class Unit : MonoBehaviour{
     /// <param name="targ">Target GameObject</param>
     void MoveToTarget(GameObject targ)
     {
+        goalNode = new Node((int)targ.transform.position.x, (int)targ.transform.position.z);
         if (CalculateDistance(gameObject.transform.position, targ.transform.position) <= mobilityDist / 2.0f)
         {
             gameObject.transform.position = targ.transform.position;
@@ -277,6 +290,139 @@ public class Unit : MonoBehaviour{
     {
         weapon.GetComponent<RangedWeapon>().target = targ;
     }
+
+    #region A* code
+    /*
+    * A* Algorithm
+    * -----------------------------
+    * Takes the starting node then executes FindNeighbours to populate every 
+    * node on the map with their non-wall neighbours. The least cost Node is popped
+    * off the heap, which is prioritized, and the best neighbour is found and added
+    * back into the heap. As each lowest cost Node is found it is added to the path
+    * which is traced backwards from the goal to the start. The path then is reversed
+    * to give correct order. 
+    * 
+    */
+    public ArrayList StartAStar(Node[,] nodeGrid)
+    {
+        ArrayList path = new ArrayList();
+        Node current;
+        frontier = new Heap();
+        frontier.Insert(startNode, 0);
+
+        for (int y = 0; y < nodeGrid.GetUpperBound(0) + 1; y++)
+        {
+            for (int x = 0; x < nodeGrid.GetUpperBound(1) + 1; x++)
+            {
+                FindNeighbours(nodeGrid[y, x], nodeGrid);
+            }
+        }
+        //came_from stores the Node and its Parent
+        Dictionary<Node, Node> came_from = new Dictionary<Node, Node>();
+        //cost_so_far stores the Node and how much it costs to travel
+        Dictionary<Node, int> cost_so_far = new Dictionary<Node, int>();
+        came_from[startNode] = null;
+        cost_so_far[startNode] = 0;
+
+        //If the heap is empty, we're blocked in and there is no path to goal
+        while (!frontier.isEmpty())
+        {
+            current = frontier.RemoveRoot();
+
+            //if the current Node is at the same place as the goal, we've found it
+            if (current.Compare(goalNode))
+            {
+                break;
+            }
+
+            //every neighbour has its F calculated and inserted into the heap
+            foreach (Node n in current.neighbours)
+            {
+                int new_cost = cost_so_far[current] + 1; //cheap hack since we don't have weights on the tiles
+                //if the Node isn't in the dictionary or the new cost is lower than what our current path is
+                if (!cost_so_far.ContainsKey(n) || new_cost < cost_so_far[n])
+                {
+                    cost_so_far[n] = new_cost;
+                    n.G = new_cost;
+                    n.CalculateF(goalNode);
+                    frontier.Insert(n, n.F);
+                    came_from[n] = current;
+                }
+            }
+        }
+
+        current = goalNode;
+        path.Add(current);
+
+        //try to go from goal to start from the came_from 
+        while (!current.Compare(startNode))
+        {
+            try
+            {
+                current = came_from[current];
+                path.Add(current);
+            }
+            catch (KeyNotFoundException e)
+            {
+                break;
+            }
+        }
+        path.Reverse();
+
+        //color the path tiles red
+        //foreach (Node n in path)
+        //{
+        //    ((GameObject)floorTiles[n.X, n.Y]).GetComponent<MeshRenderer>().material.color = Color.red;
+        //}
+        return path;
+    }
+
+    /*
+     * FindNeighbours 
+     * -----------------------------
+     * This method takes in a Node and checks each of the four neighbouring
+     * Nodes to see if they're valid. If they are, then the Nodes are added into
+     * the original Node's neighbour ArrayList.
+     * @params origin Node we search from
+     * 
+     * 
+     */
+    void FindNeighbours(Node n, Node[,] nodeGrid)
+    {
+        //Check South neighbour
+        if (n.Y > 0)
+        {
+            //if (layOut[(int)n.Y - 1, (int)n.X] != 'X')
+            //{
+                n.AddNeighbour(nodeGrid[n.Y - 1, n.X]);
+            //}
+        }
+        //Check North neighbour
+        if (n.Y < nodeGrid.GetUpperBound(0))
+        {
+            //if (layOut[(int)n.Y + 1, (int)n.X] != 'X')
+            //{
+                n.AddNeighbour(nodeGrid[n.Y + 1, n.X]);
+            //}
+        }
+        //Check West neighbour
+        if (n.X > 0)
+        {
+            //if (layOut[(int)n.Y, (int)n.X - 1] != 'X')
+            //{
+                n.AddNeighbour(nodeGrid[n.Y, n.X - 1]);
+            //}
+        }
+        //Check East neighbour
+        if (n.X < nodeGrid.GetUpperBound(1))
+        {
+            //if (layOut[(int)n.Y, (int)n.X + 1] != 'X')
+            //{
+                n.AddNeighbour(nodeGrid[n.Y, n.X + 1]);
+            //}
+        }
+    }
+    #endregion
 
     #region old code that allows for enemy detection from when we attack enemy units
     //////////////////////////////////////////////////////////////////////////////////////////////////////
