@@ -28,6 +28,7 @@ public class Unit : MonoBehaviour{
     //public bool attackAbil;
     //public bool tarAbil;
     //public bool moveAbil;
+    public int type; // 0 for melee, 1 for ranged
     public bool active;
     public int AP;
     public float mobilityDist;
@@ -115,6 +116,23 @@ public class Unit : MonoBehaviour{
         attRange = r;
     }
     
+    /// <summary>
+    /// Sets Unit Type.
+    /// </summary>
+    /// <param name="t">Type: 0 for melee, 1 for ranged</param>
+    public void SetType(int t)
+    {
+        type = t;
+        if(type == 0)
+        {
+            attRange = 1;
+        }
+        else if(type == 1)
+        {
+            attRange = 8;
+        }
+    }
+
     /// <summary>
     /// Handles click events from the player. 
     /// </summary>
@@ -249,6 +267,7 @@ public class Unit : MonoBehaviour{
     {
         SetTarget(targ);
         weapon.GetComponent<RangedWeapon>().FireWeapon();
+        AP -= 2;
     }
 
     /// <summary>
@@ -289,6 +308,11 @@ public class Unit : MonoBehaviour{
     void SetTarget(GameObject targ)
     {
         weapon.GetComponent<RangedWeapon>().target = targ;
+    }
+
+    public void ResetAP()
+    {
+        AP = 2;
     }
 
     #region A* code
