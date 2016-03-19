@@ -18,7 +18,6 @@ public class GameLevel1 : MonoBehaviour {
     int totalEnemyAP;
 
     MapGenerator mapGen;
-    
 
     void Awake()
     {
