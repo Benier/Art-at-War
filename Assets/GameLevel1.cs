@@ -9,9 +9,9 @@ public class GameLevel1 : MonoBehaviour {
     List<GameObject> playerUnits = new List<GameObject>();
     List<GameObject> enemyUnits = new List<GameObject>();
     static int playerRangedUnitCount = 2;
-    static int playerMeleeUnitCount = 0;
+    static int playerMeleeUnitCount = 2;
     static int enemyRangedUnitCount = 2;
-    static int enemyMeleeUnitCount = 0;
+    static int enemyMeleeUnitCount = 2;
     public int curUnitInd;
     bool playerTurn;
     int totalPlayerAP;
@@ -111,8 +111,8 @@ public class GameLevel1 : MonoBehaviour {
         {
             float y = mapGen.map[new Coordinate(x, z)].transform.position.y;        //get height of map tile on that tile in map
 
-            unitPrefab = Instantiate(Resources.Load("PencilUnitPrefab", typeof(GameObject))) as GameObject;
-            unitPrefab.GetComponent<Unit>().SetType(1);
+            unitPrefab = Instantiate(Resources.Load("WaterBrushUnitPrefab", typeof(GameObject))) as GameObject;
+            unitPrefab.GetComponent<Unit>().type = Unit.Type.Water;
             unitPrefab.transform.position = new Vector3(x, y, z);
             mapGen.map[new Coordinate(x, z)].GetComponent<Tile>().occupied = true;
         }
@@ -132,8 +132,8 @@ public class GameLevel1 : MonoBehaviour {
         {
             float y = mapGen.map[new Coordinate(x, z)].transform.position.y;        //get height of map tile on that tile in map
 
-            unitPrefab = Instantiate(Resources.Load("PencilUnitPrefab", typeof(GameObject))) as GameObject;
-            unitPrefab.GetComponent<Unit>().SetType(0);
+            unitPrefab = Instantiate(Resources.Load("OilBrushUnitPrefab", typeof(GameObject))) as GameObject;
+            unitPrefab.GetComponent<Unit>().type = Unit.Type.Oil;
             unitPrefab.transform.position = new Vector3(x, y, z);
             mapGen.map[new Coordinate(x, z)].GetComponent<Tile>().occupied = true;
         }
@@ -153,8 +153,8 @@ public class GameLevel1 : MonoBehaviour {
         {
             float y = mapGen.map[new Coordinate(x, z)].transform.position.y;        //get height of map tile on that tile in map
 
-            unitPrefab = Instantiate(Resources.Load("OilBrushUnitPrefab", typeof(GameObject))) as GameObject;
-            unitPrefab.GetComponent<Unit>().SetType(1);
+            unitPrefab = Instantiate(Resources.Load("CharcoalUnitPrefab", typeof(GameObject))) as GameObject;
+            unitPrefab.GetComponent<Unit>().type = Unit.Type.Charcoal;
             unitPrefab.transform.position = new Vector3(x, y, z);
             mapGen.map[new Coordinate(x, z)].GetComponent<Tile>().occupied = true;
         }
@@ -174,8 +174,8 @@ public class GameLevel1 : MonoBehaviour {
         {
             float y = mapGen.map[new Coordinate(x, z)].transform.position.y;        //get height of map tile on that tile in map
 
-            unitPrefab = Instantiate(Resources.Load("OilBrushUnitPrefab", typeof(GameObject))) as GameObject;
-            unitPrefab.GetComponent<Unit>().SetType(0);
+            unitPrefab = Instantiate(Resources.Load("PencilUnitPrefab", typeof(GameObject))) as GameObject;
+            unitPrefab.GetComponent<Unit>().type = Unit.Type.Pencil;
             unitPrefab.transform.position = new Vector3(x, y, z);
             mapGen.map[new Coordinate(x, z)].GetComponent<Tile>().occupied = true;
         }

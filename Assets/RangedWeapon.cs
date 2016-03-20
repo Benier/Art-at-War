@@ -4,6 +4,15 @@ using System.Collections;
 public class RangedWeapon : MonoBehaviour {
 
     public GameObject target;
+    public enum Type
+    {
+        Pencil,
+        Charcoal,
+        Water,
+        Oil
+    };
+
+    public Type type;
 
     GameObject projectilePrefab;
     float timeToTarget = 1.0f;
@@ -18,9 +27,24 @@ public class RangedWeapon : MonoBehaviour {
 
     }
 
-    public void FireWeapon()
+    public void FireWeapon(Type t)
     {
-        projectilePrefab = Instantiate(Resources.Load("Projectile", typeof(GameObject))) as GameObject;
+        if (t == Type.Pencil)
+        {
+            projectilePrefab = Instantiate(Resources.Load("PencilProjectile", typeof(GameObject))) as GameObject;
+        }
+        if (t == Type.Charcoal)
+        {
+            projectilePrefab = Instantiate(Resources.Load("CharcoalProjectile", typeof(GameObject))) as GameObject;
+        }
+        if (t == Type.Water)
+        {
+            projectilePrefab = Instantiate(Resources.Load("WaterProjectile", typeof(GameObject))) as GameObject;
+        }
+        if (t == Type.Oil)
+        {
+            projectilePrefab = Instantiate(Resources.Load("OilProjectile", typeof(GameObject))) as GameObject;
+        }
         //projectilePrefab.GetComponent<Rigidbody>().velocity = BallisticVelocity(target, 60.0f);
         //Vector3 temp = projectilePrefab.GetComponent<Rigidbody>().velocity;
         projectilePrefab.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);

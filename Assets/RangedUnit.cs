@@ -250,8 +250,10 @@ public class RangedUnit : MonoBehaviour{
     /// <param name="targ">target GameObject</param>
     void AttackTarget(GameObject targ)
     {
+        RangedWeapon.Type t = (RangedWeapon.Type)type;
         SetTarget(targ);
-        weapon.GetComponent<RangedWeapon>().FireWeapon();
+        weapon.GetComponent<RangedWeapon>().FireWeapon(t);
+        AP -= 2;
     }
 
     /// <summary>

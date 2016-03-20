@@ -28,7 +28,16 @@ public class Unit : MonoBehaviour{
     //public bool attackAbil;
     //public bool tarAbil;
     //public bool moveAbil;
-    public int type; // 0 for melee, 1 for ranged
+    //public int type; // 0 for melee, 1 for ranged
+    public enum Type
+    {
+        Pencil,
+        Charcoal,
+        Water,
+        Oil
+    };
+
+    public Type type;
     public bool active;
     public int AP;
     public float mobilityDist;
@@ -120,18 +129,18 @@ public class Unit : MonoBehaviour{
     /// Sets Unit Type.
     /// </summary>
     /// <param name="t">Type: 0 for melee, 1 for ranged</param>
-    public void SetType(int t)
-    {
-        type = t;
-        if(type == 0)
-        {
-            attRange = 1;
-        }
-        else if(type == 1)
-        {
-            attRange = 8;
-        }
-    }
+    //public void SetType(int t)
+    //{
+    //    type = t;
+    //    if(type == 0)
+    //    {
+    //        attRange = 1;
+    //    }
+    //    else if(type == 1)
+    //    {
+    //        attRange = 8;
+    //    }
+    //}
 
     /// <summary>
     /// Handles click events from the player. 
@@ -265,8 +274,9 @@ public class Unit : MonoBehaviour{
     /// <param name="targ">target GameObject</param>
     void AttackTarget(GameObject targ)
     {
+        RangedWeapon.Type t = (RangedWeapon.Type)type;
         SetTarget(targ);
-        weapon.GetComponent<RangedWeapon>().FireWeapon();
+        weapon.GetComponent<RangedWeapon>().FireWeapon(t);
         AP -= 2;
     }
 
