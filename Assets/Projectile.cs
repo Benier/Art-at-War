@@ -20,5 +20,6 @@ public class Projectile : MonoBehaviour {
     {
         texGen.AddPencilHit(collision.contacts[0].point);
         display.GetComponent<Renderer>().material.SetTexture("_MainTex", texGen.GenerateTexture());
+        gameObject.SetActive(false);
     }
 }

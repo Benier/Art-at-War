@@ -18,15 +18,18 @@ public class TextureGenerator : MonoBehaviour {
     List<TextureHit> hitQueue = new List<TextureHit>();
     TextureHit pencilHit;
     TextureHit tarHit;
-	// Use this for initialization
-	void Start () {
+
+    public int correctX;
+    public int correctY;
+    // Use this for initialization
+    void Start () {
         inputBaseTexture = Resources.Load("A_la_Recherche_du_Temps_Perdu_CHARCOAL") as Texture2D;
         pencilMaskTexture = Resources.Load("PencilStrokes") as Texture2D;
         pencilBaseTexture = Resources.Load("A_la_Recherche_du_Temps_Perdu_OIL") as Texture2D;
 
-        pencilHit = new TextureHit(new Vector3(200, 500, 200), pencilBaseTexture, pencilMaskTexture);
+        pencilHit = new TextureHit(new Vector3(200, 0, 200), pencilBaseTexture, pencilMaskTexture);
         tarHit = new TextureHit(new Vector3(300, 600, 400), inputBaseTexture, pencilMaskTexture);
-        //hitQueue.Add(pencilHit);
+        hitQueue.Add(pencilHit);
         //hitQueue.Add(tarHit);
         //SetTexture();
         mapGen = GameObject.Find("MapGenerator").GetComponent<MapGenerator>();
@@ -62,11 +65,24 @@ public class TextureGenerator : MonoBehaviour {
         Vector3 texPos;
         float xInterval = inputBaseTexture.width / mapGen.MAP_WIDTH;
         float yInterval = inputBaseTexture.height / mapGen.MAP_LENGTH;
-        int correctX = (int)((pos.x * xInterval) + ((mapGen.MAP_WIDTH * xInterval) / 2));
-        int correctY = (int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
+        correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);//(int)((pos.x * xInterval) + ((mapGen.MAP_WIDTH * xInterval) / 2));
+        correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
         texPos = new Vector3(correctX, 0, correctY);
 
-        TextureHit pHit = new TextureHit(pos, pencilBaseTexture, pencilMaskTexture);
+        TextureHit pHit = new TextureHit(texPos, pencilBaseTexture, pencilMaskTexture);
+        hitQueue.Add(pHit);
+    }
+
+    public void AddCharcoalHit(Vector3 pos)
+    {
+        Vector3 texPos;
+        float xInterval = inputBaseTexture.width / mapGen.MAP_WIDTH;
+        float yInterval = inputBaseTexture.height / mapGen.MAP_LENGTH;
+        correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);//(int)((pos.x * xInterval) + ((mapGen.MAP_WIDTH * xInterval) / 2));
+        correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
+        texPos = new Vector3(correctX, 0, correctY);
+
+        TextureHit pHit = new TextureHit(texPos, pencilBaseTexture, pencilMaskTexture);
         hitQueue.Add(pHit);
     }
 
@@ -78,9 +94,9 @@ public class TextureGenerator : MonoBehaviour {
             for (int y = 0; y < hit.maskTexture.height; y++)
             {
                 if (!(hit.position.x - (hit.maskTexture.width / 2) + x < 0)
-                    && !(hit.position.y - (hit.maskTexture.height / 2) + y < 0)
+                    && !(hit.position.z - (hit.maskTexture.height / 2) + y < 0)
                     && !(hit.position.x - (hit.maskTexture.width / 2) + x >= hit.baseTexture.width)
-                    && !(hit.position.y - (hit.maskTexture.height / 2) + y >= hit.baseTexture.height))
+                    && !(hit.position.z - (hit.maskTexture.height / 2) + y >= hit.baseTexture.height))
                 {
                     if (hit.maskTexture.GetPixel(x, y).a != 0)
                     {
