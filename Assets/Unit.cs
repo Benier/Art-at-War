@@ -205,7 +205,7 @@ public class Unit : MonoBehaviour{
             case Ability.Tar:
                 if (Input.GetMouseButtonDown(0) && CalculateDistance(gameObject.transform.position, hitInfo.transform.gameObject.transform.position) < attRange)
                 {
-                    AttackTarget(hitInfo.transform.gameObject);
+                    TarTarget(hitInfo.transform.gameObject);
                     hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.black;
                 }
                 else if (CalculateDistance(gameObject.transform.position, hitInfo.transform.gameObject.transform.position) < attRange)
@@ -277,6 +277,13 @@ public class Unit : MonoBehaviour{
         RangedWeapon.Type t = (RangedWeapon.Type)type;
         SetTarget(targ);
         weapon.GetComponent<RangedWeapon>().FireWeapon(t);
+        AP -= 2;
+    }
+
+    void TarTarget(GameObject targ)
+    {
+        SetTarget(targ);
+        weapon.GetComponent<RangedWeapon>().FireTar();
         AP -= 2;
     }
 

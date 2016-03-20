@@ -13,6 +13,8 @@ public class TextureGenerator : MonoBehaviour {
     Texture2D waterBaseTexture;
     Texture2D oilMaskTexture;
     Texture2D oilBaseTexture;
+    Texture2D tarMaskTexture;
+    Texture2D tarBaseTexture;
     [SerializeField]
     GameObject display;
 
@@ -38,6 +40,8 @@ public class TextureGenerator : MonoBehaviour {
         waterBaseTexture = Resources.Load("A_la_Recherche_du_Temps_Perdu_WATER") as Texture2D;
         oilMaskTexture = Resources.Load("OilStrokes") as Texture2D;
         oilBaseTexture = Resources.Load("A_la_Recherche_du_Temps_Perdu_OIL") as Texture2D;
+        tarMaskTexture = Resources.Load("TarStrokes") as Texture2D;
+        tarBaseTexture = Resources.Load("A_la_Recherche_du_Temps_Perdu_TAR") as Texture2D;
 
         pencilHit = new TextureHit(new Vector3(200, 0, 200), pencilBaseTexture, pencilMaskTexture);
         tarHit = new TextureHit(new Vector3(300, 600, 400), inputBaseTexture, pencilMaskTexture);
@@ -121,6 +125,19 @@ public class TextureGenerator : MonoBehaviour {
         texPos = new Vector3(correctX, 0, correctY);
 
         TextureHit pHit = new TextureHit(texPos, oilBaseTexture, oilMaskTexture);
+        hitQueue.Add(pHit);
+    }
+
+    public void AddTarHit(Vector3 pos)
+    {
+        Vector3 texPos;
+        float xInterval = inputBaseTexture.width / mapGen.MAP_WIDTH;
+        float yInterval = inputBaseTexture.height / mapGen.MAP_LENGTH;
+        correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);//(int)((pos.x * xInterval) + ((mapGen.MAP_WIDTH * xInterval) / 2));
+        correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
+        texPos = new Vector3(correctX, 0, correctY);
+
+        TextureHit pHit = new TextureHit(texPos, tarBaseTexture, tarMaskTexture);
         hitQueue.Add(pHit);
     }
 

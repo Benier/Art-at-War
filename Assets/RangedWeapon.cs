@@ -52,6 +52,16 @@ public class RangedWeapon : MonoBehaviour {
         Destroy(projectilePrefab, destroyTimer);
     }
 
+    public void FireTar()
+    {
+        projectilePrefab = Instantiate(Resources.Load("TarProjectile", typeof(GameObject))) as GameObject;
+        //projectilePrefab.GetComponent<Rigidbody>().velocity = BallisticVelocity(target, 60.0f);
+        //Vector3 temp = projectilePrefab.GetComponent<Rigidbody>().velocity;
+        projectilePrefab.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
+        projectilePrefab.GetComponent<Rigidbody>().AddForce(CalculateThrowSpeed(this.transform.position, target.transform.position, timeToTarget), ForceMode.VelocityChange);
+        Destroy(projectilePrefab, destroyTimer);
+    }
+
     Vector3 CalculateThrowSpeed(Vector3 orig, Vector3 targ, float timeToTarg)
     {
         Vector3 toTarget = targ - orig;
