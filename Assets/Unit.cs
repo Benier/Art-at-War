@@ -324,7 +324,20 @@ public class Unit : MonoBehaviour{
     /// <param name="targ"> GameObject target that we'll set the weapon target to.</param>
     void SetTarget(GameObject targ)
     {
-        weapon.GetComponent<RangedWeapon>().target = targ;
+        int hitRoulette = Random.Range(1, 10);
+        if (hitRoulette != 10)
+        {
+            weapon.GetComponent<RangedWeapon>().target = targ;
+        }
+        else
+        {
+            GameObject newTarg = targ;
+            newTarg.transform.position = new Vector3(newTarg.transform.position.x + Random.Range(1, 5),
+                newTarg.transform.position.y + Random.Range(1, 5),
+                newTarg.transform.position.z + Random.Range(1, 5));
+            weapon.GetComponent<RangedWeapon>().target = newTarg;
+            Debug.Log("Tough Luck");
+        }
     }
 
     public void ResetAP()
