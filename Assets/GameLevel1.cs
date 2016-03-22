@@ -16,6 +16,11 @@ public class GameLevel1 : MonoBehaviour {
     bool playerTurn;
     int totalPlayerAP;
     int totalEnemyAP;
+    int numTurns = 3;
+    public int playerPoints;
+    public int enemyPoints;
+    int winner; //0 = none, 1 = player, 2 = enemy
+    bool gameEnd;
 
     MapGenerator mapGen;
 
@@ -32,53 +37,74 @@ public class GameLevel1 : MonoBehaviour {
         curUnitInd = 0;
         EnableUnit(playerUnits, curUnitInd);
         playerTurn = true;
+        gameEnd = false;
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        for(int i = 0; i < playerUnits.Count; i++)
+        if (numTurns >= 0)
         {
-            totalPlayerAP += playerUnits[i].GetComponent<Unit>().AP;
-        }
-        for (int i = 0; i < enemyUnits.Count; i++)
-        {
-            totalEnemyAP += enemyUnits[i].GetComponent<Unit>().AP;
-        }
-
-        if (playerTurn)
-        {
-            if (playerUnits[curUnitInd].GetComponent<Unit>().AP <= 0)
+            for (int i = 0; i < playerUnits.Count; i++)
             {
-                if (!SelectNextUnit())
+                totalPlayerAP += playerUnits[i].GetComponent<Unit>().AP;
+            }
+            for (int i = 0; i < enemyUnits.Count; i++)
+            {
+                totalEnemyAP += enemyUnits[i].GetComponent<Unit>().AP;
+            }
+
+            if (playerTurn)
+            {
+                if (playerUnits[curUnitInd].GetComponent<Unit>().AP <= 0)
                 {
-                    Debug.Log("Turn Ended");
-                    curUnitInd = 0;
-                    EnableUnit(enemyUnits, curUnitInd);
-                    playerTurn = false;
-                    EnableMove();
-                    ResetUnitsAP(playerTurn);
+                    if (!SelectNextUnit())
+                    {
+                        //Debug.Log("Turn Ended");
+                        curUnitInd = 0;
+                        EnableUnit(enemyUnits, curUnitInd);
+                        playerTurn = false;
+                        EnableMove();
+                        ResetUnitsAP(playerTurn);
+                    }
                 }
             }
+            else
+            {
+                if (enemyUnits[curUnitInd].GetComponent<Unit>().AP <= 0)
+                {
+                    if (!SelectNextUnit())
+                    {
+                        //Debug.Log("Turn Ended");
+                        curUnitInd = 0;
+                        EnableUnit(playerUnits, curUnitInd);
+                        playerTurn = true;
+                        EnableMove();
+                        ResetUnitsAP(playerTurn);
+                        numTurns--;
+                    }
+                }
+            }
+
+            totalPlayerAP = 0;
+            totalEnemyAP = 0;
         }
         else
         {
-            if (enemyUnits[curUnitInd].GetComponent<Unit>().AP <= 0)
+            if(playerPoints > enemyPoints)
             {
-                if (!SelectNextUnit())
-                {
-                    Debug.Log("Turn Ended");
-                    curUnitInd = 0;
-                    EnableUnit(playerUnits, curUnitInd);
-                    playerTurn = true;
-                    EnableMove();
-                    ResetUnitsAP(playerTurn);
-                }
+                winner = 1;
             }
+            else if(playerPoints < enemyPoints)
+            {
+                winner = 2;
+            }
+            else
+            {
+                winner = 0;
+            }
+            gameEnd = true;
         }
-
-        totalPlayerAP = 0;
-        totalEnemyAP = 0;
     }
 
     void SpawnUnits()
@@ -329,6 +355,27 @@ public class GameLevel1 : MonoBehaviour {
         for(int i = 0; i < unitsList.Count; i++)
         {
             unitsList[i].GetComponent<Unit>().ResetAP();
+        }
+    }
+
+    private void OnGUI()
+    {
+        GUI.Label(new Rect(0, 0 * 30, 300, 300), "Player Points: " + playerPoints);
+        GUI.Label(new Rect(0, 1 * 30, 300, 300), "Enemy Points: " + enemyPoints);
+        if(gameEnd)
+        {
+            if(winner == 0)
+            {
+                GUI.Label(new Rect(0, 2 * 30, 300, 300), "Game Tied");
+            }
+            else if(winner == 1)
+            {
+                GUI.Label(new Rect(0, 2 * 30, 300, 300), "Player Won");
+            }
+            else if(winner == 2)
+            {
+                GUI.Label(new Rect(0, 2 * 30, 300, 300), "Enemy Won");
+            }
         }
     }
 }

@@ -81,7 +81,7 @@ public class MapGenerator : MonoBehaviour {
         }
         if(map.ContainsKey(new Coordinate(0, 0)))
         {
-            Debug.Log("boo");
+            //Debug.Log("boo");
         }
         //map[new Coordinate(0, 0)].transform.position += new Vector3(0, 2 * scale_factor, 0);
         

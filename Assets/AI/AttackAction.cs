@@ -15,6 +15,6 @@ public class AttackAction : Action {
 
     public void Execute()
     {
-        Debug.Log("Attacking");
+        //Debug.Log("Attacking");
     }
 }

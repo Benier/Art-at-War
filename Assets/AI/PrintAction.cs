@@ -23,6 +23,6 @@ public class PrintAction : Action
 
     public void Execute()
     {
-        Debug.Log(output);
+        //Debug.Log(output);
     }
 }

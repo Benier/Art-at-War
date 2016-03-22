@@ -15,6 +15,6 @@ public class WanderAction : Action {
 
     public void Execute()
     {
-        Debug.Log("Wandering");
+        //Debug.Log("Wandering");
     }
 }

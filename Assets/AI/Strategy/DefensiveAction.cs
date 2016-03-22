@@ -17,6 +17,6 @@ public class DefensiveAction : Action
 
     public void Execute()
     {
-        Debug.Log("Collapsing In Defensively");
+        //Debug.Log("Collapsing In Defensively");
     }
 }

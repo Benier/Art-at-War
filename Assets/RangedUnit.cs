@@ -125,28 +125,28 @@ public class RangedUnit : MonoBehaviour{
     {
         if (/*Input.GetMouseButtonDown(0) &&*/ !EventSystem.current.IsPointerOverGameObject())
         {
-            Debug.Log("LMB Down");
+            //Debug.Log("LMB Down");
             RaycastHit hitInfo = new RaycastHit();
             bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
             if (hit)
             {
-                Debug.Log("Hit " + hitInfo.transform.gameObject.name);
-                Debug.Log(hitInfo.transform.gameObject.GetComponent<Renderer>().material.name);
+                //Debug.Log("Hit " + hitInfo.transform.gameObject.name);
+                //Debug.Log(hitInfo.transform.gameObject.GetComponent<Renderer>().material.name);
 
                 ExecuteAbility(hitInfo);
 
                 if (hitInfo.transform.gameObject.tag == "GroundTile")
                 {
-                    Debug.Log("Hit Ground");
+                    //Debug.Log("Hit Ground");
                 }
                 else
                 {
-                    Debug.Log("Hit something else");
+                    //Debug.Log("Hit something else");
                 }
             }
             else
             {
-                Debug.Log("Hit nothing");
+                //Debug.Log("Hit nothing");
             }
         }
     }
@@ -449,7 +449,7 @@ public class RangedUnit : MonoBehaviour{
             GameObject enemy = hitColliders[i].gameObject;
             if (enemy.GetComponent<Agent>() != null)
             {
-                Debug.Log("Ayyyy");
+                //Debug.Log("Ayyyy");
                 if (!availEnem.Contains(enemy.GetComponent<Agent>()))
                 {
                     availEnem.Add(enemy.GetComponent<Agent>());
