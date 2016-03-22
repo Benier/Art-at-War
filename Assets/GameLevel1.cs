@@ -8,6 +8,7 @@ public class GameLevel1 : MonoBehaviour {
     public static Dictionary<Coordinate, GameObject> map;
     List<GameObject> playerUnits = new List<GameObject>();
     List<GameObject> enemyUnits = new List<GameObject>();
+    List<Agent> agents = new List<Agent>();
     static int playerRangedUnitCount = 2;
     static int playerMeleeUnitCount = 2;
     static int enemyRangedUnitCount = 2;
@@ -121,6 +122,7 @@ public class GameLevel1 : MonoBehaviour {
         for (int num = 0; num < enemyRangedUnitCount; num++)
         {
             enemyUnits.Add(SpawnRangedEnemyUnit());
+            agents.Add(new Agent(enemyUnits[num].GetComponent<Unit>()));
         }
         for (int num = 0; num < enemyMeleeUnitCount; num++)
         {

@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections;
 
-public class Agent : MonoBehaviour {
-    [SerializeField]
+public class Agent
+{
     public int health = 5;
 
     List<Action> actionList;
@@ -22,11 +21,13 @@ public class Agent : MonoBehaviour {
     AttackCondition c_Attack;
     WanderCondition c_Wander;
 
+    Unit controlUnit;
 
-	// Use this for initialization
-	void Start () {
+    public Agent(Unit u)
+    {
+        controlUnit = u;
         InitAllState();
-	}
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -35,7 +36,7 @@ public class Agent : MonoBehaviour {
 
         foreach (Action a in actionList)
         {
-        //    a.Execute();
+            a.Execute();
         }
 	}
 
@@ -50,20 +51,20 @@ public class Agent : MonoBehaviour {
         c_Attack = new AttackCondition();
         c_Wander = new WanderCondition();
 
-        attackTransList.Add(new PrintAction("Starting Attack"));
-        wanderTransList.Add(new PrintAction("Starting Wander"));
+        attackTransList.Add(new PrintAction(""));
+        wanderTransList.Add(new PrintAction(""));
 
         t_AttackWander = new Transition(s_Wander, wanderTransList, c_Wander);
         t_WanderAttack = new Transition(s_Attack, attackTransList, c_Attack);
 
         s_Attack.addAction(new AttackAction());
-        s_Attack.addEntryAction(new PrintAction("Begin Attack"));
-        s_Attack.addExitAction(new PrintAction("End Attack"));
+        s_Attack.addEntryAction(new PrintAction(""));
+        s_Attack.addExitAction(new PrintAction(""));
         s_Attack.addTransition(t_AttackWander);
 
         s_Wander.addAction(new WanderAction());
-        s_Wander.addEntryAction(new PrintAction("Begin Wander"));
-        s_Wander.addExitAction(new PrintAction("End Wander"));
+        s_Wander.addEntryAction(new PrintAction(""));
+        s_Wander.addExitAction(new PrintAction(""));
         s_Wander.addTransition(t_WanderAttack);
 
         a_FSM = new StateMachine(s_Wander);

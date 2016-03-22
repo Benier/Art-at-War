@@ -215,6 +215,7 @@ public class TextureGenerator : MonoBehaviour {
         
         }
         tempTexture.Apply();
+        mapGen.mapTex = tempTexture;
         return tempTexture;
     }
 }
