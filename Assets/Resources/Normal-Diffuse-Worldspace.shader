@@ -28,17 +28,19 @@ void surf (Input IN, inout SurfaceOutput o)
 
 	if(abs(IN.worldNormal.x)>0.5)
 	{
-		UV = IN.worldPos.yz; // side
+		UV = IN.worldPos.xz + 20;
+		//UV = IN.worldPos.yz; // side
 		c = tex2D(_MainTex, UV* _Scale); // use WALLSIDE texture
 	}
 	else if(abs(IN.worldNormal.z)>0.5)
 	{
-		UV = IN.worldPos.xy; // front
+		UV = IN.worldPos.xz + 20;
+		//UV = IN.worldPos.xy; // front
 		c = tex2D(_MainTex, UV* _Scale); // use WALL texture
 	}
 	else
 	{
-		UV = IN.worldPos.xz; // top
+		UV = IN.worldPos.xz + 20; // top
 		c = tex2D(_MainTex, UV* _Scale); // use FLR texture
 	}
 

@@ -5,15 +5,10 @@ using System.Collections.Generic;
 public class MapGenerator : MonoBehaviour {
 
     Random random = new Random();
-    [SerializeField]
-    Material defMat; //default material
-    [SerializeField]
-    Texture2D defTex;
 
-    Material mapMat;
     public Texture2D mapTex;
-    public int MAP_WIDTH = 60;
-    public int MAP_LENGTH = 60;
+    public int MAP_WIDTH = 80;
+    public int MAP_LENGTH = 80;
     static int scale_factor = 1;
 
     int num_hills = 20;
@@ -24,17 +19,11 @@ public class MapGenerator : MonoBehaviour {
     public Dictionary<Coordinate, GameObject> map = new Dictionary<Coordinate, GameObject>(coordComp);
     //int[,] map;
     Node[,] nodeGrid;
-    //Dictionary<>    
+   
     // Use this for initialization
     void Start ()
     {
-        //mapMat = Resources.Load("GroundMat", typeof(Material)) as Material;
-        //new Material(Shader.Find("Standard"));
-        //defMat;
-        //mapMat.shader = Shader.Find("Standard");
-        //mapMat.SetTexture("_MainTex", defTex);
-        mapMat = new Material(Shader.Find("Diffuse - Worldspace"));
-        mapMat.color = Color.white;
+
 	}
 	
 	// Update is called once per frame
@@ -64,8 +53,7 @@ public class MapGenerator : MonoBehaviour {
             {
                 blockPrefab = Instantiate(Resources.Load("MapBlockPrefab", typeof(GameObject))) as GameObject;
                 blockPrefab.transform.position = new Vector3(x * scale_factor, 0 * scale_factor, z * scale_factor);
-                blockPrefab.GetComponent<Renderer>().material = mapMat;
-                blockPrefab.GetComponent<Renderer>().material.color = Color.white;
+                
                 map.Add(new Coordinate(x, z), blockPrefab);
                 //populate array of Nodes
                 nodeGrid[ConvertZToWorld(z), ConvertXToWorld(x)] = new Node(x, z);
@@ -104,6 +92,9 @@ public class MapGenerator : MonoBehaviour {
 
     public void SetMapTexture(Texture2D tex)
     {
-        mapMat.SetTexture("_MainTex", tex);
+        foreach(KeyValuePair<Coordinate, GameObject> b in map)
+        {
+            b.Value.GetComponent<Renderer>().material.SetTexture("_MainTex", tex);
+        }
     }
 }
