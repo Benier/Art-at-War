@@ -5,12 +5,10 @@ public class WaterProjectile : MonoBehaviour
 {
 
     TextureGenerator texGen;
-    GameObject display;
     // Use this for initialization
     void Start()
     {
         texGen = GameObject.Find("TexGenerator").GetComponent<TextureGenerator>();
-        display = GameObject.Find("Cube");
     }
 
     // Update is called once per frame
@@ -22,7 +20,7 @@ public class WaterProjectile : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         texGen.AddWaterHit(collision.contacts[0].point);
-        display.GetComponent<Renderer>().material.SetTexture("_MainTex", texGen.GenerateTexture());
+        texGen.GenerateTexture();
         gameObject.SetActive(false);
     }
 }

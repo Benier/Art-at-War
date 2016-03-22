@@ -17,7 +17,7 @@ public class GameLevel1 : MonoBehaviour {
     bool playerTurn;
     int totalPlayerAP;
     int totalEnemyAP;
-    int numTurns = 3;
+    int numTurns = 10;
     public int playerPoints;
     public int enemyPoints;
     int winner; //0 = none, 1 = player, 2 = enemy

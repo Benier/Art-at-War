@@ -59,32 +59,32 @@ public class MainCamera : MonoBehaviour {
         // When mouse hits top camera bound, move camera forward
         if (Input.mousePosition.y > Screen.height - screenBoundPad)
         {
-            camZ = camSpeed;
+            camY = camSpeed;
         }
         // When mouse hits bottom camera bound, move camera back
         else if (Input.mousePosition.y < 0 + screenBoundPad)
         {
-            camZ = -camSpeed;
+            camY = -camSpeed;
         }
         else
         {
-            camZ = 0;
+            camY = 0;
         }
 
 
         // When mouse scroll forward, move camera up
         if (Input.GetAxis("Mouse ScrollWheel") > 0.0f) //scroll forward
         {
-            camY = camElevateSpeed;
+            camZ = camElevateSpeed;            
         }
         // When mouse scroll backward, move camera down
         else if (Input.GetAxis("Mouse ScrollWheel") < 0.0f)
         {
-            camY = -camElevateSpeed;
+            camZ = -camElevateSpeed;            
         }
         else
         {
-            camY = 0;
+            camZ = 0;            
         }
 
         transform.Translate(camX, camY, camZ);

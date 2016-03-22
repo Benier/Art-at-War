@@ -7,8 +7,8 @@ public class MapGenerator : MonoBehaviour {
     Random random = new Random();
 
     public Texture2D mapTex;
-    public int MAP_WIDTH = 80;
-    public int MAP_LENGTH = 80;
+    public int MAP_WIDTH = 160;
+    public int MAP_LENGTH = 160;
     static int scale_factor = 1;
 
     int num_hills = 20;
