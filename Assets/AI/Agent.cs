@@ -30,7 +30,7 @@ public class Agent
     }
 	
 	// Update is called once per frame
-	void Update ()
+	public void Update ()
     {
         actionList = a_FSM.UpdateStateMachine();
 

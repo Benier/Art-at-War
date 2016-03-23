@@ -72,6 +72,7 @@ public class GameLevel1 : MonoBehaviour {
             }
             else
             {
+                //agents[curUnitInd].Update();
                 if (enemyUnits[curUnitInd].GetComponent<Unit>().AP <= 0)
                 {
                     if (!SelectNextUnit())
@@ -184,6 +185,7 @@ public class GameLevel1 : MonoBehaviour {
             unitPrefab = Instantiate(Resources.Load("CharcoalUnitPrefab", typeof(GameObject))) as GameObject;
             unitPrefab.GetComponent<Unit>().type = Unit.Type.Charcoal;
             unitPrefab.transform.position = new Vector3(x, y, z);
+
             mapGen.map[new Coordinate(x, z)].GetComponent<Tile>().occupied = true;
         }
         else
