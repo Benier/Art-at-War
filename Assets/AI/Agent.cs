@@ -21,7 +21,7 @@ public class Agent
     AttackCondition c_Attack;
     WanderCondition c_Wander;
 
-    Unit controlUnit;
+    public Unit controlUnit;
 
     public Agent(Unit u)
     {

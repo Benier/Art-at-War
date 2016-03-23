@@ -17,7 +17,7 @@ public class GameLevel1 : MonoBehaviour {
     bool playerTurn;
     int totalPlayerAP;
     int totalEnemyAP;
-    int numTurns = 10;
+    int numTurns = 3;
     public int playerPoints;
     public int enemyPoints;
     int winner; //0 = none, 1 = player, 2 = enemy
@@ -72,6 +72,7 @@ public class GameLevel1 : MonoBehaviour {
             }
             else
             {
+                Debug.Log(curUnitInd);
                 agents[curUnitInd].Update();
                 if (enemyUnits[curUnitInd].GetComponent<Unit>().AP <= 0)
                 {
@@ -122,13 +123,15 @@ public class GameLevel1 : MonoBehaviour {
 
         for (int num = 0; num < enemyRangedUnitCount; num++)
         {
-            enemyUnits.Add(SpawnRangedEnemyUnit());
-            agents.Add(new Agent(enemyUnits[num].GetComponent<Unit>()));
+            GameObject tempUnit = SpawnRangedEnemyUnit();
+            enemyUnits.Add(tempUnit);
+            agents.Add(new Agent(tempUnit.GetComponent<Unit>()));
         }
         for (int num = 0; num < enemyMeleeUnitCount; num++)
         {
-            enemyUnits.Add(SpawnMeleeEnemyUnit());
-            agents.Add(new Agent(enemyUnits[num].GetComponent<Unit>()));
+            GameObject tempUnit = SpawnMeleeEnemyUnit();
+            enemyUnits.Add(tempUnit);
+            agents.Add(new Agent(tempUnit.GetComponent<Unit>()));
         }
     }
 
