@@ -6,5 +6,5 @@ using System.Collections;
 /// </summary>
 public interface Condition{
 
-    bool Test();
+    bool Test(Unit u);
 }

@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class Unit : MonoBehaviour{
     [SerializeField]
-    float attRange;
+    public float attRange;
     [SerializeField]
     int damage;
     [SerializeField]
@@ -272,7 +272,7 @@ public class Unit : MonoBehaviour{
     /// Calls SetTarget to set weapon target and then fire weapon
     /// </summary>
     /// <param name="targ">target GameObject</param>
-    void AttackTarget(GameObject targ)
+    public void AttackTarget(GameObject targ)
     {
         RangedWeapon.Type t = (RangedWeapon.Type)type;
         SetTarget(targ);
@@ -280,7 +280,7 @@ public class Unit : MonoBehaviour{
         AP -= 2;
     }
 
-    void TarTarget(GameObject targ)
+    public void TarTarget(GameObject targ)
     {
         SetTarget(targ);
         weapon.GetComponent<RangedWeapon>().FireTar();
@@ -291,7 +291,7 @@ public class Unit : MonoBehaviour{
     /// Move to target GameObject's position, decrementing AP according to distance travelled
     /// </summary>
     /// <param name="targ">Target GameObject</param>
-    void MoveToTarget(GameObject targ)
+    public void MoveToTarget(GameObject targ)
     {
         goalNode = new Node((int)targ.transform.position.x, (int)targ.transform.position.z);
         if (CalculateDistance(gameObject.transform.position, targ.transform.position) <= mobilityDist / 2.0f)

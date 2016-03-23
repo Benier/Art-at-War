@@ -10,6 +10,7 @@ public class StateMachine {
     State targetState;
     Transition triggeredTransition;
     List<Action> actions;
+    Unit controlUnit;
 
 	// Use this for initialization
 	void Start () 
@@ -27,10 +28,11 @@ public class StateMachine {
     /// Constructor that sets current state to initial state
     /// </summary>
     /// <param name="init"></param>
-    public StateMachine(State init)
+    public StateMachine(State init, Unit u)
     {
         initialState = init;
         currentState = initialState;
+        controlUnit = u;
     }
 
     /// <summary>
@@ -53,7 +55,7 @@ public class StateMachine {
         // Check through each transition and store the first one that triggers
         foreach (Transition transit in currentState.getTransitions())
         {
-            if (transit.isTriggered())
+            if (transit.isTriggered(controlUnit))
             {
                 triggeredTransition = transit;
                 break;

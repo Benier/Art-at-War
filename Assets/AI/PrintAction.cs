@@ -21,7 +21,7 @@ public class PrintAction : Action
         output = s;
     }
 
-    public void Execute()
+    public void Execute(Unit u)
     {
         //Debug.Log(output);
     }

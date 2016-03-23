@@ -13,7 +13,7 @@ public class WanderAction : Action {
 	
 	}
 
-    public void Execute()
+    public void Execute(Unit u)
     {
         //Debug.Log("Wandering");
     }

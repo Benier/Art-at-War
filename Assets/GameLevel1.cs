@@ -72,7 +72,7 @@ public class GameLevel1 : MonoBehaviour {
             }
             else
             {
-                //agents[curUnitInd].Update();
+                agents[curUnitInd].Update();
                 if (enemyUnits[curUnitInd].GetComponent<Unit>().AP <= 0)
                 {
                     if (!SelectNextUnit())
@@ -128,6 +128,7 @@ public class GameLevel1 : MonoBehaviour {
         for (int num = 0; num < enemyMeleeUnitCount; num++)
         {
             enemyUnits.Add(SpawnMeleeEnemyUnit());
+            agents.Add(new Agent(enemyUnits[num].GetComponent<Unit>()));
         }
     }
 

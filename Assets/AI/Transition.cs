@@ -37,9 +37,9 @@ public class Transition
         condi = c;
     }
 
-    public bool isTriggered()
+    public bool isTriggered(Unit u)
     {
-        return condi.Test();
+        return condi.Test(u);
     }
 
     public State getTargetState()

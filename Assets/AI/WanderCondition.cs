@@ -13,7 +13,7 @@ public class WanderCondition : Condition {
 	
 	}
 
-    public bool Test()
+    public bool Test(Unit u)
     {
         if (Input.GetKey(KeyCode.W))
         {

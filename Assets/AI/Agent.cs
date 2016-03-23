@@ -36,7 +36,7 @@ public class Agent
 
         foreach (Action a in actionList)
         {
-            a.Execute();
+            a.Execute(controlUnit);
         }
 	}
 
@@ -67,7 +67,7 @@ public class Agent
         s_Wander.addExitAction(new PrintAction(""));
         s_Wander.addTransition(t_WanderAttack);
 
-        a_FSM = new StateMachine(s_Wander);
+        a_FSM = new StateMachine(s_Wander, controlUnit);
         a_FSM.addState(s_Attack);
     }
 }

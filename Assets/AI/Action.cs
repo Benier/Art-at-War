@@ -6,5 +6,5 @@ using System.Collections;
 /// </summary>
 public interface Action{
 
-    void Execute();
+    void Execute(Unit u);
 }
