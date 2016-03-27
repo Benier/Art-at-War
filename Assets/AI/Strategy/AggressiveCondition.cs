@@ -16,7 +16,7 @@ public class AggressiveCondition : Condition
 
     }
 
-    public bool Test(Unit u)
+    public bool Test(Unit u, TextureGenerator texGen)
     {
         if (Input.GetKey(KeyCode.O))
         {

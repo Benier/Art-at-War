@@ -11,7 +11,7 @@ public class TextureGenerator : MonoBehaviour {
         Enemy
     };
     
-    Texture2D inputBaseTexture;
+    public Texture2D inputBaseTexture;
     Texture2D pencilMaskTexture;
     Texture2D pencilBaseTexture;
     Texture2D charcoalMaskTexture;
@@ -25,8 +25,8 @@ public class TextureGenerator : MonoBehaviour {
     [SerializeField]
     GameObject display;
 
-    ScorePixel[,] pixels;
-    MapGenerator mapGen;
+    public ScorePixel[,] pixels;
+    public MapGenerator mapGen;
     public TextAsset inputBaseName;
 
     public Texture2D outputTexture;

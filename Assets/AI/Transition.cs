@@ -13,6 +13,7 @@ public class Transition
     bool pressed;
     float curTime;
     float maxTime;
+    TextureGenerator texGen;
 
     // type 0 for min-max check
     // type 1 for button press check
@@ -30,16 +31,17 @@ public class Transition
 
     }
 
-    public Transition(State target, List<Action> actList, Condition c)
+    public Transition(State target, List<Action> actList, Condition c, TextureGenerator tg)
     {
         targetState = target;
         actions = actList;
         condi = c;
+        texGen = tg;
     }
 
     public bool isTriggered(Unit u)
     {
-        return condi.Test(u);
+        return condi.Test(u, texGen);
     }
 
     public State getTargetState()

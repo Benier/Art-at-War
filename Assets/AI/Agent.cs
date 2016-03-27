@@ -21,11 +21,14 @@ public class Agent
     AttackCondition c_Attack;
     WanderCondition c_Wander;
 
+    TextureGenerator texGen;
+
     public Unit controlUnit;
 
-    public Agent(Unit u)
+    public Agent(Unit u, TextureGenerator tg)
     {
         controlUnit = u;
+        texGen = tg;
         InitAllState();
     }
 	
@@ -54,8 +57,8 @@ public class Agent
         attackTransList.Add(new PrintAction(""));
         wanderTransList.Add(new PrintAction(""));
 
-        t_AttackWander = new Transition(s_Wander, wanderTransList, c_Wander);
-        t_WanderAttack = new Transition(s_Attack, attackTransList, c_Attack);
+        t_AttackWander = new Transition(s_Wander, wanderTransList, c_Wander, texGen);
+        t_WanderAttack = new Transition(s_Attack, attackTransList, c_Attack, texGen);
 
         s_Attack.addAction(new AttackAction());
         s_Attack.addEntryAction(new PrintAction(""));

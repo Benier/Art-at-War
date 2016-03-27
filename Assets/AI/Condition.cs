@@ -6,5 +6,5 @@ using System.Collections;
 /// </summary>
 public interface Condition{
 
-    bool Test(Unit u);
+    bool Test(Unit u, TextureGenerator texGen);
 }

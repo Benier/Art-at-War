@@ -5,19 +5,20 @@ using System.Collections.Generic;
 public class GameLevel1 : MonoBehaviour {
     [SerializeField]
     GameObject mapGenerator;
+    TextureGenerator texGenerator;
     public static Dictionary<Coordinate, GameObject> map;
     List<GameObject> playerUnits = new List<GameObject>();
     List<GameObject> enemyUnits = new List<GameObject>();
     List<Agent> agents = new List<Agent>();
-    static int playerRangedUnitCount = 2;
-    static int playerMeleeUnitCount = 2;
-    static int enemyRangedUnitCount = 2;
-    static int enemyMeleeUnitCount = 2;
+    static int playerRangedUnitCount = 1;
+    static int playerMeleeUnitCount = 0;
+    static int enemyRangedUnitCount = 1;
+    static int enemyMeleeUnitCount = 0;
     public int curUnitInd;
     bool playerTurn;
     int totalPlayerAP;
     int totalEnemyAP;
-    int numTurns = 3;
+    int numTurns = 20;
     public int playerPoints;
     public int enemyPoints;
     int winner; //0 = none, 1 = player, 2 = enemy
@@ -33,6 +34,7 @@ public class GameLevel1 : MonoBehaviour {
     void Start ()
     {
         mapGen = mapGenerator.GetComponent<MapGenerator>();
+        texGenerator = GameObject.Find("TexGenerator").GetComponent<TextureGenerator>();
         map = mapGen.GenerateMap();
         SpawnUnits();
         curUnitInd = 0;
@@ -72,7 +74,6 @@ public class GameLevel1 : MonoBehaviour {
             }
             else
             {
-                Debug.Log(curUnitInd);
                 agents[curUnitInd].Update();
                 if (enemyUnits[curUnitInd].GetComponent<Unit>().AP <= 0)
                 {
@@ -125,13 +126,13 @@ public class GameLevel1 : MonoBehaviour {
         {
             GameObject tempUnit = SpawnRangedEnemyUnit();
             enemyUnits.Add(tempUnit);
-            agents.Add(new Agent(tempUnit.GetComponent<Unit>()));
+            agents.Add(new Agent(tempUnit.GetComponent<Unit>(), texGenerator));
         }
         for (int num = 0; num < enemyMeleeUnitCount; num++)
         {
             GameObject tempUnit = SpawnMeleeEnemyUnit();
             enemyUnits.Add(tempUnit);
-            agents.Add(new Agent(tempUnit.GetComponent<Unit>()));
+            agents.Add(new Agent(tempUnit.GetComponent<Unit>(), texGenerator));
         }
     }
 
@@ -385,5 +386,6 @@ public class GameLevel1 : MonoBehaviour {
                 GUI.Label(new Rect(0, 2 * 30, 300, 300), "Enemy Won");
             }
         }
+        GUI.Label(new Rect(0, 3 * 30, 300, 300), "Turns Remaining: " + numTurns);
     }
 }
