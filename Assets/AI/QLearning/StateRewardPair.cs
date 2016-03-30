@@ -1,16 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LearningProblemState
+public class StateRewardPair
 {
-    int index = 0;
-    ArrayList data = new ArrayList();
-
-    public LearningProblemState()
+    public QState state;
+    public float reward;
+    public StateRewardPair(QState s, float r)
     {
-
+        state = s;
+        reward = r;
     }
-
 	// Use this for initialization
 	void Start () {
 	
