@@ -28,6 +28,6 @@ public class LearningProblem
     {
         return GetRandomState();
     }
-    //LearningProblemAction GetActions(LearningProblemState state);
-    //LearningProblemActionResult GetResult(LearningProblemState state, LearningProblemAction action);
+    LearningProblemAction GetActions(LearningProblemState state);
+    LearningProblemActionResult GetResult(LearningProblemState state, LearningProblemAction action);
 }
