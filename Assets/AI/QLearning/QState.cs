@@ -6,9 +6,9 @@ public class QState
 {
     #region nontextbook implementation
     public string statename;
-    public List<QAction> actions;
+    public List<Action> actions;
 
-    public void AddAction(QAction action)
+    public void AddAction(Action action)
     {
         actions.Add(action);
     }
@@ -29,6 +29,6 @@ public class QState
     public QState(string name)
     {
         statename = name;
-        actions = new List<QAction>();
+        actions = new List<Action>();
     }
 }

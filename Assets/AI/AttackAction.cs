@@ -1,9 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AttackAction : Action {
+public class AttackAction : Action
+{
+    public enum Direction
+    {
+        None,
+        NW,
+        NE,
+        SW,
+        SE
+    };
+
     MapGenerator mapGen = GameObject.Find("MapGenerator").GetComponent<MapGenerator>();
     TextureGenerator texGen = GameObject.Find("TexGenerator").GetComponent<TextureGenerator>();
+    Direction dir;
 
     // Use this for initialization
     void Start ()
@@ -19,25 +30,29 @@ public class AttackAction : Action {
     public void Execute(Unit u)
     {
         GameObject target = new GameObject();
-        float x; // = Random.Range(mapGen.MAP_WIDTH / 2 * -1, mapGen.MAP_WIDTH / 2);
-        float z; // = Random.Range(mapGen.MAP_LENGTH / 2 * -1, mapGen.MAP_LENGTH / 2);
-        if (GetNWScorePotential(u) > 0.70f)
+        float x = u.gameObject.transform.position.x; // = Random.Range(mapGen.MAP_WIDTH / 2 * -1, mapGen.MAP_WIDTH / 2);
+        float z = u.gameObject.transform.position.z; // = Random.Range(mapGen.MAP_LENGTH / 2 * -1, mapGen.MAP_LENGTH / 2);
+        if(GetBestDir(u) != Direction.None)
+        {
+            dir = GetBestDir(u);
+        }
+        if (dir == Direction.NW)
         {
             x = Random.Range(mapGen.MAP_WIDTH / 2 * -1, 0);
             z = Random.Range(0, mapGen.MAP_LENGTH / 2);
 
         }
-        else if (GetNEScorePotential(u) > 0.70f)
+        else if (dir == Direction.NE)
         {
             x = Random.Range(0, mapGen.MAP_WIDTH / 2);
             z = Random.Range(0, mapGen.MAP_LENGTH / 2);
         }
-        else if (GetSWScorePotential(u) > 0.70f)
+        else if (dir == Direction.SW)
         {
             x = Random.Range(mapGen.MAP_WIDTH / 2 * -1, 0);
             z = Random.Range(mapGen.MAP_LENGTH / 2 * -1, 0);
         }
-        else
+        else if(dir == Direction.SE)
         {
             x = Random.Range(0, mapGen.MAP_WIDTH / 2);
             z = Random.Range(mapGen.MAP_LENGTH / 2 * -1, 0);
@@ -50,6 +65,36 @@ public class AttackAction : Action {
         //u.ability = Unit.Ability.Attack;
         u.AttackTarget(target);
         //Debug.Log("Attacking");
+    }
+
+    Direction GetBestDir(Unit u)
+    {
+        Direction tempDir = Direction.None;
+        if(GetNWScorePotential(u) >= GetNEScorePotential(u)
+            && GetNWScorePotential(u) >= GetSWScorePotential(u)
+            && GetNWScorePotential(u) >= GetSEScorePotential(u))
+        {
+            tempDir = Direction.NW;
+        }
+        if(GetNEScorePotential(u) >= GetNWScorePotential(u)
+            && GetNEScorePotential(u) >= GetSWScorePotential(u)
+            && GetNEScorePotential(u) >= GetSEScorePotential(u))
+        {
+            tempDir = Direction.NE;
+        }
+        if(GetSWScorePotential(u) >= GetNWScorePotential(u)
+            && GetSWScorePotential(u) >= GetNEScorePotential(u)
+            && GetSWScorePotential(u) >= GetSEScorePotential(u))
+        {
+            tempDir = Direction.SW;
+        }
+        if(GetSEScorePotential(u) >= GetNWScorePotential(u)
+            && GetSEScorePotential(u) >= GetNEScorePotential(u)
+            && GetSEScorePotential(u) >= GetSWScorePotential(u))
+        {
+            tempDir = Direction.SE;
+        }
+        return tempDir;
     }
 
     float GetNWScorePotential(Unit u)
@@ -72,6 +117,10 @@ public class AttackAction : Action {
                     if (texGen.pixels[x, y].faction == (int)TextureGenerator.Faction.None)
                     {
                         potential++;
+                    }
+                    else
+                    {
+                        potential--;
                     }
                 }
             }

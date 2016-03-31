@@ -4,178 +4,181 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-public class QLearning
-{
-    public List<QState> States;
-    public Dictionary<string, QState> StateLookup;
+//This class is the non-textbook implementation
 
-    public double Alpha;
-    public double Gamma;
+//public class QLearning
+//{
+//    public List<QState> States;
+//    public Dictionary<string, QState> StateLookup;
+//    public QValueStore store;
 
-    public HashSet<string> EndStates;
-    public int MaxExploreStepsWithinOneEpisode; //avoid infinite loop
-    public bool ShowWarning; // show runtime warnings regarding q-learning
-    public int Episodes;
+//    public double Alpha;
+//    public double Gamma;
 
-    public QLearning()
-    {
-        States = new List<QState>();
-        StateLookup = new Dictionary<string, QState>();
-        EndStates = new HashSet<string>();
+//    public HashSet<string> EndStates;
+//    public int MaxExploreStepsWithinOneEpisode; //avoid infinite loop
+//    public bool ShowWarning; // show runtime warnings regarding q-learning
+//    public int Episodes;
 
-        // Default when not set
-        MaxExploreStepsWithinOneEpisode = 1000;
-        Episodes = 1000;
-        Alpha = 0.1;
-        Gamma = 0.9;
-        ShowWarning = true;
-    }
+//    public QLearning()
+//    {
+//        States = new List<QState>();
+//        StateLookup = new Dictionary<string, QState>();
+//        EndStates = new HashSet<string>();
 
-    public void AddState(QState state)
-    {
-        States.Add(state);
-    }
+//        // Default when not set
+//        MaxExploreStepsWithinOneEpisode = 1000;
+//        Episodes = 1000;
+//        Alpha = 0.1;
+//        Gamma = 0.9;
+//        ShowWarning = true;
+//    }
 
-    public void RunTraining()
-    {
-        QMethod.Validate(this);
+//    public void AddState(QState state)
+//    {
+//        States.Add(state);
+//    }
 
-        /*       
-        For each episode: Select random initial state 
-        Do while not reach goal state
-            Select one among all possible actions for the current state 
-            Using this possible action, consider to go to the next state 
-            Get maximum Q value of this next state based on all possible actions                
-            Set the next state as the current state
-        */
+//    public void RunTraining()
+//    {
+//        QMethod.Validate(this);
 
-        // For each episode
-        var rand = new Random();
-        long maxloopEventCount = 0;
+//        /*       
+//        For each episode: Select random initial state 
+//        Do while not reach goal state
+//            Select one among all possible actions for the current state 
+//            Using this possible action, consider to go to the next state 
+//            Get maximum Q value of this next state based on all possible actions                
+//            Set the next state as the current state
+//        */
 
-        // Train episodes
-        for (long i = 0; i < Episodes; i++)
-        {
-            long maxloop = 0;
-            // Select random initial state          
-            int stateIndex = rand.Next(States.Count);
-            QState state = States[stateIndex];
-            QAction action = null;
-            do
-            {
-                if (++maxloop > MaxExploreStepsWithinOneEpisode)
-                {
-                    if (ShowWarning)
-                    {
-                        string msg = string.Format(
-                        "{0} !! MAXLOOP state: {1} action: {2}, {3} endstate is to difficult to reach?",
-                        ++maxloopEventCount, state, action, "maybe your path setup is wrong or the ");
-                        QMethod.Log(msg);
-                    }
+//        // For each episode
+//        var rand = new Random();
+//        long maxloopEventCount = 0;
 
-                    break;
-                }
+//        // Train episodes
+//        for (long i = 0; i < Episodes; i++)
+//        {
+//            long maxloop = 0;
+//            // Select random initial state          
+//            int stateIndex = rand.Next(States.Count);
+//            QState state = States[stateIndex];
+//            Action action = null;
+//            do
+//            {
+//                if (++maxloop > MaxExploreStepsWithinOneEpisode)
+//                {
+//                    if (ShowWarning)
+//                    {
+//                        string msg = string.Format(
+//                        "{0} !! MAXLOOP state: {1} action: {2}, {3} endstate is to difficult to reach?",
+//                        ++maxloopEventCount, state, action, "maybe your path setup is wrong or the ");
+//                        QMethod.Log(msg);
+//                    }
 
-                // no actions, skip this state
-                if (state.actions.Count == 0)
-                    break;
+//                    break;
+//                }
 
-                // Selection strategy is random based on probability
-                int index = rand.Next(state.actions.Count);
-                action = state.actions[index];
+//                // no actions, skip this state
+//                if (state.actions.Count == 0)
+//                    break;
 
-                // Using this possible action, consider to go to the next state
-                // Pick random Action outcome
-                QActionResult nextStateResult = action.PickActionByProbability();
-                string nextStateName = nextStateResult.StateName;
+//                // Selection strategy is random based on probability
+//                int index = rand.Next(state.actions.Count);
+//                action = state.actions[index];
 
-                double q = nextStateResult.QEstimated;
-                double r = nextStateResult.Reward;
-                double maxQ = MaxQ(nextStateName);
+//                // Using this possible action, consider to go to the next state
+//                // Pick random Action outcome
+//                QActionResult nextStateResult = action.PickActionByProbability();
+//                string nextStateName = nextStateResult.StateName;
 
-                // Q(s,a)= Q(s,a) + alpha * (R(s,a) + gamma * Max(next state, all actions) - Q(s,a))
-                double value = q + Alpha * (r + Gamma * maxQ - q); // q-learning                  
-                nextStateResult.QValue = value; // update
+//                double q = nextStateResult.QEstimated;
+//                double r = nextStateResult.Reward;
+//                double maxQ = MaxQ(nextStateName);
 
-                // is end state go to next episode
-                if (EndStates.Contains(nextStateResult.StateName))
-                    break;
+//                // Q(s,a)= Q(s,a) + alpha * (R(s,a) + gamma * Max(next state, all actions) - Q(s,a))
+//                double value = q + Alpha * (r + Gamma * maxQ - q); // q-learning                  
+//                nextStateResult.QValue = value; // update
 
-                // Set the next state as the current state                    
-                state = StateLookup[nextStateResult.StateName];
+//                // is end state go to next episode
+//                if (EndStates.Contains(nextStateResult.StateName))
+//                    break;
 
-            } while (true);
-        }
-    }
+//                // Set the next state as the current state                    
+//                state = StateLookup[nextStateResult.StateName];
+
+//            } while (true);
+//        }
+//    }
 
 
-    double MaxQ(string stateName)
-    {
-        const double defaultValue = 0;
+//    double MaxQ(string stateName)
+//    {
+//        const double defaultValue = 0;
 
-        if (!StateLookup.ContainsKey(stateName))
-            return defaultValue;
+//        if (!StateLookup.ContainsKey(stateName))
+//            return defaultValue;
 
-        QState state = StateLookup[stateName];
-        var actionsFromState = state.actions;
-        double? maxValue = null;
-        foreach (var nextState in actionsFromState)
-        {
-            foreach (var actionResult in nextState.ActionsResult)
-            {
-                double value = actionResult.QEstimated;
-                if (value > maxValue || !maxValue.HasValue)
-                    maxValue = value;
-            }
-        }
+//        QState state = StateLookup[stateName];
+//        var actionsFromState = state.actions;
+//        double? maxValue = null;
+//        foreach (var nextState in actionsFromState)
+//        {
+//            foreach (var actionResult in nextState.ActionsResult)
+//            {
+//                double value = actionResult.QEstimated;
+//                if (value > maxValue || !maxValue.HasValue)
+//                    maxValue = value;
+//            }
+//        }
 
-        // no update
-        if (!maxValue.HasValue && ShowWarning)
-            QMethod.Log(string.Format("Warning: No MaxQ value for stateName {0}",
-                stateName));
+//        // no update
+//        if (!maxValue.HasValue && ShowWarning)
+//            QMethod.Log(string.Format("Warning: No MaxQ value for stateName {0}",
+//                stateName));
 
-        return maxValue.HasValue ? maxValue.Value : defaultValue;
-    }
+//        return maxValue.HasValue ? maxValue.Value : defaultValue;
+//    }
 
-    public void PrintQLearningStructure()
-    {
-        Console.WriteLine("** Q-Learning structure **");
-        foreach (QState state in States)
-        {
-            Console.WriteLine("State {0}", state.statename);
-            foreach (QAction action in state.actions)
-            {
-                Console.WriteLine("  Action " + action.ActionName);
-                Console.Write(action.GetActionResults());
-            }
-        }
-        Console.WriteLine();
-    }
+//    public void PrintQLearningStructure()
+//    {
+//        Console.WriteLine("** Q-Learning structure **");
+//        foreach (QState state in States)
+//        {
+//            Console.WriteLine("State {0}", state.statename);
+//            foreach (QAction action in state.actions)
+//            {
+//                Console.WriteLine("  Action " + action.ActionName);
+//                Console.Write(action.GetActionResults());
+//            }
+//        }
+//        Console.WriteLine();
+//    }
 
-    public void ShowPolicy()
-    {
-        Console.WriteLine("** Show Policy **");
-        foreach (QState state in States)
-        {
-            double max = Double.MinValue;
-            string actionName = "nothing";
-            foreach (QAction action in state.actions)
-            {
-                foreach (QActionResult actionResult in action.ActionsResult)
-                {
-                    if (actionResult.QEstimated > max)
-                    {
-                        max = actionResult.QEstimated;
-                        actionName = action.ActionName.ToString();
-                    }
-                }
-            }
+//    public void ShowPolicy()
+//    {
+//        Console.WriteLine("** Show Policy **");
+//        foreach (QState state in States)
+//        {
+//            double max = Double.MinValue;
+//            string actionName = "nothing";
+//            foreach (QAction action in state.actions)
+//            {
+//                foreach (QActionResult actionResult in action.ActionsResult)
+//                {
+//                    if (actionResult.QEstimated > max)
+//                    {
+//                        max = actionResult.QEstimated;
+//                        actionName = action.ActionName.ToString();
+//                    }
+//                }
+//            }
 
-            //Console.WriteLine(string.Format("From state {0} do action {1}, max QEstimated is {2}",
-            //    state.StateName, actionName, max.Pretty()));
-        }
-    }
-}
+//            //Console.WriteLine(string.Format("From state {0} do action {1}, max QEstimated is {2}",
+//            //    state.StateName, actionName, max.Pretty()));
+//        }
+//    }
+//}
 
 
 

@@ -11,14 +11,14 @@ public class QProblem
         return states[randInd];
     }
 
-    public List<QAction> GetAvailableActions(QState s)
+    public List<Action> GetAvailableActions(QState s)
     {
         return s.actions;
     }
 
-    public StateRewardPair takeAction(QState s, QAction a)
+    public StateRewardPair takeAction(QState s, Action a, Unit u)
     {
-        a.Execute();
+        a.Execute(u);
         return new StateRewardPair(s, 0); //temp
     }
 }

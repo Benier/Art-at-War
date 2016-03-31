@@ -12,8 +12,8 @@ public class QLearner : MonoBehaviour
     float rho;
     float nu;
     QState state;
-    List<QAction> actions;
-    QAction action;
+    List<Action> actions;
+    Action action;
     
 	// Use this for initialization
 	void Start ()
@@ -49,7 +49,7 @@ public class QLearner : MonoBehaviour
             action = store.GetBestAction(state);
         }
 
-        srp = problem.takeAction(state, action);
+        srp = problem.takeAction(state, action, gameObject.GetComponent<Unit>());
         reward = srp.reward;
         newState = srp.state;
 

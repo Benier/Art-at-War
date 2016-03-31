@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class QValueStore : MonoBehaviour
 {
     public List<StateActionPair> store;
-    List<QAction> possibleActions;
+    public List<Action> possibleActions;
 	// Use this for initialization
 	void Start () {
         store = new List<StateActionPair>();
@@ -16,7 +16,7 @@ public class QValueStore : MonoBehaviour
 	
 	}
 
-    public void AddPossibleAction(QAction a)
+    public void AddPossibleAction(Action a)
     {
         possibleActions.Add(a);
     }
@@ -26,10 +26,10 @@ public class QValueStore : MonoBehaviour
         return sap.qVal;
     }
 
-    public QAction GetBestAction(QState s)
+    public Action GetBestAction(QState s)
     {
         float maxQ = 0;
-        QAction bestAction = new QAction();
+        Action bestAction = new PrintAction("empty action");
         foreach (StateActionPair p in store)
         {
             if(p.state == s && p.qVal >= maxQ)
@@ -38,10 +38,11 @@ public class QValueStore : MonoBehaviour
                 bestAction = p.action;
             }
         }
+
         return bestAction;
     }
 
-    public void storeQValue(QState s, QAction a, float q)
+    public void storeQValue(QState s, Action a, float q)
     {
         foreach(StateActionPair p in store)
         {
