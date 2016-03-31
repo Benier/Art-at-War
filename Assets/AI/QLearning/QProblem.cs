@@ -13,7 +13,7 @@ public class QProblem
 
     public List<QAction> GetAvailableActions(QState s)
     {
-        return s.Actions;
+        return s.actions;
     }
 
     public StateRewardPair takeAction(QState s, QAction a)

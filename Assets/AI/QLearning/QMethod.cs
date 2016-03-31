@@ -42,7 +42,7 @@ public static class QMethod
     {
         foreach (QState state in q.States)
         {
-            foreach (QAction action in state.Actions)
+            foreach (QAction action in state.actions)
             {
                 action.ValidateActionsResultProbability();
             }

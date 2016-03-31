@@ -10,10 +10,10 @@ public class GameLevel1 : MonoBehaviour {
     List<GameObject> playerUnits = new List<GameObject>();
     List<GameObject> enemyUnits = new List<GameObject>();
     List<Agent> agents = new List<Agent>();
-    static int playerRangedUnitCount = 1;
-    static int playerMeleeUnitCount = 0;
-    static int enemyRangedUnitCount = 1;
-    static int enemyMeleeUnitCount = 0;
+    static int playerRangedUnitCount = 2;
+    static int playerMeleeUnitCount = 2;
+    static int enemyRangedUnitCount = 2;
+    static int enemyMeleeUnitCount = 2;
     public int curUnitInd;
     bool playerTurn;
     int totalPlayerAP;

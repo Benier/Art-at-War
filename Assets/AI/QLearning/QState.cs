@@ -5,25 +5,30 @@ using System.Collections.Generic;
 public class QState
 {
     #region nontextbook implementation
-    public string StateName { get; private set; }
-    public List<QAction> Actions { get; private set; }
+    public string statename;
+    public List<QAction> actions;
 
     public void AddAction(QAction action)
     {
-        Actions.Add(action);
+        actions.Add(action);
     }
 
-    public QState(string stateName, QLearning q)
-    {
-        q.StateLookup.Add(stateName, this);
-        StateName = stateName;
-        Actions = new List<QAction>();
-    }
+    //public QState(string stateName, QLearning q)
+    //{
+    //    q.StateLookup.Add(stateName, this);
+    //    StateName = stateName;
+    //    actions = new List<QAction>();
+    //}
 
-    public override string ToString()
-    {
-        return string.Format("StateName {0}", StateName);
-    }
+    //public override string ToString()
+    //{
+    //    return string.Format("StateName {0}", StateName);
+    //}
     #endregion
 
+    public QState(string name)
+    {
+        statename = name;
+        actions = new List<QAction>();
+    }
 }

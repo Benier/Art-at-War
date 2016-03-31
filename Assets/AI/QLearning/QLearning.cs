@@ -77,12 +77,12 @@ public class QLearning
                 }
 
                 // no actions, skip this state
-                if (state.Actions.Count == 0)
+                if (state.actions.Count == 0)
                     break;
 
                 // Selection strategy is random based on probability
-                int index = rand.Next(state.Actions.Count);
-                action = state.Actions[index];
+                int index = rand.Next(state.actions.Count);
+                action = state.actions[index];
 
                 // Using this possible action, consider to go to the next state
                 // Pick random Action outcome
@@ -117,7 +117,7 @@ public class QLearning
             return defaultValue;
 
         QState state = StateLookup[stateName];
-        var actionsFromState = state.Actions;
+        var actionsFromState = state.actions;
         double? maxValue = null;
         foreach (var nextState in actionsFromState)
         {
@@ -142,8 +142,8 @@ public class QLearning
         Console.WriteLine("** Q-Learning structure **");
         foreach (QState state in States)
         {
-            Console.WriteLine("State {0}", state.StateName);
-            foreach (QAction action in state.Actions)
+            Console.WriteLine("State {0}", state.statename);
+            foreach (QAction action in state.actions)
             {
                 Console.WriteLine("  Action " + action.ActionName);
                 Console.Write(action.GetActionResults());
@@ -159,7 +159,7 @@ public class QLearning
         {
             double max = Double.MinValue;
             string actionName = "nothing";
-            foreach (QAction action in state.Actions)
+            foreach (QAction action in state.actions)
             {
                 foreach (QActionResult actionResult in action.ActionsResult)
                 {

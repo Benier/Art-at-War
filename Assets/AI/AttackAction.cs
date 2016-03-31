@@ -21,25 +21,27 @@ public class AttackAction : Action {
         GameObject target = new GameObject();
         float x; // = Random.Range(mapGen.MAP_WIDTH / 2 * -1, mapGen.MAP_WIDTH / 2);
         float z; // = Random.Range(mapGen.MAP_LENGTH / 2 * -1, mapGen.MAP_LENGTH / 2);
-        if (GetNWScorePotential(u) > 0.35f)
-        {
-            x = Random.Range(mapGen.MAP_WIDTH / 2 * -1, 0);
-            z = Random.Range(mapGen.MAP_LENGTH / 2 * -1, 0);
-        }
-        else if (GetNEScorePotential(u) > 0.35f)
-        {
-            x = Random.Range(0, mapGen.MAP_WIDTH / 2);
-            z = Random.Range(mapGen.MAP_LENGTH / 2 * -1, 0);
-        }
-        else if (GetSWScorePotential(u) > 0.35f)
+        if (GetNWScorePotential(u) > 0.70f)
         {
             x = Random.Range(mapGen.MAP_WIDTH / 2 * -1, 0);
             z = Random.Range(0, mapGen.MAP_LENGTH / 2);
+
+        }
+        else if (GetNEScorePotential(u) > 0.70f)
+        {
+            x = Random.Range(0, mapGen.MAP_WIDTH / 2);
+            z = Random.Range(0, mapGen.MAP_LENGTH / 2);
+        }
+        else if (GetSWScorePotential(u) > 0.70f)
+        {
+            x = Random.Range(mapGen.MAP_WIDTH / 2 * -1, 0);
+            z = Random.Range(mapGen.MAP_LENGTH / 2 * -1, 0);
         }
         else
         {
             x = Random.Range(0, mapGen.MAP_WIDTH / 2);
-            z = Random.Range(0, mapGen.MAP_LENGTH / 2);
+            z = Random.Range(mapGen.MAP_LENGTH / 2 * -1, 0);
+
         }
         x = Mathf.Clamp(x, u.gameObject.transform.position.x - u.attRange, u.gameObject.transform.position.x + u.attRange);
         z = Mathf.Clamp(z, u.gameObject.transform.position.z - u.attRange, u.gameObject.transform.position.z + u.attRange);
@@ -58,7 +60,7 @@ public class AttackAction : Action {
         float yInterval = texGen.inputBaseTexture.height / texGen.mapGen.MAP_LENGTH;
         int correctX = (int)((u.transform.position.x + texGen.mapGen.MAP_WIDTH / 2) * xInterval);
         int correctY = (int)((u.transform.position.z + texGen.mapGen.MAP_LENGTH / 2) * yInterval);
-        int pixelRange = (int)((u.attRange + texGen.mapGen.MAP_WIDTH / 2) * xInterval);
+        int pixelRange = (int)((u.attRange * 1.5 + texGen.mapGen.MAP_WIDTH / 2) * xInterval);
 
         for (int x = correctX - pixelRange; x < correctX; x++)
         {
@@ -87,7 +89,7 @@ public class AttackAction : Action {
         float yInterval = texGen.inputBaseTexture.height / texGen.mapGen.MAP_LENGTH;
         int correctX = (int)((u.transform.position.x + texGen.mapGen.MAP_WIDTH / 2) * xInterval);
         int correctY = (int)((u.transform.position.z + texGen.mapGen.MAP_LENGTH / 2) * yInterval);
-        int pixelRange = (int)((u.attRange + texGen.mapGen.MAP_WIDTH / 2) * xInterval);
+        int pixelRange = (int)((u.attRange * 1.5 + texGen.mapGen.MAP_WIDTH / 2) * xInterval);
 
         for (int x = correctX; x < correctX + pixelRange; x++)
         {
@@ -116,7 +118,7 @@ public class AttackAction : Action {
         float yInterval = texGen.inputBaseTexture.height / texGen.mapGen.MAP_LENGTH;
         int correctX = (int)((u.transform.position.x + texGen.mapGen.MAP_WIDTH / 2) * xInterval);
         int correctY = (int)((u.transform.position.z + texGen.mapGen.MAP_LENGTH / 2) * yInterval);
-        int pixelRange = (int)((u.attRange + texGen.mapGen.MAP_WIDTH / 2) * xInterval);
+        int pixelRange = (int)((u.attRange * 1.5 + texGen.mapGen.MAP_WIDTH / 2) * xInterval);
 
         for (int x = correctX - pixelRange; x < correctX; x++)
         {
@@ -145,7 +147,7 @@ public class AttackAction : Action {
         float yInterval = texGen.inputBaseTexture.height / texGen.mapGen.MAP_LENGTH;
         int correctX = (int)((u.transform.position.x + texGen.mapGen.MAP_WIDTH / 2) * xInterval);
         int correctY = (int)((u.transform.position.z + texGen.mapGen.MAP_LENGTH / 2) * yInterval);
-        int pixelRange = (int)((u.attRange + texGen.mapGen.MAP_WIDTH / 2) * xInterval);
+        int pixelRange = (int)((u.attRange * 1.5 + texGen.mapGen.MAP_WIDTH / 2) * xInterval);
 
         for (int x = correctX; x < correctX + pixelRange; x++)
         {
