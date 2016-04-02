@@ -41,7 +41,8 @@ public class TextureGenerator : MonoBehaviour {
     float xInterval;
     float yInterval;
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
         inputBaseTexture = Resources.Load("A_la_Recherche_du_Temps_Perdu_CHARCOAL") as Texture2D;
         pencilMaskTexture = Resources.Load("PencilStrokes") as Texture2D;
         pencilBaseTexture = Resources.Load("A_la_Recherche_du_Temps_Perdu_PENCIL") as Texture2D;
@@ -98,66 +99,68 @@ public class TextureGenerator : MonoBehaviour {
         return outputTexture;
     }
 
-    public void AddPencilHit(Vector3 pos)
+    public void AddPencilHit(Vector3 pos, Vector3 origin)
     {
         Vector3 texPos;
         correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);//(int)((pos.x * xInterval) + ((mapGen.MAP_WIDTH * xInterval) / 2));
         correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
         texPos = new Vector3(correctX, 0, correctY);
 
-        TextureHit pHit = new TextureHit(texPos, pencilBaseTexture, pencilMaskTexture, (int)Faction.Enemy);
+        TextureHit pHit = new TextureHit(texPos, pencilBaseTexture, pencilMaskTexture, (int)Faction.Enemy, origin);
         hitQueue.Add(pHit);
     }
 
-    public void AddCharcoalHit(Vector3 pos)
+    public void AddCharcoalHit(Vector3 pos, Vector3 origin)
     {
         Vector3 texPos;
         correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);//(int)((pos.x * xInterval) + ((mapGen.MAP_WIDTH * xInterval) / 2));
         correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
         texPos = new Vector3(correctX, 0, correctY);
 
-        TextureHit pHit = new TextureHit(texPos, charcoalBaseTexture, charcoalMaskTexture, (int)Faction.Enemy);
+        TextureHit pHit = new TextureHit(texPos, charcoalBaseTexture, charcoalMaskTexture, (int)Faction.Enemy, origin);
         hitQueue.Add(pHit);
     }
 
-    public void AddWaterHit(Vector3 pos)
+    public void AddWaterHit(Vector3 pos, Vector3 origin)
     {
         Vector3 texPos;
         correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);//(int)((pos.x * xInterval) + ((mapGen.MAP_WIDTH * xInterval) / 2));
         correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
         texPos = new Vector3(correctX, 0, correctY);
 
-        TextureHit pHit = new TextureHit(texPos, waterBaseTexture, waterMaskTexture, (int)Faction.Player);
+        TextureHit pHit = new TextureHit(texPos, waterBaseTexture, waterMaskTexture, (int)Faction.Player, origin);
         hitQueue.Add(pHit);
     }
 
-    public void AddOilHit(Vector3 pos)
+    public void AddOilHit(Vector3 pos, Vector3 origin)
     {
         Vector3 texPos;
         correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);//(int)((pos.x * xInterval) + ((mapGen.MAP_WIDTH * xInterval) / 2));
         correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
         texPos = new Vector3(correctX, 0, correctY);
 
-        TextureHit pHit = new TextureHit(texPos, oilBaseTexture, oilMaskTexture, (int)Faction.Player);
+        TextureHit pHit = new TextureHit(texPos, oilBaseTexture, oilMaskTexture, (int)Faction.Player, origin);
         hitQueue.Add(pHit);
     }
 
-    public void AddTarHit(Vector3 pos)
+    public void AddTarHit(Vector3 pos, Vector3 origin)
     {
         Vector3 texPos;
         correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);//(int)((pos.x * xInterval) + ((mapGen.MAP_WIDTH * xInterval) / 2));
         correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
         texPos = new Vector3(correctX, 0, correctY);
 
-        TextureHit pHit = new TextureHit(texPos, tarBaseTexture, tarMaskTexture, (int)Faction.None);
+        TextureHit pHit = new TextureHit(texPos, tarBaseTexture, tarMaskTexture, (int)Faction.None, origin);
         hitQueue.Add(pHit);
     }
 
     public Vector3 ConvertToWorldCoord(Vector3 pos)
     {
         Vector3 worldPos;
-        int worldX = (int)((pos.x / xInterval) - mapGen.MAP_WIDTH / 2);
-        int worldZ = (int)((pos.z / yInterval) - mapGen.MAP_LENGTH / 2);
+        int worldX = (int)Mathf.FloorToInt((pos.x / xInterval) - mapGen.MAP_WIDTH / 2);
+        int worldZ = (int)Mathf.FloorToInt((pos.z / yInterval) - mapGen.MAP_LENGTH / 2);
+        worldX = Mathf.Clamp(worldX, -mapGen.MAP_WIDTH / 2, (mapGen.MAP_WIDTH / 2) - 1);
+        worldZ = Mathf.Clamp(worldZ, -mapGen.MAP_LENGTH / 2, (mapGen.MAP_LENGTH / 2) - 1);
         worldPos = new Vector3(worldX, 0, worldZ);
 
         return worldPos;
@@ -166,22 +169,32 @@ public class TextureGenerator : MonoBehaviour {
     public Texture2D GeneratePass(TextureHit hit, Texture2D outputText)
     {
         Texture2D tempTexture = outputText;//new Texture2D(hit.baseTexture.width, hit.baseTexture.height);
-        for (int x = 0; x < hit.maskTexture.width; x++)
-        {
-            for (int y = 0; y < hit.maskTexture.height; y++)
-            {
-                if (!(hit.position.x - (hit.maskTexture.width / 2) + x < 0)
-                    && !(hit.position.z - (hit.maskTexture.height / 2) + y < 0)
-                    && !(hit.position.x - (hit.maskTexture.width / 2) + x >= hit.baseTexture.width)
-                    && !(hit.position.z - (hit.maskTexture.height / 2) + y >= hit.baseTexture.height))
-                {
-                    if (hit.maskTexture.GetPixel(x, y).a != 0)
-                    {
-                        Color pixel = new Color(hit.baseTexture.GetPixel((int)(hit.position.x - (hit.maskTexture.width / 2) + x), (int)(hit.position.z - (hit.maskTexture.height / 2) + y)).r, hit.baseTexture.GetPixel((int)(hit.position.x - (hit.maskTexture.width / 2) + x), (int)(hit.position.z - (hit.maskTexture.height / 2) + y)).g, hit.baseTexture.GetPixel((int)(hit.position.x - (hit.maskTexture.width / 2) + x), (int)(hit.position.z - (hit.maskTexture.height / 2) + y)).b, 1);//hit.maskTexture.GetPixel(x, y).a);
-                        tempTexture.SetPixel((int)(hit.position.x - (hit.maskTexture.width / 2) + x), (int)(hit.position.z - (hit.maskTexture.height / 2) + y), pixel);
-                        Vector3 worldPos = ConvertToWorldCoord(new Vector3((int)(hit.position.x - (hit.maskTexture.width / 2) + x), 0, (int)(hit.position.z - (hit.maskTexture.height / 2) + y)));
+        Texture2D hitMask = hit.maskTexture;
+        //TextureScale.Point(hitMask, hitMask.width / (int)hit.distance, hitMask.height / (int)hit.distance);
 
-                        if (pixels[(int)(hit.position.x - (hit.maskTexture.width / 2) + x), (int)(hit.position.z - (hit.maskTexture.height / 2) + y)].faction == (int)Faction.None)
+        //hitMask.Resize(hitMask.width / 1, hitMask.height / 1);
+            //(int)hit.distance, hitMask.height / (int)hit.distance);
+        for (int x = 0; x < hitMask.width; x++)
+        {
+            for (int y = 0; y < hitMask.height; y++)
+            {
+                if (!(hit.position.x - (hitMask.width / 2) + x < 0)
+                    && !(hit.position.z - (hitMask.height / 2) + y < 0)
+                    && !(hit.position.x - (hitMask.width / 2) + x >= hit.baseTexture.width)
+                    && !(hit.position.z - (hitMask.height / 2) + y >= hit.baseTexture.height))
+                {
+                    if (hitMask.GetPixel(x, y).a != 0)
+                    {
+                        Color pixel = new Color(hit.baseTexture.GetPixel((int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)).r, hit.baseTexture.GetPixel((int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)).g, hit.baseTexture.GetPixel((int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)).b, 1);//hit.maskTexture.GetPixel(x, y).a);
+                        tempTexture.SetPixel((int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y), pixel);
+                        Vector3 worldPos = ConvertToWorldCoord(new Vector3((int)(hit.position.x - (hitMask.width / 2) + x), 0, (int)(hit.position.z - (hitMask.height / 2) + y)));
+
+                        if(!mapGen.map.ContainsKey(new Coordinate(worldPos.x, worldPos.z)))
+                        {
+                            Debug.Log(worldPos.x + ", " + worldPos.z);
+                            Debug.Break();
+                        }
+                        if (pixels[(int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)].faction == (int)Faction.None)
                         {
                             
                             if (hit.faction == (int)Faction.Player)
@@ -194,9 +207,9 @@ public class TextureGenerator : MonoBehaviour {
                                 gameLvl.enemyPoints += 1 * (int)(mapGen.map[new Coordinate(worldPos.x, worldPos.z)].transform.position.y + 1);
                             }
                         }
-                        else if(pixels[(int)(hit.position.x - (hit.maskTexture.width / 2) + x), (int)(hit.position.z - (hit.maskTexture.height / 2) + y)].faction != hit.faction)
+                        else if(pixels[(int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)].faction != hit.faction)
                         {
-                            if (pixels[(int)(hit.position.x - (hit.maskTexture.width / 2) + x), (int)(hit.position.z - (hit.maskTexture.height / 2) + y)].faction == (int)Faction.Player)
+                            if (pixels[(int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)].faction == (int)Faction.Player)
                             {
                                 gameLvl.playerPoints -= 1 * (int)(mapGen.map[new Coordinate(worldPos.x, worldPos.z)].transform.position.y + 1);
                                 if(hit.faction != (int)Faction.None)
@@ -213,7 +226,7 @@ public class TextureGenerator : MonoBehaviour {
                                 }
                             }
                         }
-                        pixels[(int)(hit.position.x - (hit.maskTexture.width / 2) + x), (int)(hit.position.z - (hit.maskTexture.height / 2) + y)].faction = hit.faction;
+                        pixels[(int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)].faction = hit.faction;
                     }
                 }
                 //Color tempCol = new Color(hit.baseTexture.GetPixel(x, y).r, hit.baseTexture.GetPixel(x, y).g, hit.baseTexture.GetPixel(x, y).b, hit.maskTexture.GetPixel(x, y).a);

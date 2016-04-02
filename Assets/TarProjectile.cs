@@ -5,12 +5,15 @@ public class TarProjectile : MonoBehaviour
 {
 
     TextureGenerator texGen;
-    GameObject display;
+    //GameObject display;
+    Vector3 origin;
+
     // Use this for initialization
     void Start()
     {
         texGen = GameObject.Find("TexGenerator").GetComponent<TextureGenerator>();
-        display = GameObject.Find("Cube");
+        //display = GameObject.Find("Cube");
+        origin = gameObject.transform.position;
     }
 
     // Update is called once per frame
@@ -21,8 +24,8 @@ public class TarProjectile : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        texGen.AddTarHit(collision.contacts[0].point);
-        display.GetComponent<Renderer>().material.SetTexture("_MainTex", texGen.GenerateTexture());
+        texGen.AddTarHit(collision.contacts[0].point, origin);
+        //display.GetComponent<Renderer>().material.SetTexture("_MainTex", texGen.GenerateTexture());
         gameObject.SetActive(false);
     }
 }
