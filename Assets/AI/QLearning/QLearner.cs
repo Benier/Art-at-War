@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class QLearner : MonoBehaviour
+public class QLearner
 {
     QValueStore store;
     QProblem problem;
@@ -12,18 +12,28 @@ public class QLearner : MonoBehaviour
     float rho;
     float nu;
     QState state;
-    List<Action> actions;
-    Action action;
+    List<QAction> actions;
+    QAction action;
+    Unit unit;
+    TextureGenerator texGen;
+
+    public QLearner(Unit u, TextureGenerator tg)
+    {
+        problem = new QProblem();
+        unit = u;
+        texGen = tg;
+        state = problem.GetRandomState();
+        store = GameObject.Find("QValueStore").GetComponent<QValueStore>();
+    }
     
 	// Use this for initialization
 	void Start ()
     {
-        state = problem.GetRandomState();
-        store = GameObject.Find("QValueStore").GetComponent<QValueStore>();
+
 	}
 	
 	// Update is called once per frame
-	void UpdateQ ()
+	public void UpdateQ ()
     {
         StateRewardPair srp;
         QState newState;
@@ -49,7 +59,7 @@ public class QLearner : MonoBehaviour
             action = store.GetBestAction(state);
         }
 
-        srp = problem.takeAction(state, action, gameObject.GetComponent<Unit>());
+        srp = problem.takeAction(state, action, unit);
         reward = srp.reward;
         newState = srp.state;
 

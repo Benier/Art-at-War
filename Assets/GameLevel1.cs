@@ -9,19 +9,25 @@ public class GameLevel1 : MonoBehaviour {
     public static Dictionary<Coordinate, GameObject> map;
     List<GameObject> playerUnits = new List<GameObject>();
     List<GameObject> enemyUnits = new List<GameObject>();
+    List<GameObject> qEnemyUnits = new List<GameObject>();
     List<Agent> agents = new List<Agent>();
+    List<QLearner> qagents = new List<QLearner>();
     static int playerRangedUnitCount = 2;
     static int playerMeleeUnitCount = 2;
     static int enemyRangedUnitCount = 2;
     static int enemyMeleeUnitCount = 2;
+    static int qEnemyRangedUnitCount = 2;
+    static int qEnemyMeleeUnitCount = 0;
     public int curUnitInd;
-    bool playerTurn;
+    int playerTurn; // 1 = player, 2 = enemy, 3 = q enemy
     int totalPlayerAP;
     int totalEnemyAP;
+    int totalQEnemyAP;
     int numTurns = 5;
     public int playerPoints;
     public int enemyPoints;
-    int winner; //0 = none, 1 = player, 2 = enemy
+    public int qEnemeyPoints;
+    int winner; //0 = none, 1 = player, 2 = enemy, 3 = q enemy
     bool gameEnd;
 
     MapGenerator mapGen;
@@ -39,7 +45,7 @@ public class GameLevel1 : MonoBehaviour {
         SpawnUnits();
         curUnitInd = 0;
         EnableUnit(playerUnits, curUnitInd);
-        playerTurn = true;
+        playerTurn = 1;
         gameEnd = false;
     }
 	
@@ -57,7 +63,7 @@ public class GameLevel1 : MonoBehaviour {
                 totalEnemyAP += enemyUnits[i].GetComponent<Unit>().AP;
             }
 
-            if (playerTurn)
+            if (playerTurn == 1)
             {
                 if (playerUnits[curUnitInd].GetComponent<Unit>().AP <= 0)
                 {
@@ -66,13 +72,13 @@ public class GameLevel1 : MonoBehaviour {
                         //Debug.Log("Turn Ended");
                         curUnitInd = 0;
                         EnableUnit(enemyUnits, curUnitInd);
-                        playerTurn = false;
+                        playerTurn = 2;
                         EnableMove();
                         ResetUnitsAP(playerTurn);
                     }
                 }
             }
-            else
+            else if (playerTurn == 2)
             {
                 agents[curUnitInd].Update();
                 if (enemyUnits[curUnitInd].GetComponent<Unit>().AP <= 0)
@@ -81,8 +87,25 @@ public class GameLevel1 : MonoBehaviour {
                     {
                         //Debug.Log("Turn Ended");
                         curUnitInd = 0;
+                        EnableUnit(qEnemyUnits, curUnitInd);
+                        playerTurn = 3;
+                        EnableMove();
+                        ResetUnitsAP(playerTurn);
+                        //numTurns--;
+                    }
+                }
+            }
+            else if (playerTurn == 3)
+            {
+                qagents[curUnitInd].UpdateQ();
+                if (qEnemyUnits[curUnitInd].GetComponent<Unit>().AP <= 0)
+                {
+                    if (!SelectNextUnit())
+                    {
+                        //Debug.Log("Turn Ended");
+                        curUnitInd = 0;
                         EnableUnit(playerUnits, curUnitInd);
-                        playerTurn = true;
+                        playerTurn = 1;
                         EnableMove();
                         ResetUnitsAP(playerTurn);
                         numTurns--;
@@ -134,6 +157,63 @@ public class GameLevel1 : MonoBehaviour {
             enemyUnits.Add(tempUnit);
             agents.Add(new Agent(tempUnit.GetComponent<Unit>(), texGenerator));
         }
+
+        for (int num = 0; num < qEnemyRangedUnitCount; num++)
+        {
+            GameObject tempUnit = SpawnQRangedEnemyUnit();
+            qEnemyUnits.Add(tempUnit);
+            qagents.Add(new QLearner(tempUnit.GetComponent<Unit>(), texGenerator));
+        }
+        for (int num = 0; num < qEnemyMeleeUnitCount; num++)
+        {
+            GameObject tempUnit = SpawnQMeleeEnemyUnit();
+            qEnemyUnits.Add(tempUnit);
+            qagents.Add(new QLearner(tempUnit.GetComponent<Unit>(), texGenerator));
+        }
+    }
+
+    GameObject SpawnQMeleeEnemyUnit()
+    {
+        GameObject unitPrefab;
+        float x = Random.Range(mapGen.MAP_WIDTH / 2 * -1, mapGen.MAP_WIDTH / 2);
+        float z = Random.Range(mapGen.MAP_LENGTH / 2 * -1, mapGen.MAP_LENGTH / 2);
+        if (!mapGen.map[new Coordinate(x, z)].GetComponent<Tile>().occupied)
+        {
+            float y = mapGen.map[new Coordinate(x, z)].transform.position.y;        //get height of map tile on that tile in map
+
+            unitPrefab = Instantiate(Resources.Load("QCharcoalUnitPrefab", typeof(GameObject))) as GameObject;
+            unitPrefab.GetComponent<Unit>().type = Unit.Type.Charcoal;
+            unitPrefab.transform.position = new Vector3(x, y, z);
+
+            mapGen.map[new Coordinate(x, z)].GetComponent<Tile>().occupied = true;
+        }
+        else
+        {
+            return SpawnQRangedEnemyUnit();
+        }
+        return unitPrefab;
+    }
+
+    GameObject SpawnQRangedEnemyUnit()
+    {
+        GameObject unitPrefab;
+        float x = Random.Range(mapGen.MAP_WIDTH / 2 * -1, mapGen.MAP_WIDTH / 2);
+        float z = Random.Range(mapGen.MAP_LENGTH / 2 * -1, mapGen.MAP_LENGTH / 2);
+        if (!mapGen.map[new Coordinate(x, z)].GetComponent<Tile>().occupied)
+        {
+            float y = mapGen.map[new Coordinate(x, z)].transform.position.y;        //get height of map tile on that tile in map
+
+            unitPrefab = Instantiate(Resources.Load("QPencilUnitPrefab", typeof(GameObject))) as GameObject;
+            unitPrefab.GetComponent<Unit>().type = Unit.Type.Pencil;
+            unitPrefab.transform.position = new Vector3(x, y, z);
+
+            mapGen.map[new Coordinate(x, z)].GetComponent<Tile>().occupied = true;
+        }
+        else
+        {
+            return SpawnQRangedEnemyUnit();
+        }
+        return unitPrefab;
     }
 
     GameObject SpawnRangedPlayerUnit()
@@ -225,15 +305,20 @@ public class GameLevel1 : MonoBehaviour {
     {
         List<GameObject> unitsList;
         int remainingAP;
-        if (playerTurn)
+        if (playerTurn == 1)
         {
             unitsList = playerUnits;
             remainingAP = totalPlayerAP;
         }
-        else
+        else if(playerTurn == 2)
         {
             unitsList = enemyUnits;
             remainingAP = totalEnemyAP;
+        }
+        else
+        {
+            unitsList = qEnemyUnits;
+            remainingAP = totalQEnemyAP;
         }
         if (curUnitInd < unitsList.Count -1)
         {
@@ -259,7 +344,7 @@ public class GameLevel1 : MonoBehaviour {
     {
         List<GameObject> unitsList;
         int remainingAP;
-        if (playerTurn)
+        if (playerTurn == 1)
         {
             unitsList = playerUnits;
             remainingAP = totalPlayerAP;
@@ -292,13 +377,17 @@ public class GameLevel1 : MonoBehaviour {
     public void EnableAttack()
     {
         List<GameObject> unitsList;
-        if (playerTurn)
+        if (playerTurn == 1)
         {
             unitsList = playerUnits;
         }
-        else
+        else if(playerTurn == 2)
         {
             unitsList = enemyUnits;
+        }
+        else
+        {
+            unitsList = qEnemyUnits;
         }
         unitsList[curUnitInd].GetComponent<Unit>().ability = Unit.Ability.Attack;
         //playerUnits[curUnitInd].GetComponent<Unit>().attackAbil = true;
@@ -309,13 +398,17 @@ public class GameLevel1 : MonoBehaviour {
     public void EnableTar()
     {
         List<GameObject> unitsList;
-        if (playerTurn)
+        if (playerTurn == 1)
         {
             unitsList = playerUnits;
         }
-        else
+        else if (playerTurn == 2)
         {
             unitsList = enemyUnits;
+        }
+        else
+        {
+            unitsList = qEnemyUnits;
         }
         unitsList[curUnitInd].GetComponent<Unit>().ability = Unit.Ability.Tar;
         //playerUnits[curUnitInd].GetComponent<Unit>().attackAbil = false;
@@ -326,13 +419,17 @@ public class GameLevel1 : MonoBehaviour {
     public void EnableMove()
     {
         List<GameObject> unitsList;
-        if (playerTurn)
+        if (playerTurn == 1)
         {
             unitsList = playerUnits;
         }
-        else
+        else if (playerTurn == 2)
         {
             unitsList = enemyUnits;
+        }
+        else
+        {
+            unitsList = qEnemyUnits;
         }
         unitsList[curUnitInd].GetComponent<Unit>().ability = Unit.Ability.Move;
         //playerUnits[curUnitInd].GetComponent<Unit>().attackAbil = false;
@@ -350,18 +447,22 @@ public class GameLevel1 : MonoBehaviour {
         units[index].GetComponent<Unit>().active = false;
     }
 
-    void ResetUnitsAP(bool isPlayer)
+    void ResetUnitsAP(int player)
     {
         List<GameObject> unitsList;
-        if (isPlayer)
+        if (player == 1)
         {
             unitsList = playerUnits;
         }
-        else
+        else if (playerTurn == 2)
         {
             unitsList = enemyUnits;
         }
-        for(int i = 0; i < unitsList.Count; i++)
+        else
+        {
+            unitsList = qEnemyUnits;
+        }
+        for (int i = 0; i < unitsList.Count; i++)
         {
             unitsList[i].GetComponent<Unit>().ResetAP();
         }
@@ -384,6 +485,10 @@ public class GameLevel1 : MonoBehaviour {
             else if(winner == 2)
             {
                 GUI.Label(new Rect(0, 2 * 30, 300, 300), "Enemy Won");
+            }
+            else if(winner == 3)
+            {
+                GUI.Label(new Rect(0, 3 * 30, 300, 300), "Q Enemy Won");
             }
         }
         GUI.Label(new Rect(0, 3 * 30, 300, 300), "Turns Remaining: " + numTurns);
