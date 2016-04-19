@@ -3,6 +3,7 @@ using System.Collections;
 
 public class AggressiveAction : Action
 {
+    float reward;
     // Use this for initialization
     void Start()
     {
@@ -18,5 +19,10 @@ public class AggressiveAction : Action
     public void Execute(Unit u)
     {
         //Debug.Log("Spreading Out Aggressively");
+    }
+
+    public float GetReward()
+    {
+        return reward;
     }
 }

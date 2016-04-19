@@ -4,9 +4,9 @@ using System.Collections;
 public class StateActionPair
 {
     public QState state;
-    public QAction action;
+    public Action action;
     public float qVal;
-    public StateActionPair(QState s, QAction a)
+    public StateActionPair(QState s, Action a)
     {
         state = s;
         action = a;

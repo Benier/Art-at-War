@@ -12,8 +12,8 @@ public class QLearner
     float rho;
     float nu;
     QState state;
-    List<QAction> actions;
-    QAction action;
+    List<Action> actions;
+    Action action;
     Unit unit;
     TextureGenerator texGen;
 
@@ -40,6 +40,7 @@ public class QLearner
         float qVal;
         float maxQ;
         float reward;
+        nu = 8;
         float randnu = Random.Range(0.0f, 10.0f);
 	    if(randnu < nu)
         {

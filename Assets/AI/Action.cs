@@ -7,4 +7,5 @@ using System.Collections;
 public interface Action{
 
     void Execute(Unit u);
+    float GetReward();
 }

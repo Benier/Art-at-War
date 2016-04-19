@@ -54,20 +54,20 @@ public class Agent
         c_Attack = new AttackCondition();
         c_Wander = new WanderCondition();
 
-        attackTransList.Add(new PrintAction(""));
-        wanderTransList.Add(new PrintAction(""));
+        //attackTransList.Add(new PrintAction(""));
+        //wanderTransList.Add(new PrintAction(""));
 
         t_AttackWander = new Transition(s_Wander, wanderTransList, c_Wander, texGen);
         t_WanderAttack = new Transition(s_Attack, attackTransList, c_Attack, texGen);
 
         s_Attack.addAction(new AttackAction());
-        s_Attack.addEntryAction(new PrintAction(""));
-        s_Attack.addExitAction(new PrintAction(""));
+        //s_Attack.addEntryAction(new PrintAction(""));
+        //s_Attack.addExitAction(new PrintAction(""));
         s_Attack.addTransition(t_AttackWander);
 
         s_Wander.addAction(new WanderAction());
-        s_Wander.addEntryAction(new PrintAction(""));
-        s_Wander.addExitAction(new PrintAction(""));
+        //s_Wander.addEntryAction(new PrintAction(""));
+        //s_Wander.addExitAction(new PrintAction(""));
         s_Wander.addTransition(t_WanderAttack);
 
         a_FSM = new StateMachine(s_Wander, controlUnit);

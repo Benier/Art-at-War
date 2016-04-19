@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WanderAction : Action {
+public class WanderAction : Action
+{
     MapGenerator mapGen = GameObject.Find("MapGenerator").GetComponent<MapGenerator>();
+    float reward;
     // Use this for initialization
     void Start () {
 	
@@ -26,5 +28,10 @@ public class WanderAction : Action {
         target.transform.position = new Vector3(x, y, z);
         //u.ability = Unit.Ability.Attack;
         u.MoveToTarget(target);
+    }
+
+    public float GetReward()
+    {
+        return reward;
     }
 }

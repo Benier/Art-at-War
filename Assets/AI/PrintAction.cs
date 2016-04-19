@@ -3,6 +3,7 @@ using System.Collections;
 
 public class PrintAction : Action
 {
+    float reward;
     string output;
     // Use this for initialization
     void Start()
@@ -23,6 +24,12 @@ public class PrintAction : Action
 
     public void Execute(Unit u)
     {
-        //Debug.Log(output);
+        Debug.Log(output);
+        u.AP -= 2;
+    }
+
+    public float GetReward()
+    {
+        return reward;
     }
 }

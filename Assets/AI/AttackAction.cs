@@ -3,6 +3,7 @@ using System.Collections;
 
 public class AttackAction : Action
 {
+    float reward;
     public enum Direction
     {
         None,
@@ -215,5 +216,10 @@ public class AttackAction : Action
         totalPixels = ((correctX + pixelRange) - (correctX)) * ((correctY + pixelRange) - (correctY));
 
         return potential / (float)totalPixels;
+    }
+
+    public float GetReward()
+    {
+        return reward;
     }
 }

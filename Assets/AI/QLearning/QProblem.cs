@@ -9,7 +9,13 @@ public class QProblem
     public QProblem()
     {
         states = new List<QState>();
-        states.Add(new QState("Move N 1AP"));
+        QState moveState = new QState("Move");
+        moveState.AddAction(new WanderAction());
+        QState attackState = new QState("Attack");
+        attackState.AddAction(new AttackAction());
+
+        states.Add(moveState);
+        states.Add(attackState);
     }
 
     public QState GetRandomState()
@@ -18,12 +24,12 @@ public class QProblem
         return states[randInd];
     }
 
-    public List<QAction> GetAvailableActions(QState s)
+    public List<Action> GetAvailableActions(QState s)
     {
         return s.actions;
     }
 
-    public StateRewardPair takeAction(QState s, QAction a, Unit u)
+    public StateRewardPair takeAction(QState s, Action a, Unit u)
     {
         a.Execute(u);
         return new StateRewardPair(s, a.GetReward()); 
