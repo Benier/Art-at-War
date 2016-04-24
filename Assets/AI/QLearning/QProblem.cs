@@ -11,8 +11,10 @@ public class QProblem
         states = new List<QState>();
         QState moveState = new QState("Move");
         moveState.AddAction(new WanderAction());
+        moveState.AddAction(new AttackAction());
         QState attackState = new QState("Attack");
         attackState.AddAction(new AttackAction());
+        attackState.AddAction(new WanderAction());
 
         states.Add(moveState);
         states.Add(attackState);

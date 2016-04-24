@@ -123,6 +123,7 @@ public class AttackAction : Action
                     {
                         potential--;
                     }
+                    reward = potential;
                 }
             }
         }
@@ -152,6 +153,11 @@ public class AttackAction : Action
                     {
                         potential++;
                     }
+                    else
+                    {
+                        potential--;
+                    }
+                    reward = potential;
                 }
             }
         }
@@ -181,6 +187,11 @@ public class AttackAction : Action
                     {
                         potential++;
                     }
+                    else
+                    {
+                        potential--;
+                    }
+                    reward = potential;
                 }
             }
         }
@@ -210,6 +221,11 @@ public class AttackAction : Action
                     {
                         potential++;
                     }
+                    else
+                    {
+                        potential--;
+                    }
+                    reward = potential;
                 }
             }
         }
