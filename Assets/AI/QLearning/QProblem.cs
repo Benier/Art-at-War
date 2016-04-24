@@ -5,24 +5,25 @@ using System.Collections.Generic;
 public class QProblem
 {
     List<QState> states;
-
+    AttackCondition attCon;
+    QState barrenState;
+    QState lushState;
     public QProblem()
     {
         states = new List<QState>();
-        QState moveState = new QState("Move");
-        moveState.AddAction(new WanderAction());
-        moveState.AddAction(new AttackAction());
-        QState attackState = new QState("Attack");
-        attackState.AddAction(new AttackAction());
-        attackState.AddAction(new WanderAction());
+        attCon = new AttackCondition();
+        barrenState = new QState("Barren");
+        barrenState.AddAction(new WanderAction());
+        lushState = new QState("Lush");
+        lushState.AddAction(new AttackAction());
 
-        states.Add(moveState);
-        states.Add(attackState);
+        states.Add(barrenState);
+        states.Add(lushState);
     }
 
     public QState GetRandomState()
     {
-        int randInd = Random.Range(0, states.Count - 1);
+        int randInd = Random.Range(0, states.Count);
         return states[randInd];
     }
 
@@ -31,9 +32,18 @@ public class QProblem
         return s.actions;
     }
 
-    public StateRewardPair takeAction(QState s, Action a, Unit u)
+    public StateRewardPair takeAction(QState s, Action a, Unit u, TextureGenerator tg)
     {
+        QState newState;
         a.Execute(u);
+        //if(attCon.GetPotential(u, tg) <= 0.35f)
+        //{
+        //    newState = barrenState;
+        //}
+        //else
+        //{
+        //    newState = lushState;
+        //}
         return new StateRewardPair(s, a.GetReward()); 
     }
 }

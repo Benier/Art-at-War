@@ -25,7 +25,7 @@ public class AttackCondition : Condition {
         }        
     }
 
-    float GetPotential(Unit u, TextureGenerator texGen)
+    public float GetPotential(Unit u, TextureGenerator texGen)
     {
         float potential = 0.0f;
         float totalPixels;

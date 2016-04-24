@@ -24,12 +24,14 @@ public class QLearner
         texGen = tg;
         state = problem.GetRandomState();
         store = GameObject.Find("QValueStore").GetComponent<QValueStore>();
+        rho = 8;
+        nu = 8;
     }
     
 	// Use this for initialization
 	void Start ()
     {
-
+        
 	}
 	
 	// Update is called once per frame
@@ -40,19 +42,18 @@ public class QLearner
         float qVal;
         float maxQ;
         float reward;
-        nu = 8;
         float randnu = Random.Range(0.0f, 10.0f);
 	    if(randnu < nu)
         {
             state = problem.GetRandomState();
         }
-
+        Debug.Log(state.statename);
         actions = problem.GetAvailableActions(state);
 
         float randrho = Random.Range(0.0f, 10.0f);
         if(randrho < rho)
         {
-            int randInd = Random.Range(0, actions.Count - 1);
+            int randInd = Random.Range(0, actions.Count);
             action = actions[randInd];
         }
         else
@@ -60,7 +61,7 @@ public class QLearner
             action = store.GetBestAction(state);
         }
 
-        srp = problem.takeAction(state, action, unit);
+        srp = problem.takeAction(state, action, unit, texGen);
         reward = srp.reward;
         newState = srp.state;
 

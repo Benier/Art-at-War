@@ -12,12 +12,14 @@ public class QValueStore : MonoBehaviour
         StateActionPair sap;
         possibleActions = new List<Action>();
         List<QState> stateList = new List<QState>();
-        QState move = new QState("Move");
-        QState attack = new QState("Attack");
-        stateList.Add(move);
-        stateList.Add(attack);
-        possibleActions.Add(new AttackAction());
-        possibleActions.Add(new WanderAction());
+        QState barrenState = new QState("Barren");
+        QState lushState = new QState("Lush");
+        stateList.Add(barrenState);
+        stateList.Add(lushState);
+        AttackAction att = new AttackAction();
+        WanderAction wan = new WanderAction();
+        possibleActions.Add(att);
+        possibleActions.Add(wan);
         store = new List<StateActionPair>();
 
         foreach(QState s in stateList)
@@ -25,6 +27,10 @@ public class QValueStore : MonoBehaviour
             foreach(Action a in possibleActions)
             {
                 sap = new StateActionPair(s, a);
+                //if(att.Equals(a))
+                //{
+                //    sap.qVal = 2;
+                //}
                 store.Add(sap);
             }
         }
@@ -45,7 +51,7 @@ public class QValueStore : MonoBehaviour
     {
         foreach(StateActionPair p in store)
         {
-            if(p.state == sap.action && p.action == sap.action)
+            if(p.state.statename == sap.state.statename && p.action.GetType() == sap.action.GetType())
             {
                 return p.qVal;
             }
@@ -76,11 +82,6 @@ public class QValueStore : MonoBehaviour
             if(p.state.statename == s.statename && p.action.GetType() == a.GetType())
             {
                 p.qVal = q;
-            }
-            else
-            {
-                StateActionPair sap = new StateActionPair(s, a);
-                sap.qVal = q;
             }
         }
     }

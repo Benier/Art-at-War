@@ -26,7 +26,7 @@ public class GameLevel1 : MonoBehaviour {
     int numTurns = 5;
     public int playerPoints;
     public int enemyPoints;
-    public int qEnemeyPoints;
+    public int qEnemyPoints;
     int winner; //0 = none, 1 = player, 2 = enemy, 3 = q enemy
     bool gameEnd;
 
@@ -472,25 +472,26 @@ public class GameLevel1 : MonoBehaviour {
     {
         GUI.Label(new Rect(0, 0 * 30, 300, 300), "Player Points: " + playerPoints);
         GUI.Label(new Rect(0, 1 * 30, 300, 300), "Enemy Points: " + enemyPoints);
-        if(gameEnd)
+        GUI.Label(new Rect(0, 2 * 30, 300, 300), "Q Points: " + qEnemyPoints);
+        if (gameEnd)
         {
             if(winner == 0)
             {
-                GUI.Label(new Rect(0, 2 * 30, 300, 300), "Game Tied");
+                GUI.Label(new Rect(0, 3 * 30, 300, 300), "Game Tied");
             }
             else if(winner == 1)
             {
-                GUI.Label(new Rect(0, 2 * 30, 300, 300), "Player Won");
+                GUI.Label(new Rect(0, 3 * 30, 300, 300), "Player Won");
             }
             else if(winner == 2)
             {
-                GUI.Label(new Rect(0, 2 * 30, 300, 300), "Enemy Won");
+                GUI.Label(new Rect(0, 3 * 30, 300, 300), "Enemy Won");
             }
             else if(winner == 3)
             {
                 GUI.Label(new Rect(0, 3 * 30, 300, 300), "Q Enemy Won");
             }
         }
-        GUI.Label(new Rect(0, 3 * 30, 300, 300), "Turns Remaining: " + numTurns);
+        GUI.Label(new Rect(0, 4 * 30, 300, 300), "Turns Remaining: " + numTurns);
     }
 }
