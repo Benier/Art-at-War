@@ -17,7 +17,7 @@ public class WanderAction : Action
 
     public void Execute(Unit u)
     {
-        Debug.Log("Wandering");
+        //Debug.Log("Wandering");
         GameObject target = new GameObject();
         float x = Random.Range(mapGen.MAP_WIDTH / 2 * -1, mapGen.MAP_WIDTH / 2);
         float y;

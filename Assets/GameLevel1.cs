@@ -12,11 +12,11 @@ public class GameLevel1 : MonoBehaviour {
     List<GameObject> qEnemyUnits = new List<GameObject>();
     List<Agent> agents = new List<Agent>();
     List<QLearner> qagents = new List<QLearner>();
-    static int playerRangedUnitCount = 2;
-    static int playerMeleeUnitCount = 2;
-    static int enemyRangedUnitCount = 2;
-    static int enemyMeleeUnitCount = 2;
-    static int qEnemyRangedUnitCount = 2;
+    static int playerRangedUnitCount = 1;
+    static int playerMeleeUnitCount = 0;
+    static int enemyRangedUnitCount = 1;
+    static int enemyMeleeUnitCount = 0;
+    static int qEnemyRangedUnitCount = 1;
     static int qEnemyMeleeUnitCount = 0;
     public int curUnitInd;
     int playerTurn; // 1 = player, 2 = enemy, 3 = q enemy

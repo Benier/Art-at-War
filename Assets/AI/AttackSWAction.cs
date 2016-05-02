@@ -35,6 +35,7 @@ public class AttackSWAction : Action
         float x = u.gameObject.transform.position.x; // = Random.Range(mapGen.MAP_WIDTH / 2 * -1, mapGen.MAP_WIDTH / 2);
         float z = u.gameObject.transform.position.z; // = Random.Range(mapGen.MAP_LENGTH / 2 * -1, mapGen.MAP_LENGTH / 2);
 
+        GetSWScorePotential(u);
         x = Random.Range(mapGen.MAP_WIDTH / 2 * -1, 0);
         z = Random.Range(mapGen.MAP_LENGTH / 2 * -1, 0);
 
