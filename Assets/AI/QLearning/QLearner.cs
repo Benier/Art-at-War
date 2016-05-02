@@ -24,9 +24,10 @@ public class QLearner
         texGen = tg;
         state = problem.GetRandomState();
         store = GameObject.Find("QValueStore").GetComponent<QValueStore>();
-        rho = 2;
+        rho = 3;
         nu = 0;
         alpha = 1;
+        gamma = 0.2f;
     }
     
 	// Use this for initialization
