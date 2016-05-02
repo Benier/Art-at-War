@@ -62,7 +62,7 @@ public class QValueStore : MonoBehaviour
     public Action GetBestAction(QState s)
     {
         float maxQ = 0;
-        Action bestAction = new PrintAction("empty action");
+        Action bestAction = new WanderAction();
         foreach (StateActionPair p in store)
         {
             if(p.state.statename == s.statename && p.qVal >= maxQ)

@@ -72,6 +72,7 @@ public class QLearner
         qVal = (1 - alpha) * qVal + alpha * (reward + gamma * maxQ);
 
         store.storeQValue(state, action, qVal);
+        Debug.Log("Q: " + qVal + ", Action: " + action.GetType());
 
         state = newState;
 	}
