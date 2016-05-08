@@ -24,8 +24,10 @@ public class QLearner
         texGen = tg;
         state = problem.GetRandomState();
         store = GameObject.Find("QValueStore").GetComponent<QValueStore>();
-        rho = 8;
-        nu = 8;
+        rho = 3;
+        nu = 0;
+        alpha = 1;
+        gamma = 0.2f;
     }
     
 	// Use this for initialization
@@ -60,7 +62,7 @@ public class QLearner
         {
             action = store.GetBestAction(state);
         }
-
+       
         srp = problem.takeAction(state, action, unit, texGen);
         reward = srp.reward;
         newState = srp.state;
@@ -72,6 +74,7 @@ public class QLearner
         qVal = (1 - alpha) * qVal + alpha * (reward + gamma * maxQ);
 
         store.storeQValue(state, action, qVal);
+        Debug.Log("Q: " + qVal + ", Action: " + action.GetType() + ", Best Action: " + store.GetBestAction(state).GetType());
 
         state = newState;
 	}
