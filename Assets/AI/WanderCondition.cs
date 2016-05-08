@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/// <summary>
+/// Condition class for WanderAction. Triggered when the potential rating (ration for blank space) is below 35%.
+/// </summary>
 public class WanderCondition : Condition {
 
 	// Use this for initialization

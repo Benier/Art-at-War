@@ -1,6 +1,9 @@
 ﻿using System.Threading;
 using UnityEngine;
 
+/// <summary>
+/// Resizes textures to new resolution.
+/// </summary>
 public class TextureScale
 {
     public class ThreadData

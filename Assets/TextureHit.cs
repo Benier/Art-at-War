@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/// <summary>
+/// Represents a blot of texture added to the texture being generated.
+/// </summary>
 public class TextureHit
 {
     public Vector3 position;

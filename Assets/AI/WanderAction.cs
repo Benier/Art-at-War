@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/// <summary>
+/// WanderAction makes the Unit move to a random tile within attack range.
+/// </summary>
 public class WanderAction : Action
 {
     MapGenerator mapGen = GameObject.Find("MapGenerator").GetComponent<MapGenerator>();

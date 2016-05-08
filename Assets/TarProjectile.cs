@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/// <summary>
+/// Projectile for Tar faction. Triggers texture generation when collision with other GameObjects occur.
+/// </summary>
 public class TarProjectile : MonoBehaviour
 {
 

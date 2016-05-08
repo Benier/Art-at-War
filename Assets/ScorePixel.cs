@@ -1,5 +1,7 @@
 ﻿using System.Collections;
-
+/// <summary>
+/// Allows pixels to hold a faction. Faction 0 is no faction, 1 is player, 2 is enemy.
+/// </summary>
 public class ScorePixel
 {
 

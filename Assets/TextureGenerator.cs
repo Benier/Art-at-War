@@ -61,6 +61,8 @@ public class TextureGenerator : MonoBehaviour {
         //hitQueue.Add(tarHit);
         //SetTexture();
         pixels = new ScorePixel[inputBaseTexture.width, inputBaseTexture.height];
+
+        //Set up matrix of pixels that can hold a score value.
         for (int x = 0; x < inputBaseTexture.width; x++)
         {
             for(int y = 0; y < inputBaseTexture.height; y++)
@@ -88,6 +90,10 @@ public class TextureGenerator : MonoBehaviour {
         display.GetComponent<Renderer>().material.SetTexture("_MainTex", GenerateTexture());
     }
 
+    /// <summary>
+    /// Generate a new texture by generating as many passes are there are hits in the queue.
+    /// </summary>
+    /// <returns></returns>
     public Texture2D GenerateTexture()
     {
         outputTexture = new Texture2D(inputBaseTexture.width, inputBaseTexture.height);
@@ -99,9 +105,15 @@ public class TextureGenerator : MonoBehaviour {
         return outputTexture;
     }
 
+    /// <summary>
+    /// Add Pencil Hit to queue of hits.
+    /// </summary>
+    /// <param name="pos">Position of hit.</param>
+    /// <param name="origin">Position of shooter.</param>
     public void AddPencilHit(Vector3 pos, Vector3 origin)
     {
         Vector3 texPos;
+        //Correct the positions by changing it from 0,0 top left to 0, 0 centre, then adding the offset based on the position.
         correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);//(int)((pos.x * xInterval) + ((mapGen.MAP_WIDTH * xInterval) / 2));
         correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
         texPos = new Vector3(correctX, 0, correctY);
@@ -110,9 +122,15 @@ public class TextureGenerator : MonoBehaviour {
         hitQueue.Add(pHit);
     }
 
+    /// <summary>
+    /// Add Charcoal Hit to queue of hits.
+    /// </summary>
+    /// <param name="pos">Position of hit.</param>
+    /// <param name="origin">Position of shooter.</param>
     public void AddCharcoalHit(Vector3 pos, Vector3 origin)
     {
         Vector3 texPos;
+        //Correct the positions by changing it from 0,0 top left to 0, 0 centre, then adding the offset based on the position.
         correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);//(int)((pos.x * xInterval) + ((mapGen.MAP_WIDTH * xInterval) / 2));
         correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
         texPos = new Vector3(correctX, 0, correctY);
@@ -121,9 +139,15 @@ public class TextureGenerator : MonoBehaviour {
         hitQueue.Add(pHit);
     }
 
+    /// <summary>
+    /// Add Water colour Hit to queue of hits.
+    /// </summary>
+    /// <param name="pos">Position of hit.</param>
+    /// <param name="origin">Position of shooter.</param>
     public void AddWaterHit(Vector3 pos, Vector3 origin)
     {
         Vector3 texPos;
+        //Correct the positions by changing it from 0,0 top left to 0, 0 centre, then adding the offset based on the position.
         correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);//(int)((pos.x * xInterval) + ((mapGen.MAP_WIDTH * xInterval) / 2));
         correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
         texPos = new Vector3(correctX, 0, correctY);
@@ -132,9 +156,15 @@ public class TextureGenerator : MonoBehaviour {
         hitQueue.Add(pHit);
     }
 
+    /// <summary>
+    /// Add Oil paint Hit to queue of hits.
+    /// </summary>
+    /// <param name="pos">Position of hit.</param>
+    /// <param name="origin">Position of shooter.</param>
     public void AddOilHit(Vector3 pos, Vector3 origin)
     {
         Vector3 texPos;
+        //Correct the positions by changing it from 0,0 top left to 0, 0 centre, then adding the offset based on the position.
         correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);//(int)((pos.x * xInterval) + ((mapGen.MAP_WIDTH * xInterval) / 2));
         correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
         texPos = new Vector3(correctX, 0, correctY);
@@ -143,9 +173,15 @@ public class TextureGenerator : MonoBehaviour {
         hitQueue.Add(pHit);
     }
 
+    /// <summary>
+    /// Add Tar Hit to queue of hits.
+    /// </summary>
+    /// <param name="pos">Position of hit.</param>
+    /// <param name="origin">Position of shooter.</param>
     public void AddTarHit(Vector3 pos, Vector3 origin)
     {
         Vector3 texPos;
+        //Correct the positions by changing it from 0,0 top left to 0, 0 centre, then adding the offset based on the position.
         correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);//(int)((pos.x * xInterval) + ((mapGen.MAP_WIDTH * xInterval) / 2));
         correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
         texPos = new Vector3(correctX, 0, correctY);
@@ -154,6 +190,11 @@ public class TextureGenerator : MonoBehaviour {
         hitQueue.Add(pHit);
     }
 
+    /// <summary>
+    /// Converts a 2D position to 3D world position. 
+    /// </summary>
+    /// <param name="pos">A 2D position</param>
+    /// <returns></returns>
     public Vector3 ConvertToWorldCoord(Vector3 pos)
     {
         Vector3 worldPos;
@@ -166,6 +207,12 @@ public class TextureGenerator : MonoBehaviour {
         return worldPos;
     }
 
+    /// <summary>
+    /// Generates a texture with a new TextureHit added.
+    /// </summary>
+    /// <param name="hit">New TextureHit to be added to texture.</param>
+    /// <param name="outputText">New output texture after generation.</param>
+    /// <returns></returns>
     public Texture2D GeneratePass(TextureHit hit, Texture2D outputText)
     {
         Texture2D tempTexture = outputText;//new Texture2D(hit.baseTexture.width, hit.baseTexture.height);
@@ -178,22 +225,26 @@ public class TextureGenerator : MonoBehaviour {
         {
             for (int y = 0; y < hitMask.height; y++)
             {
+                //If the pixel in the hit is within height and widge bounds of the large texture.
                 if (!(hit.position.x - (hitMask.width / 2) + x < 0)
                     && !(hit.position.z - (hitMask.height / 2) + y < 0)
                     && !(hit.position.x - (hitMask.width / 2) + x >= hit.baseTexture.width)
                     && !(hit.position.z - (hitMask.height / 2) + y >= hit.baseTexture.height))
                 {
+                    //If the pixel's alpha is not transparent
                     if (hitMask.GetPixel(x, y).a != 0)
                     {
                         Color pixel = new Color(hit.baseTexture.GetPixel((int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)).r, hit.baseTexture.GetPixel((int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)).g, hit.baseTexture.GetPixel((int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)).b, 1);//hit.maskTexture.GetPixel(x, y).a);
                         tempTexture.SetPixel((int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y), pixel);
                         Vector3 worldPos = ConvertToWorldCoord(new Vector3((int)(hit.position.x - (hitMask.width / 2) + x), 0, (int)(hit.position.z - (hitMask.height / 2) + y)));
 
+                        //If the map does not contain the position of that pixel, break.
                         if(!mapGen.map.ContainsKey(new Coordinate(worldPos.x, worldPos.z)))
                         {
                             Debug.Log(worldPos.x + ", " + worldPos.z);
                             Debug.Break();
                         }
+                        //If the pixel does not belong to any faction, set it to the hit's faction and increment the points accordingly.
                         if (pixels[(int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)].faction == (int)Faction.None)
                         {
                             
@@ -207,6 +258,7 @@ public class TextureGenerator : MonoBehaviour {
                                 gameLvl.enemyPoints += 1 * (int)(mapGen.map[new Coordinate(worldPos.x, worldPos.z)].transform.position.y + 1);
                             }
                         }
+                        //If the pixel does belong to a faction but not the hit's faction, set it to the hit's faction and update the points accordingly.
                         else if(pixels[(int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)].faction != hit.faction)
                         {
                             if (pixels[(int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)].faction == (int)Faction.Player)
@@ -226,6 +278,7 @@ public class TextureGenerator : MonoBehaviour {
                                 }
                             }
                         }
+                        //Set pixel's faction to hit's faction.
                         pixels[(int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)].faction = hit.faction;
                     }
                 }

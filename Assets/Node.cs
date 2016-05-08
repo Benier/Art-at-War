@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+/// <summary>
+/// THIS IS PART OF THE A* PATHFINDING THAT I NO LONGER NEED.
+/// </summary>
 public class Node
 {
     int PX;

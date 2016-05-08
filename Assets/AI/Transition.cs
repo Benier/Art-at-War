@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+/// <summary>
+/// Transition class that tests Conditions and return target State and Action.
+/// </summary>
 public class Transition 
 {
     State targetState;

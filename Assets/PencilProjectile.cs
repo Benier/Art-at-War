@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/// <summary>
+/// Projectile for Pencil faction. Triggers texture generation when collision with other GameObjects occur.
+/// </summary>
 public class PencilProjectile : MonoBehaviour {
 
     TextureGenerator texGen;

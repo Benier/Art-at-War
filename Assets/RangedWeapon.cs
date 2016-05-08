@@ -26,7 +26,10 @@ public class RangedWeapon : MonoBehaviour {
 	void Update () { 
 
     }
-
+    /// <summary>
+    /// Fire corresponding projectile based on weapon type.
+    /// </summary>
+    /// <param name="t">Weapon type.</param>
     public void FireWeapon(Type t)
     {
         if (t == Type.Pencil)
@@ -61,7 +64,13 @@ public class RangedWeapon : MonoBehaviour {
         projectilePrefab.GetComponent<Rigidbody>().AddForce(CalculateThrowSpeed(this.transform.position, target.transform.position, timeToTarget), ForceMode.VelocityChange);
         Destroy(projectilePrefab, destroyTimer);
     }
-
+    /// <summary>
+    /// Calculates projectile speed required to reach target destination.
+    /// </summary>
+    /// <param name="orig">Original position.</param>
+    /// <param name="targ">Target position.</param>
+    /// <param name="timeToTarg">Amount of time that the projectile has to reach the target.</param>
+    /// <returns></returns>
     Vector3 CalculateThrowSpeed(Vector3 orig, Vector3 targ, float timeToTarg)
     {
         Vector3 toTarget = targ - orig;
@@ -81,6 +90,12 @@ public class RangedWeapon : MonoBehaviour {
         return result;        
     }
 
+    /// <summary>
+    /// Velocity vector for the projectile to be able to reach target. CURRENTLY NOT USED.
+    /// </summary>
+    /// <param name="targ"></param>
+    /// <param name="angle"></param>
+    /// <returns></returns>
     Vector3 BallisticVelocity(GameObject targ, float angle)
     {
         Vector3 direction = targ.transform.position - transform.position;

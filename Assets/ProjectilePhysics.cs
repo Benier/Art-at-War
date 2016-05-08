@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Timers;
 
+/// <summary>
+/// OLD HAND CODED PROJECTILE PHYSICS CLASS FROM THE PHYSICS COURSE. NOT USED.
+/// </summary>
 public class ProjectilePhysics : MonoBehaviour
 {
     float colliPrec;
