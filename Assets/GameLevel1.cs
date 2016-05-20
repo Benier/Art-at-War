@@ -41,7 +41,7 @@ public class GameLevel1 : MonoBehaviour {
     {
         mapGen = mapGenerator.GetComponent<MapGenerator>();
         texGenerator = GameObject.Find("TexGenerator").GetComponent<TextureGenerator>();
-        map = mapGen.GenerateMap();
+        map = mapGen.GenerateMap(texGenerator);
         SpawnUnits();
         curUnitInd = 0;
         EnableUnit(playerUnits, curUnitInd);
