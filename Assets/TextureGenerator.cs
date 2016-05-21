@@ -41,7 +41,7 @@ public class TextureGenerator : MonoBehaviour {
     float xInterval;
     float yInterval;
     // Use this for initialization
-    void Start ()
+    void Awake ()
     {
         inputBaseTexture = Resources.Load("A_la_Recherche_du_Temps_Perdu_CHARCOAL") as Texture2D;
         pencilMaskTexture = Resources.Load("PencilStrokes") as Texture2D;

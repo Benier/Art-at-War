@@ -42,7 +42,7 @@ public class MapGenerator : MonoBehaviour {
         return num + MAP_LENGTH / 2;
     }
 
-    public Dictionary<Coordinate, GameObject> GenerateMap()
+    public Dictionary<Coordinate, GameObject> GenerateMap(TextureGenerator texGen)
     {
         GameObject blockPrefab;
         //map = new int[MAP_WIDTH, MAP_LENGTH];
@@ -53,6 +53,7 @@ public class MapGenerator : MonoBehaviour {
             {
                 blockPrefab = Instantiate(Resources.Load("MapBlockPrefab", typeof(GameObject))) as GameObject;
                 blockPrefab.transform.position = new Vector3(x * scale_factor, 0 * scale_factor, z * scale_factor);
+                blockPrefab.GetComponent<Tile>().pixels = new ArrayList[texGen.inputBaseTexture.width / MAP_WIDTH, texGen.inputBaseTexture.height / MAP_LENGTH];
                 
                 map.Add(new Coordinate(x, z), blockPrefab);
                 //populate array of Nodes
