@@ -283,6 +283,8 @@ public class TextureGenerator : MonoBehaviour {
                         int tileLocalX = (int)((hit.position.x - (hitMask.width / 2) + x) % xInterval);
                         int tileLocalY = (int)((hit.position.z - (hitMask.width / 2) + y) % yInterval);
                         mapGen.map[new Coordinate(worldPos.x, worldPos.z)].GetComponent<Tile>().pixels[tileLocalX, tileLocalY] = hit.faction;
+                        List<List<int>> debugLIst = mapGen.map[new Coordinate(worldPos.x, worldPos.z)].GetComponent<Tile>().ToList();
+                        int debug = 1;
                     }
                 }
                 //Color tempCol = new Color(hit.baseTexture.GetPixel(x, y).r, hit.baseTexture.GetPixel(x, y).g, hit.baseTexture.GetPixel(x, y).b, hit.maskTexture.GetPixel(x, y).a);
