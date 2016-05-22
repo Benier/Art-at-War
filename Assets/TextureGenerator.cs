@@ -38,8 +38,8 @@ public class TextureGenerator : MonoBehaviour {
 
     public int correctX;
     public int correctY;
-    float xInterval;
-    float yInterval;
+    float xInterval; //number of pixels across X per tile
+    float yInterval; //number of pixels across Y per tile
     // Use this for initialization
     void Awake ()
     {
@@ -244,7 +244,7 @@ public class TextureGenerator : MonoBehaviour {
                             Debug.Log(worldPos.x + ", " + worldPos.z);
                             Debug.Break();
                         }
-                        //If the pixel does not belong to any faction, set it to the hit's faction and increment the points accordingly.
+                        //If the pixel does not belong to any faction, increment the points accordingly.
                         if (pixels[(int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)].faction == (int)Faction.None)
                         {
                             
@@ -258,7 +258,7 @@ public class TextureGenerator : MonoBehaviour {
                                 gameLvl.enemyPoints += 1 * (int)(mapGen.map[new Coordinate(worldPos.x, worldPos.z)].transform.position.y + 1);
                             }
                         }
-                        //If the pixel does belong to a faction but not the hit's faction, set it to the hit's faction and update the points accordingly.
+                        //If the pixel does belong to a faction but not the hit's faction, update the points accordingly.
                         else if(pixels[(int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)].faction != hit.faction)
                         {
                             if (pixels[(int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)].faction == (int)Faction.Player)
@@ -280,6 +280,9 @@ public class TextureGenerator : MonoBehaviour {
                         }
                         //Set pixel's faction to hit's faction.
                         pixels[(int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)].faction = hit.faction;
+                        int tileLocalX = (int)((hit.position.x - (hitMask.width / 2) + x) % xInterval);
+                        int tileLocalY = (int)((hit.position.z - (hitMask.width / 2) + y) % yInterval);
+                        mapGen.map[new Coordinate(worldPos.x, worldPos.z)].GetComponent<Tile>().pixels[tileLocalX, tileLocalY] = hit.faction;
                     }
                 }
                 //Color tempCol = new Color(hit.baseTexture.GetPixel(x, y).r, hit.baseTexture.GetPixel(x, y).g, hit.baseTexture.GetPixel(x, y).b, hit.maskTexture.GetPixel(x, y).a);

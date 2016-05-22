@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Tile : MonoBehaviour {
     public bool occupied;
-    public ArrayList[,] pixels;
+    public int [,] pixels;
 	// Use this for initialization
 	void Start () {
         occupied = false;
