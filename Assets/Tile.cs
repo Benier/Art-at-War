@@ -5,14 +5,22 @@ using System.Collections.Generic;
 public class Tile : MonoBehaviour {
     public bool occupied;
     public int [,] pixels;
+    int occupiedPixels;
+    public float percentOpen;
 	// Use this for initialization
 	void Start () {
         occupied = false;
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	public void UpdatePixels (int x, int y, int faction)
+    {
+        pixels[x, y] = faction;
+        if(faction != 0)
+        {
+            occupiedPixels++;
+        }
+        percentOpen = (pixels.GetLength(0) * pixels.GetLength(1)) - occupiedPixels / (pixels.GetLength(0) * pixels.GetLength(1));
 	}
 
     public List<List<int>> ToList()

@@ -220,7 +220,7 @@ public class TextureGenerator : MonoBehaviour {
         //TextureScale.Point(hitMask, hitMask.width / (int)hit.distance, hitMask.height / (int)hit.distance);
 
         //hitMask.Resize(hitMask.width / 1, hitMask.height / 1);
-            //(int)hit.distance, hitMask.height / (int)hit.distance);
+        //(int)hit.distance, hitMask.height / (int)hit.distance);
         for (int x = 0; x < hitMask.width; x++)
         {
             for (int y = 0; y < hitMask.height; y++)
@@ -282,7 +282,7 @@ public class TextureGenerator : MonoBehaviour {
                         pixels[(int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)].faction = hit.faction;
                         int tileLocalX = (int)((hit.position.x - (hitMask.width / 2) + x) % xInterval);
                         int tileLocalY = (int)((hit.position.z - (hitMask.width / 2) + y) % yInterval);
-                        mapGen.map[new Coordinate(worldPos.x, worldPos.z)].GetComponent<Tile>().pixels[tileLocalX, tileLocalY] = hit.faction;
+                        mapGen.map[new Coordinate(worldPos.x, worldPos.z)].GetComponent<Tile>().UpdatePixels(tileLocalX, tileLocalY, hit.faction);
                         List<List<int>> debugLIst = mapGen.map[new Coordinate(worldPos.x, worldPos.z)].GetComponent<Tile>().ToList();
                         int debug = 1;
                     }
