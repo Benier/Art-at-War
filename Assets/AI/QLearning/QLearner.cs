@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 public class QLearner
 {
@@ -77,5 +78,25 @@ public class QLearner
         Debug.Log("Q: " + qVal + ", Action: " + action.GetType() + ", Best Action: " + store.GetBestAction(state).GetType());
 
         state = newState;
+
+        SaveQToFile();
+        string[] textLoadInput = LoadQFromFile();
+        int i = 0;
 	}
+
+    private void SaveQToFile()
+    {
+        string savePath = @"QValues.txt";
+        string[] lines = { "test write" };
+
+        System.IO.File.WriteAllLines(savePath, lines);
+    }
+
+    private string[] LoadQFromFile()
+    {
+        string savePath = @"QValues.txt";
+        string[] lines = System.IO.File.ReadAllLines(savePath);
+
+        return lines;
+    }
 }
