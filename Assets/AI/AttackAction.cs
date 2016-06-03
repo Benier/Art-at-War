@@ -238,4 +238,9 @@ public class AttackAction : Action
     {
         return reward;
     }
+
+    public string GetName()
+    {
+        return "Attack";
+    }
 }

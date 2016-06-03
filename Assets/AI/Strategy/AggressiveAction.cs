@@ -25,4 +25,9 @@ public class AggressiveAction : Action
     {
         return reward;
     }
+
+    public string GetName()
+    {
+        return "Aggressive";
+    }
 }

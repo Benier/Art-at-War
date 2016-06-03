@@ -25,4 +25,9 @@ public class DefensiveAction : Action
     {
         return reward;
     }
+
+    public string GetName()
+    {
+        return "Defensive";
+    }
 }

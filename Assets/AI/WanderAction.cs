@@ -36,4 +36,9 @@ public class WanderAction : Action
     {
         return reward;
     }
+
+    public string GetName()
+    {
+        return "Wander";
+    }
 }

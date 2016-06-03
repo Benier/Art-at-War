@@ -32,4 +32,9 @@ public class PrintAction : Action
     {
         return reward;
     }
+
+    public string GetName()
+    {
+        return "Print";
+    }
 }

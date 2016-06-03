@@ -218,4 +218,9 @@ public class AttackSWAction : Action
     {
         return reward;
     }
+
+    public string GetName()
+    {
+        return "AttackSWAction";
+    }
 }

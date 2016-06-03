@@ -79,15 +79,24 @@ public class QLearner
 
         state = newState;
 
-        SaveQToFile();
+        SaveQToFile(store);
         string[] textLoadInput = LoadQFromFile();
         int i = 0;
 	}
 
-    private void SaveQToFile()
+    private void SaveQToFile(QValueStore store)
     {
         string savePath = @"QValues.txt";
-        string[] lines = { "test write" };
+        List<string> output = new List<string>();
+        List<StateActionPair> sapList = store.GetAllStateActionPairs();
+
+        for(int i = 0; i < sapList.Count; i++)
+        {
+            output.Add(sapList[i].state.statename);
+            output.Add(sapList[i].action.GetName());
+            output.Add(sapList[i].qVal.ToString());
+        }
+        string[] lines = output.ToArray();
 
         System.IO.File.WriteAllLines(savePath, lines);
     }

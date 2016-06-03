@@ -40,4 +40,9 @@ public class WanderNEAction : Action
     {
         return reward;
     }
+
+    public string GetName()
+    {
+        return "WanderNEAction";
+    }
 }

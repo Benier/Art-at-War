@@ -103,4 +103,9 @@ public class QValueStore : MonoBehaviour
             }
         }
     }
+
+    public List<StateActionPair> GetAllStateActionPairs()
+    {
+        return store;
+    }
 }
