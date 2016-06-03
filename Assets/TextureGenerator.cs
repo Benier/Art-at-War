@@ -40,6 +40,7 @@ public class TextureGenerator : MonoBehaviour {
     public int correctY;
     float xInterval; //number of pixels across X per tile
     float yInterval; //number of pixels across Y per tile
+
     // Use this for initialization
     void Awake ()
     {
@@ -74,6 +75,8 @@ public class TextureGenerator : MonoBehaviour {
         xInterval = inputBaseTexture.width / mapGen.MAP_WIDTH;
         yInterval = inputBaseTexture.height / mapGen.MAP_LENGTH;
         gameLvl = GameObject.Find("GameLvl1").GetComponent<GameLevel1>();
+
+        outputTexture = new Texture2D(inputBaseTexture.width, inputBaseTexture.height);
     }
 	
 	// Update is called once per frame
@@ -96,13 +99,18 @@ public class TextureGenerator : MonoBehaviour {
     /// <returns></returns>
     public Texture2D GenerateTexture()
     {
-        outputTexture = new Texture2D(inputBaseTexture.width, inputBaseTexture.height);
+        
 
         for (int i = 0; i < hitQueue.Count; i++)        
         {
             outputTexture = GeneratePass(hitQueue[i], outputTexture);
         }
         return outputTexture;
+    }
+
+    public void ThreadGenerateTexture()
+    {
+        GenerateTexture();
     }
 
     /// <summary>
@@ -216,27 +224,26 @@ public class TextureGenerator : MonoBehaviour {
     public Texture2D GeneratePass(TextureHit hit, Texture2D outputText)
     {
         Texture2D tempTexture = outputText;//new Texture2D(hit.baseTexture.width, hit.baseTexture.height);
-        Texture2D hitMask = hit.maskTexture;
         //TextureScale.Point(hitMask, hitMask.width / (int)hit.distance, hitMask.height / (int)hit.distance);
 
         //hitMask.Resize(hitMask.width / 1, hitMask.height / 1);
         //(int)hit.distance, hitMask.height / (int)hit.distance);
-        for (int x = 0; x < hitMask.width; x++)
+        for (int x = 0; x < hit.maskWidth; x++)
         {
-            for (int y = 0; y < hitMask.height; y++)
+            for (int y = 0; y < hit.maskHeight; y++)
             {
                 //If the pixel in the hit is within height and widge bounds of the large texture.
-                if (!(hit.position.x - (hitMask.width / 2) + x < 0)
-                    && !(hit.position.z - (hitMask.height / 2) + y < 0)
-                    && !(hit.position.x - (hitMask.width / 2) + x >= hit.baseTexture.width)
-                    && !(hit.position.z - (hitMask.height / 2) + y >= hit.baseTexture.height))
+                if (!(hit.position.x - (hit.maskWidth / 2) + x < 0)
+                    && !(hit.position.z - (hit.maskHeight / 2) + y < 0)
+                    && !(hit.position.x - (hit.maskWidth / 2) + x >= hit.texWidth)
+                    && !(hit.position.z - (hit.maskHeight / 2) + y >= hit.texHeight))
                 {
                     //If the pixel's alpha is not transparent
-                    if (hitMask.GetPixel(x, y).a != 0)
+                    if (hit.maskTexture.GetPixel(x, y).a != 0)
                     {
-                        Color pixel = new Color(hit.baseTexture.GetPixel((int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)).r, hit.baseTexture.GetPixel((int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)).g, hit.baseTexture.GetPixel((int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)).b, 1);//hit.maskTexture.GetPixel(x, y).a);
-                        tempTexture.SetPixel((int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y), pixel);
-                        Vector3 worldPos = ConvertToWorldCoord(new Vector3((int)(hit.position.x - (hitMask.width / 2) + x), 0, (int)(hit.position.z - (hitMask.height / 2) + y)));
+                        Color pixel = new Color(hit.baseTexture.GetPixel((int)(hit.position.x - (hit.maskWidth / 2) + x), (int)(hit.position.z - (hit.maskHeight / 2) + y)).r, hit.baseTexture.GetPixel((int)(hit.position.x - (hit.maskWidth / 2) + x), (int)(hit.position.z - (hit.maskHeight / 2) + y)).g, hit.baseTexture.GetPixel((int)(hit.position.x - (hit.maskWidth / 2) + x), (int)(hit.position.z - (hit.maskHeight / 2) + y)).b, 1);//hit.maskTexture.GetPixel(x, y).a);
+                        tempTexture.SetPixel((int)(hit.position.x - (hit.maskWidth / 2) + x), (int)(hit.position.z - (hit.maskHeight / 2) + y), pixel);
+                        Vector3 worldPos = ConvertToWorldCoord(new Vector3((int)(hit.position.x - (hit.maskWidth / 2) + x), 0, (int)(hit.position.z - (hit.maskHeight / 2) + y)));
 
                         //If the map does not contain the position of that pixel, break.
                         if(!mapGen.map.ContainsKey(new Coordinate(worldPos.x, worldPos.z)))
@@ -245,7 +252,7 @@ public class TextureGenerator : MonoBehaviour {
                             Debug.Break();
                         }
                         //If the pixel does not belong to any faction, increment the points accordingly.
-                        if (pixels[(int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)].faction == (int)Faction.None)
+                        if (pixels[(int)(hit.position.x - (hit.maskWidth / 2) + x), (int)(hit.position.z - (hit.maskHeight / 2) + y)].faction == (int)Faction.None)
                         {
                             
                             if (hit.faction == (int)Faction.Player)
@@ -259,9 +266,9 @@ public class TextureGenerator : MonoBehaviour {
                             }
                         }
                         //If the pixel does belong to a faction but not the hit's faction, update the points accordingly.
-                        else if(pixels[(int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)].faction != hit.faction)
+                        else if(pixels[(int)(hit.position.x - (hit.maskWidth / 2) + x), (int)(hit.position.z - (hit.maskHeight / 2) + y)].faction != hit.faction)
                         {
-                            if (pixels[(int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)].faction == (int)Faction.Player)
+                            if (pixels[(int)(hit.position.x - (hit.maskWidth / 2) + x), (int)(hit.position.z - (hit.maskHeight / 2) + y)].faction == (int)Faction.Player)
                             {
                                 gameLvl.playerPoints -= 1 * (int)(mapGen.map[new Coordinate(worldPos.x, worldPos.z)].transform.position.y + 1);
                                 if(hit.faction != (int)Faction.None)
@@ -279,9 +286,9 @@ public class TextureGenerator : MonoBehaviour {
                             }
                         }
                         //Set pixel's faction to hit's faction.
-                        pixels[(int)(hit.position.x - (hitMask.width / 2) + x), (int)(hit.position.z - (hitMask.height / 2) + y)].faction = hit.faction;
-                        int tileLocalX = (int)((hit.position.x - (hitMask.width / 2) + x) % xInterval);
-                        int tileLocalY = (int)((hit.position.z - (hitMask.width / 2) + y) % yInterval);
+                        pixels[(int)(hit.position.x - (hit.maskWidth / 2) + x), (int)(hit.position.z - (hit.maskHeight / 2) + y)].faction = hit.faction;
+                        int tileLocalX = (int)((hit.position.x - (hit.maskWidth / 2) + x) % xInterval);
+                        int tileLocalY = (int)((hit.position.z - (hit.maskWidth / 2) + y) % yInterval);
                         mapGen.map[new Coordinate(worldPos.x, worldPos.z)].GetComponent<Tile>().UpdatePixels(tileLocalX, tileLocalY, hit.faction);
                         List<List<int>> debugLIst = mapGen.map[new Coordinate(worldPos.x, worldPos.z)].GetComponent<Tile>().ToList();
                         int debug = 1;

@@ -11,6 +11,10 @@ public class TextureHit
     public int faction;
     public Vector3 shotOrigin;
     public float distance;
+    public int maskWidth;
+    public int maskHeight;
+    public int texWidth;
+    public int texHeight;
 
     public TextureHit(Vector3 pos, Texture2D baseText, Texture2D maskText, int fact, Vector3 shotOrig)
     {
@@ -20,5 +24,9 @@ public class TextureHit
         faction = fact;
         shotOrigin = shotOrig;
         distance = Vector3.Distance(shotOrigin, position);
+        maskWidth = maskText.width;
+        maskHeight = maskText.height;
+        texWidth = baseText.width;
+        texHeight = baseText.height;
     }
 }

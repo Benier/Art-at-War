@@ -3,7 +3,7 @@ WanderNEAction
 0
 Middle
 WanderNWAction
-0
+131239.8
 Middle
 WanderSEAction
 0
@@ -21,7 +21,7 @@ AttackSEAction
 0
 Middle
 AttackSWAction
-400000
+647597.8
 NW Corner
 WanderNEAction
 0
