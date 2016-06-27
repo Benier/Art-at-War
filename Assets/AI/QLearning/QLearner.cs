@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 public class QLearner
 {
@@ -20,7 +21,7 @@ public class QLearner
 
     public QLearner(Unit u, TextureGenerator tg)
     {
-        string[] textLoadInput = LoadQFromFile();
+        InitializeQValues();
         problem = new QProblem();
         unit = u;
         texGen = tg;
@@ -31,14 +32,7 @@ public class QLearner
         alpha = 1;
         gamma = 0.2f;
     }
-    
-	// Use this for initialization
-	void Start ()
-    {
-        
-	}
-	
-	// Update is called once per frame
+    	
 	public void UpdateQ ()
     {
         StateRewardPair srp;
@@ -89,9 +83,8 @@ public class QLearner
 
         for(int i = 0; i < sapList.Count; i++)
         {
-            output.Add(sapList[i].state.statename);
-            output.Add(sapList[i].action.GetName());
-            output.Add(sapList[i].qVal.ToString());
+            string outLine = sapList[i].state.statename + "," + sapList[i].action.GetName() + "," + sapList[i].qVal.ToString();
+            output.Add(outLine);
         }
         output.Add("<<<<<END>>>>>");
         string[] lines = output.ToArray();
@@ -105,5 +98,24 @@ public class QLearner
         string[] lines = System.IO.File.ReadAllLines(savePath);
 
         return lines;
+    }
+
+    private void InitializeQValues()
+    {
+        string[] textLoadInput = LoadQFromFile();
+        for(int i = 0; i < textLoadInput.Length; i++)
+        {
+            string curLine = textLoadInput[i];
+            char[] delimiterChars = { ',' };
+            string[] words = curLine.Split(delimiterChars);
+            if(words[0] == "Middle")
+            {
+                if(words[1] == "WanderNEAction")
+                {
+                    int QVal = int.Parse(words[2]);
+                    int x = 0;
+                }
+            }
+        }
     }
 }
