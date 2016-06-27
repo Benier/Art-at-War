@@ -23,7 +23,7 @@ public class GameLevel1 : MonoBehaviour {
     int totalPlayerAP;
     int totalEnemyAP;
     int totalQEnemyAP;
-    int numTurns = 5;
+    int numTurns = 1;
     public int playerPoints;
     public int enemyPoints;
     public int qEnemyPoints;
@@ -52,7 +52,7 @@ public class GameLevel1 : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if (numTurns >= 0)
+        if (numTurns > 0)
         {
             for (int i = 0; i < playerUnits.Count; i++)
             {
@@ -130,6 +130,7 @@ public class GameLevel1 : MonoBehaviour {
             {
                 winner = 0;
             }
+            UpdateQValues();
             gameEnd = true;
         }
     }
@@ -493,5 +494,13 @@ public class GameLevel1 : MonoBehaviour {
             }
         }
         GUI.Label(new Rect(0, 4 * 30, 300, 300), "Turns Remaining: " + numTurns);
+    }
+
+    void UpdateQValues()
+    {
+        for(int i = 0; i < qagents.Count; i++)
+        {
+            qagents[i].SaveQToFile();
+        }
     }
 }

@@ -20,6 +20,7 @@ public class QLearner
 
     public QLearner(Unit u, TextureGenerator tg)
     {
+        string[] textLoadInput = LoadQFromFile();
         problem = new QProblem();
         unit = u;
         texGen = tg;
@@ -75,16 +76,12 @@ public class QLearner
         qVal = (1 - alpha) * qVal + alpha * (reward + gamma * maxQ);
 
         store.storeQValue(state, action, qVal);
-        Debug.Log("Q: " + qVal + ", Action: " + action.GetType() + ", Best Action: " + store.GetBestAction(state).GetType());
+        //Debug.Log("Q: " + qVal + ", Action: " + action.GetType() + ", Best Action: " + store.GetBestAction(state).GetType());
 
         state = newState;
-
-        SaveQToFile(store);
-        string[] textLoadInput = LoadQFromFile();
-        int i = 0;
 	}
 
-    private void SaveQToFile(QValueStore store)
+    public void SaveQToFile()
     {
         string savePath = @"QValues.txt";
         List<string> output = new List<string>();
@@ -96,6 +93,7 @@ public class QLearner
             output.Add(sapList[i].action.GetName());
             output.Add(sapList[i].qVal.ToString());
         }
+        output.Add("<<<<<END>>>>>");
         string[] lines = output.ToArray();
 
         System.IO.File.WriteAllLines(savePath, lines);
