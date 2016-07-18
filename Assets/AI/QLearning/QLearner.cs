@@ -81,7 +81,7 @@ public class QLearner
         List<string> output = new List<string>();
         List<StateActionPair> sapList = store.GetAllStateActionPairs();
 
-        for(int i = 0; i < sapList.Count; i++)
+        for (int i = 0; i < sapList.Count; i++)
         {
             string outLine = sapList[i].state.statename + "," + sapList[i].action.GetName() + "," + sapList[i].qVal.ToString();
             output.Add(outLine);
@@ -89,7 +89,10 @@ public class QLearner
         output.Add("<<<<<END>>>>>");
         string[] lines = output.ToArray();
 
-        System.IO.File.WriteAllLines(savePath, lines);
+        for (int i = 0; i < lines.Length; i++)
+        {
+            System.IO.File.AppendAllText(savePath, lines[i] + "\r\n");
+        }
     }
 
     private string[] LoadQFromFile()

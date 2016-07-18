@@ -130,9 +130,15 @@ public class GameLevel1 : MonoBehaviour {
             {
                 winner = 0;
             }
-            UpdateQValues();
+
             gameEnd = true;
         }
+    }
+
+    public void CloseApplication()
+    {
+        UpdateQValues();
+        Application.Quit();
     }
 
     void SpawnUnits()
