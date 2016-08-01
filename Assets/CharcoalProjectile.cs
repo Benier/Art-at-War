@@ -26,8 +26,9 @@ public class CharcoalProjectile : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        texGen.AddCharcoalHit(collision.contacts[0].point, origin);        
+        texGen.AddCharcoalHit(collision.contacts[0].point, origin);
         texGen.GenerateTexture();
+        //StartCoroutine(texGen.CoroutineGenerateTexture());
         gameObject.SetActive(false);
     }
 }

@@ -10,7 +10,13 @@ public class TextureGenerator : MonoBehaviour {
         Player,
         Enemy
     };
-    
+
+    [System.Serializable]
+    public class TextureContainer
+    {
+        public Texture2D texture;
+    }
+    TextureContainer container;
     public Texture2D inputBaseTexture;
     Texture2D pencilMaskTexture;
     Texture2D pencilBaseTexture;
@@ -77,6 +83,8 @@ public class TextureGenerator : MonoBehaviour {
         gameLvl = GameObject.Find("GameLvl1").GetComponent<GameLevel1>();
 
         outputTexture = new Texture2D(inputBaseTexture.width, inputBaseTexture.height);
+        container = new TextureContainer();
+        container.texture = outputTexture;
     }
 	
 	// Update is called once per frame
@@ -94,16 +102,30 @@ public class TextureGenerator : MonoBehaviour {
     }
 
     /// <summary>
+    /// Using Coroutine, generate a new texture by generating as many passes are there are hits in the queue.
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator CoroutineGenerateTexture()
+    {
+        for (int i = 0; i < hitQueue.Count; i++)
+        {
+            outputTexture = GeneratePass(hitQueue[i], outputTexture);
+            yield return outputTexture;
+        }
+    }
+
+    /// <summary>
     /// Generate a new texture by generating as many passes are there are hits in the queue.
     /// </summary>
     /// <returns></returns>
     public Texture2D GenerateTexture()
     {
-        
-
         for (int i = 0; i < hitQueue.Count; i++)        
         {
-            outputTexture = GeneratePass(hitQueue[i], outputTexture);
+            outputTexture = container.texture;
+            //outputTexture = GeneratePass(hitQueue[i], outputTexture);
+            StartCoroutine(CoroutineGeneratePass(hitQueue[i], outputTexture, container));
+            
         }
         return outputTexture;
     }
@@ -291,7 +313,6 @@ public class TextureGenerator : MonoBehaviour {
                         int tileLocalY = (int)((hit.position.z - (hit.maskWidth / 2) + y) % yInterval);
                         mapGen.map[new Coordinate(worldPos.x, worldPos.z)].GetComponent<Tile>().UpdatePixels(tileLocalX, tileLocalY, hit.faction);
                         List<List<int>> debugLIst = mapGen.map[new Coordinate(worldPos.x, worldPos.z)].GetComponent<Tile>().ToList();
-                        int debug = 1;
                     }
                 }
                 //Color tempCol = new Color(hit.baseTexture.GetPixel(x, y).r, hit.baseTexture.GetPixel(x, y).g, hit.baseTexture.GetPixel(x, y).b, hit.maskTexture.GetPixel(x, y).a);
@@ -302,5 +323,95 @@ public class TextureGenerator : MonoBehaviour {
         tempTexture.Apply();
         mapGen.SetMapTexture(tempTexture);
         return tempTexture;
+    }
+
+
+    /// <summary>
+    /// Using coroutine, generates a texture with a new TextureHit added.
+    /// </summary>
+    /// <param name="hit">New TextureHit to be added to texture.</param>
+    /// <param name="outputText">New output texture after generation.</param>
+    /// <returns></returns>
+    public IEnumerator CoroutineGeneratePass(TextureHit hit, Texture2D outputText, TextureContainer container)
+    {
+        Texture2D tempTexture = outputText;//new Texture2D(hit.baseTexture.width, hit.baseTexture.height);
+        //TextureScale.Point(hitMask, hitMask.width / (int)hit.distance, hitMask.height / (int)hit.distance);
+
+        //hitMask.Resize(hitMask.width / 1, hitMask.height / 1);
+        //(int)hit.distance, hitMask.height / (int)hit.distance);
+        for (int x = 0; x < hit.maskWidth; x++)
+        {
+            for (int y = 0; y < hit.maskHeight; y++)
+            {
+                //If the pixel in the hit is within height and widge bounds of the large texture.
+                if (!(hit.position.x - (hit.maskWidth / 2) + x < 0)
+                    && !(hit.position.z - (hit.maskHeight / 2) + y < 0)
+                    && !(hit.position.x - (hit.maskWidth / 2) + x >= hit.texWidth)
+                    && !(hit.position.z - (hit.maskHeight / 2) + y >= hit.texHeight))
+                {
+                    //If the pixel's alpha is not transparent
+                    if (hit.maskTexture.GetPixel(x, y).a != 0)
+                    {
+                        Color pixel = new Color(hit.baseTexture.GetPixel((int)(hit.position.x - (hit.maskWidth / 2) + x), (int)(hit.position.z - (hit.maskHeight / 2) + y)).r, hit.baseTexture.GetPixel((int)(hit.position.x - (hit.maskWidth / 2) + x), (int)(hit.position.z - (hit.maskHeight / 2) + y)).g, hit.baseTexture.GetPixel((int)(hit.position.x - (hit.maskWidth / 2) + x), (int)(hit.position.z - (hit.maskHeight / 2) + y)).b, 1);//hit.maskTexture.GetPixel(x, y).a);
+                        tempTexture.SetPixel((int)(hit.position.x - (hit.maskWidth / 2) + x), (int)(hit.position.z - (hit.maskHeight / 2) + y), pixel);
+                        Vector3 worldPos = ConvertToWorldCoord(new Vector3((int)(hit.position.x - (hit.maskWidth / 2) + x), 0, (int)(hit.position.z - (hit.maskHeight / 2) + y)));
+
+                        //If the map does not contain the position of that pixel, break.
+                        if (!mapGen.map.ContainsKey(new Coordinate(worldPos.x, worldPos.z)))
+                        {
+                            Debug.Log(worldPos.x + ", " + worldPos.z);
+                            Debug.Break();
+                        }
+                        //If the pixel does not belong to any faction, increment the points accordingly.
+                        if (pixels[(int)(hit.position.x - (hit.maskWidth / 2) + x), (int)(hit.position.z - (hit.maskHeight / 2) + y)].faction == (int)Faction.None)
+                        {
+
+                            if (hit.faction == (int)Faction.Player)
+                            {
+
+                                gameLvl.playerPoints += 1 * (int)(mapGen.map[new Coordinate(worldPos.x, worldPos.z)].transform.position.y + 1);
+                            }
+                            else if (hit.faction == (int)Faction.Enemy)
+                            {
+                                gameLvl.enemyPoints += 1 * (int)(mapGen.map[new Coordinate(worldPos.x, worldPos.z)].transform.position.y + 1);
+                            }
+                        }
+                        //If the pixel does belong to a faction but not the hit's faction, update the points accordingly.
+                        else if (pixels[(int)(hit.position.x - (hit.maskWidth / 2) + x), (int)(hit.position.z - (hit.maskHeight / 2) + y)].faction != hit.faction)
+                        {
+                            if (pixels[(int)(hit.position.x - (hit.maskWidth / 2) + x), (int)(hit.position.z - (hit.maskHeight / 2) + y)].faction == (int)Faction.Player)
+                            {
+                                gameLvl.playerPoints -= 1 * (int)(mapGen.map[new Coordinate(worldPos.x, worldPos.z)].transform.position.y + 1);
+                                if (hit.faction != (int)Faction.None)
+                                {
+                                    gameLvl.enemyPoints += 1 * (int)(mapGen.map[new Coordinate(worldPos.x, worldPos.z)].transform.position.y + 1);
+                                }
+                            }
+                            else
+                            {
+                                gameLvl.enemyPoints -= 1 * (int)(mapGen.map[new Coordinate(worldPos.x, worldPos.z)].transform.position.y + 1);
+                                if (hit.faction != (int)Faction.None)
+                                {
+                                    gameLvl.playerPoints += 1 * (int)(mapGen.map[new Coordinate(worldPos.x, worldPos.z)].transform.position.y + 1);
+                                }
+                            }
+                        }
+                        //Set pixel's faction to hit's faction.
+                        pixels[(int)(hit.position.x - (hit.maskWidth / 2) + x), (int)(hit.position.z - (hit.maskHeight / 2) + y)].faction = hit.faction;
+                        int tileLocalX = (int)((hit.position.x - (hit.maskWidth / 2) + x) % xInterval);
+                        int tileLocalY = (int)((hit.position.z - (hit.maskWidth / 2) + y) % yInterval);
+                        mapGen.map[new Coordinate(worldPos.x, worldPos.z)].GetComponent<Tile>().UpdatePixels(tileLocalX, tileLocalY, hit.faction);
+                        List<List<int>> debugLIst = mapGen.map[new Coordinate(worldPos.x, worldPos.z)].GetComponent<Tile>().ToList();
+                    }
+                }
+                //Color tempCol = new Color(hit.baseTexture.GetPixel(x, y).r, hit.baseTexture.GetPixel(x, y).g, hit.baseTexture.GetPixel(x, y).b, hit.maskTexture.GetPixel(x, y).a);
+                //tempTexture.SetPixel(x, y, tempCol);
+            }
+
+        }
+        tempTexture.Apply();
+        mapGen.SetMapTexture(tempTexture);
+        container.texture = tempTexture;
+        yield return null;
     }
 }

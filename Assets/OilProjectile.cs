@@ -34,6 +34,7 @@ public class OilProjectile : MonoBehaviour
         //}
 
         texGen.GenerateTexture();
+        //StartCoroutine(texGen.CoroutineGenerateTexture());
         gameObject.SetActive(false);
     }
 }
