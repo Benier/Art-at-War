@@ -36,7 +36,11 @@ public class QLearner
         stores.Add(GameObject.Find("QValueStore5").GetComponent<QValueStore>());
 
         InitializeQValues();
-        store = stores[iterations - 1];
+        //if(iterations != 0)
+        //{
+        //    iterations -= 1;
+        //}
+        store = stores[iterations];
         rho = 3;
         nu = 0;
         alpha = 1;
@@ -85,7 +89,7 @@ public class QLearner
         state = newState;
 	}
 
-    public void SaveQToFile()
+    public void SaveQToFileAppend()
     {
         string savePath = @"QValues.txt";
         List<string> output = new List<string>();
@@ -105,6 +109,27 @@ public class QLearner
         }
     }
 
+    public void SaveQToFileOverwrite()
+    {
+        string savePath = @"QValues.txt";
+        List<string> output = new List<string>();
+        List<StateActionPair> sapList;
+
+        for (int num = 0; num < stores.Count; num++)
+        {
+            sapList = stores[num].GetAllStateActionPairs();
+            for (int i = 0; i < sapList.Count; i++)
+            {
+                string outLine = sapList[i].state.statename + "," + sapList[i].action.GetName() + "," + sapList[i].qVal.ToString();
+                output.Add(outLine);
+            }
+            output.Add("<<<<<END>>>>>" + "," + iterations);
+        }
+        string[] lines = output.ToArray();
+
+        System.IO.File.WriteAllLines(savePath, lines);
+    }
+
     private string[] LoadQFromFile()
     {
         string savePath = @"QValues.txt";
@@ -115,6 +140,7 @@ public class QLearner
 
     private void InitializeQValues()
     {
+        bool empty = true;
         string[] textLoadInput = LoadQFromFile();
         for(int i = 0; i < textLoadInput.Length; i++)
         {
@@ -128,41 +154,72 @@ public class QLearner
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("Middle"), new WanderNEAction(), QVal);
+                    if(QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "WanderNWAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("Middle"), new WanderNWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "WanderSEAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("Middle"), new WanderSEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "WanderSWAction")
                 {
                     int QVal = int.Parse(words[2]);
-                    stores[iterations].storeQValue(new QState("Middle"), new WanderSWAction(), QVal);
+                    stores[iterations].storeQValue(new QState("Middle"), new WanderSWAction(), QVal); if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackNEAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("Middle"), new AttackNEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackNWAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("Middle"), new AttackNWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackSEAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("Middle"), new AttackSEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackSWAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("Middle"), new AttackSWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
             }
             if (words[0] == "NW Corner")
@@ -171,41 +228,73 @@ public class QLearner
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("NW Corner"), new WanderNEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "WanderNWAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("NW Corner"), new WanderNWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "WanderSEAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("NW Corner"), new WanderSEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "WanderSWAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("NW Corner"), new WanderSWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackNEAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("NW Corner"), new AttackNEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackNWAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("Middle"), new AttackNWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackSEAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("NW Corner"), new AttackSEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackSWAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("NW Corner"), new AttackSWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
             }
             if (words[0] == "NE Corner")
@@ -214,41 +303,73 @@ public class QLearner
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("NE Corner"), new WanderNEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "WanderNWAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("NE Corner"), new WanderNWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "WanderSEAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("NE Corner"), new WanderSEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "WanderSWAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("NE Corner"), new WanderSWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackNEAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("NE Corner"), new AttackNEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackNWAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("NE Corner"), new AttackNWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackSEAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("NE Corner"), new AttackSEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackSWAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("NE Corner"), new AttackSWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
             }
             if (words[0] == "SW Corner")
@@ -257,41 +378,73 @@ public class QLearner
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("SW Corner"), new WanderNEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "WanderNWAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("SW Corner"), new WanderNWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "WanderSEAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("SW Corner"), new WanderSEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "WanderSWAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("SW Corner"), new WanderSWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackNEAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("SW Corner"), new AttackNEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackNWAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("SW Corner"), new AttackNWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackSEAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("SW Corner"), new AttackSEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackSWAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("SW Corner"), new AttackSWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
             }
             if (words[0] == "SE Corner")
@@ -300,46 +453,79 @@ public class QLearner
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("SE Corner"), new WanderNEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "WanderNWAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("SE Corner"), new WanderNWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "WanderSEAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("SE Corner"), new WanderSEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "WanderSWAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("SE Corner"), new WanderSWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackNEAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("SE Corner"), new AttackNEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackNWAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("SE Corner"), new AttackNWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackSEAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("SE Corner"), new AttackSEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
                 if (words[1] == "AttackSWAction")
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("SE Corner"), new AttackSWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
                 }
             }
-            if(words[0] == "<<<<<END>>>>>" && iterations < maxIterations - 1)
+            if(words[0] == "<<<<<END>>>>>" && iterations < maxIterations - 1 && !empty)
             {
                 iterations++;
+                empty = true;
             }
         }
     }

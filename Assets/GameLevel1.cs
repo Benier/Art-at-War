@@ -506,7 +506,7 @@ public class GameLevel1 : MonoBehaviour {
     {
         for(int i = 0; i < qagents.Count; i++)
         {
-            qagents[i].SaveQToFile();
+            qagents[i].SaveQToFileOverwrite();
         }
     }
 }
