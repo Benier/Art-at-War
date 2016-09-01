@@ -36,11 +36,12 @@ public class QLearner
         stores.Add(GameObject.Find("QValueStore5").GetComponent<QValueStore>());
 
         InitializeQValues();
-        //if(iterations != 0)
-        //{
-        //    iterations -= 1;
-        //}
-        store = stores[iterations];
+        if (iterations != 0)
+        {
+            iterations -= 1;
+        }
+        stores[iterations + 1] = stores[iterations];
+        store = stores[iterations + 1];
         rho = 3;
         nu = 0;
         alpha = 1;
@@ -124,6 +125,7 @@ public class QLearner
                 output.Add(outLine);
             }
             output.Add("<<<<<END>>>>>" + "," + iterations);
+            iterations++;
         }
         string[] lines = output.ToArray();
 

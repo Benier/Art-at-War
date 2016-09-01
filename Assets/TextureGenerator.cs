@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class TextureGenerator : MonoBehaviour {
 
+    public bool loaded;
+    public GameObject loadActText;
     public enum Faction
     {
         None,
@@ -50,6 +52,7 @@ public class TextureGenerator : MonoBehaviour {
     // Use this for initialization
     void Awake ()
     {
+        loaded = true;
         inputBaseTexture = Resources.Load("A_la_Recherche_du_Temps_Perdu_CHARCOAL") as Texture2D;
         pencilMaskTexture = Resources.Load("PencilStrokes") as Texture2D;
         pencilBaseTexture = Resources.Load("A_la_Recherche_du_Temps_Perdu_PENCIL") as Texture2D;
@@ -120,13 +123,17 @@ public class TextureGenerator : MonoBehaviour {
     /// <returns></returns>
     public Texture2D GenerateTexture()
     {
+        loaded = false;
+        loadActText.SetActive(true);
         for (int i = 0; i < hitQueue.Count; i++)        
         {
-            outputTexture = container.texture;
-            //outputTexture = GeneratePass(hitQueue[i], outputTexture);
-            StartCoroutine(CoroutineGeneratePass(hitQueue[i], outputTexture, container));
+            //outputTexture = container.texture;
+            outputTexture = GeneratePass(hitQueue[i], outputTexture);
+            //StartCoroutine(CoroutineGeneratePass(hitQueue[i], outputTexture, container));
             
         }
+        loaded = true;
+        //loadActText.SetActive(false);
         return outputTexture;
     }
 
