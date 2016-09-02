@@ -39,9 +39,22 @@ public class QLearner
         if (iterations != 0)
         {
             iterations -= 1;
+            if (iterations < stores.Count - 1)
+            {
+                stores[iterations + 1] = stores[iterations];
+                store = stores[iterations + 1];
+            }
+            else
+            {
+                stores[iterations] = stores[iterations];
+                store = stores[iterations];
+            }
         }
-        stores[iterations + 1] = stores[iterations];
-        store = stores[iterations + 1];
+        else
+        {
+            store = stores[iterations];
+        }
+
         rho = 3;
         nu = 0;
         alpha = 1;
@@ -125,7 +138,6 @@ public class QLearner
                 output.Add(outLine);
             }
             output.Add("<<<<<END>>>>>" + "," + iterations);
-            iterations++;
         }
         string[] lines = output.ToArray();
 
