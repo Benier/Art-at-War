@@ -7,7 +7,7 @@ public class QValueStore : MonoBehaviour
     public List<StateActionPair> store;
     public List<Action> possibleActions;
 	// Use this for initialization
-	void Start ()
+    void Awake()
     {
         StateActionPair sap;
         possibleActions = new List<Action>();
@@ -40,9 +40,9 @@ public class QValueStore : MonoBehaviour
         possibleActions.Add(attSW);
         store = new List<StateActionPair>();
 
-        foreach(QState s in stateList)
+        foreach (QState s in stateList)
         {
-            foreach(Action a in possibleActions)
+            foreach (Action a in possibleActions)
             {
                 sap = new StateActionPair(s, a);
                 //if(att.Equals(a))
@@ -52,6 +52,11 @@ public class QValueStore : MonoBehaviour
                 store.Add(sap);
             }
         }
+    }
+
+	void Start ()
+    {
+
 	}
 	
 	// Update is called once per frame

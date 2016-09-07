@@ -12,6 +12,7 @@ public class GameLevel1 : MonoBehaviour {
     List<GameObject> qEnemyUnits = new List<GameObject>();
     List<Agent> agents = new List<Agent>();
     List<QLearner> qagents = new List<QLearner>();
+    public List<QValueStore> qValStores = new List<QValueStore>();
     static int playerRangedUnitCount = 1;
     static int playerMeleeUnitCount = 0;
     static int enemyRangedUnitCount = 1;
@@ -19,6 +20,7 @@ public class GameLevel1 : MonoBehaviour {
     static int qEnemyRangedUnitCount = 1;
     static int qEnemyMeleeUnitCount = 0;
     public int curUnitInd;
+    public int numQValStores = 5;
     int playerTurn; // 1 = player, 2 = enemy, 3 = q enemy
     int totalPlayerAP;
     int totalEnemyAP;
@@ -34,7 +36,12 @@ public class GameLevel1 : MonoBehaviour {
 
     void Awake()
     {
-
+        GameObject qvs;
+        for (int num = 0; num < numQValStores; num++)
+        {
+            qvs = Instantiate(Resources.Load("QValueStorePrefab", typeof(GameObject))) as GameObject;
+            qValStores.Add(qvs.GetComponent<QValueStore>());
+        }
     }
     // Use this for initialization
     void Start ()

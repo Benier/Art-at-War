@@ -7,6 +7,7 @@ using System.Linq;
 public class QLearner
 {
     List<QValueStore> stores;
+    GameLevel1 gameLevel;
     QValueStore store;
     QProblem problem;
     int iterations;
@@ -24,16 +25,17 @@ public class QLearner
     public QLearner(Unit u, TextureGenerator tg)
     {
         stores = new List<QValueStore>();
+        gameLevel = GameObject.Find("GameLvl1").GetComponent<GameLevel1>();
         problem = new QProblem();
         maxIterations = 5;
         unit = u;
         texGen = tg;
         state = problem.GetRandomState();
-        stores.Add(GameObject.Find("QValueStore1").GetComponent<QValueStore>());
-        stores.Add(GameObject.Find("QValueStore2").GetComponent<QValueStore>());
-        stores.Add(GameObject.Find("QValueStore3").GetComponent<QValueStore>());
-        stores.Add(GameObject.Find("QValueStore4").GetComponent<QValueStore>());
-        stores.Add(GameObject.Find("QValueStore5").GetComponent<QValueStore>());
+
+        for (int num = 0; num < gameLevel.numQValStores; num++)
+        {
+            stores.Add(gameLevel.qValStores[num]);
+        }
 
         InitializeQValues();
         if (iterations != 0)
