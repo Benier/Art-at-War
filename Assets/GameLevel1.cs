@@ -17,7 +17,7 @@ public class GameLevel1 : MonoBehaviour {
     static int playerMeleeUnitCount = 0;
     static int enemyRangedUnitCount = 1;
     static int enemyMeleeUnitCount = 0;
-    static int qEnemyRangedUnitCount = 1;
+    static int qEnemyRangedUnitCount = 2;
     static int qEnemyMeleeUnitCount = 0;
     public int curUnitInd;
     public int numQValStores = 5;
@@ -140,6 +140,19 @@ public class GameLevel1 : MonoBehaviour {
 
             gameEnd = true;
         }
+        //for repetitive value growth against statemachine, q agents play for player
+        if(gameEnd)
+        {
+            if (winner == 1)
+            {
+                UpdateQValues();
+            }
+            else
+            {
+                RevertQValues();
+            }
+        }
+        
     }
 
     public void CloseApplication()
@@ -513,6 +526,15 @@ public class GameLevel1 : MonoBehaviour {
     {
         for(int i = 0; i < qagents.Count; i++)
         {
+            qagents[i].SaveQToFileOverwrite();
+        }
+    }
+
+    void RevertQValues()
+    {
+        for(int i = 0; i < qagents.Count; i++)
+        {
+            qagents[0].RevertQ();
             qagents[i].SaveQToFileOverwrite();
         }
     }

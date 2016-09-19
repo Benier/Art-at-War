@@ -12,6 +12,7 @@ public class QLearner
     QProblem problem;
     int iterations;
     int maxIterations;
+    int stepsback;
     float alpha;
     float gamma;
     float rho;
@@ -27,12 +28,13 @@ public class QLearner
         stores = new List<QValueStore>();
         gameLevel = GameObject.Find("GameLvl1").GetComponent<GameLevel1>();
         problem = new QProblem();
-        maxIterations = 5;
+        maxIterations = gameLevel.numQValStores;
+        stepsback = 4;
         unit = u;
         texGen = tg;
         state = problem.GetRandomState();
 
-        for (int num = 0; num < gameLevel.numQValStores; num++)
+        for (int num = 0; num < maxIterations; num++)
         {
             stores.Add(gameLevel.qValStores[num]);
         }
@@ -144,6 +146,17 @@ public class QLearner
         string[] lines = output.ToArray();
 
         System.IO.File.WriteAllLines(savePath, lines);
+    }
+
+    public void RevertQ()
+    {
+        int revertIterations = iterations - stepsback;
+        revertIterations = Mathf.Clamp(revertIterations, 0, maxIterations - 1);
+        stores[0] = stores[iterations];
+        for(int i = 1; i < stores.Count; i++)
+        {
+            stores[i] = new QValueStore();
+        }
     }
 
     private string[] LoadQFromFile()
