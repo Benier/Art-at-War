@@ -4,7 +4,7 @@ using System.Collections;
 /// Condition class for WanderAction. Triggered when the potential rating (ration for blank space) is below 35%.
 /// </summary>
 public class WanderCondition : Condition {
-
+    float threshold = 0.35f;
 	// Use this for initialization
 	void Start () {
 	
@@ -17,7 +17,7 @@ public class WanderCondition : Condition {
 
     public bool Test(Unit u, TextureGenerator texGen)
     {
-        if (/*Input.GetKey(KeyCode.W)*/GetPotential(u, texGen) <= 0.35f)
+        if (/*Input.GetKey(KeyCode.W)*/GetPotential(u, texGen) <= 0 /*threshold*/)
         {
             return true;
         }

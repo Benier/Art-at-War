@@ -13,14 +13,14 @@ NW Corner,WanderSWAction,0
 NW Corner,AttackNEAction,0
 NW Corner,AttackNWAction,0
 NW Corner,AttackSEAction,0
-NW Corner,AttackSWAction,0
+NW Corner,AttackSWAction,271150
 NE Corner,WanderNEAction,0
 NE Corner,WanderNWAction,0
 NE Corner,WanderSEAction,0
 NE Corner,WanderSWAction,0
 NE Corner,AttackNEAction,0
 NE Corner,AttackNWAction,0
-NE Corner,AttackSEAction,404976
+NE Corner,AttackSEAction,0
 NE Corner,AttackSWAction,0
 SW Corner,WanderNEAction,0
 SW Corner,WanderNWAction,0
@@ -36,9 +36,9 @@ SE Corner,WanderSEAction,0
 SE Corner,WanderSWAction,0
 SE Corner,AttackNEAction,0
 SE Corner,AttackNWAction,0
-SE Corner,AttackSEAction,74276
+SE Corner,AttackSEAction,471126
 SE Corner,AttackSWAction,0
-<<<<<END>>>>>,0
+<<<<<END>>>>>,2
 Middle,WanderNEAction,0
 Middle,WanderNWAction,0
 Middle,WanderSEAction,0
@@ -79,7 +79,7 @@ SE Corner,AttackNEAction,0
 SE Corner,AttackNWAction,0
 SE Corner,AttackSEAction,0
 SE Corner,AttackSWAction,0
-<<<<<END>>>>>,0
+<<<<<END>>>>>,2
 Middle,WanderNEAction,0
 Middle,WanderNWAction,0
 Middle,WanderSEAction,0
@@ -120,7 +120,7 @@ SE Corner,AttackNEAction,0
 SE Corner,AttackNWAction,0
 SE Corner,AttackSEAction,0
 SE Corner,AttackSWAction,0
-<<<<<END>>>>>,0
+<<<<<END>>>>>,2
 Middle,WanderNEAction,0
 Middle,WanderNWAction,0
 Middle,WanderSEAction,0
@@ -161,7 +161,7 @@ SE Corner,AttackNEAction,0
 SE Corner,AttackNWAction,0
 SE Corner,AttackSEAction,0
 SE Corner,AttackSWAction,0
-<<<<<END>>>>>,0
+<<<<<END>>>>>,2
 Middle,WanderNEAction,0
 Middle,WanderNWAction,0
 Middle,WanderSEAction,0
@@ -202,4 +202,4 @@ SE Corner,AttackNEAction,0
 SE Corner,AttackNWAction,0
 SE Corner,AttackSEAction,0
 SE Corner,AttackSWAction,0
-<<<<<END>>>>>,0
+<<<<<END>>>>>,2

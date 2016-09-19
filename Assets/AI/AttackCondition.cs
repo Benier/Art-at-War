@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class AttackCondition : Condition {
-
+    float threshold = 0.35f;
 	// Use this for initialization
 	void Start () {
 	
@@ -15,7 +15,7 @@ public class AttackCondition : Condition {
 
     public bool Test(Unit u, TextureGenerator texGen)
     {        
-        if (/*Input.GetKey(KeyCode.A) && u.AP > 0*/GetPotential(u, texGen) > 0.35f)
+        if (/*Input.GetKey(KeyCode.A) && u.AP > 0*/GetPotential(u, texGen) > 0 /*threshold*/)
         {
             return true;
         }

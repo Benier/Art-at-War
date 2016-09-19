@@ -155,7 +155,7 @@ public class QLearner
         stores[0] = stores[iterations];
         for(int i = 1; i < stores.Count; i++)
         {
-            stores[i] = new QValueStore();
+            stores[i].zeroOutValues();
         }
     }
 

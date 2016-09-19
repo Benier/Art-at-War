@@ -141,23 +141,37 @@ public class GameLevel1 : MonoBehaviour {
             gameEnd = true;
         }
         //for repetitive value growth against statemachine, q agents play for player
-        if(gameEnd)
-        {
-            if (winner == 1)
-            {
-                UpdateQValues();
-            }
-            else
-            {
-                RevertQValues();
-            }
-        }
+        //if(gameEnd)
+        //{
+        //    UpdateQValues();
+        //    if (winner == 1)
+        //    {
+        //        RevertQValues();
+        //    }
+        //    else
+        //    {
+
+        //        UpdateQValues();
+        //    }
+        //}
         
     }
 
     public void CloseApplication()
     {
-        UpdateQValues();
+        //for repetitive value growth against statemachine, q agents play for player
+        if (gameEnd)
+        {
+            if (winner == 1)
+            {
+                RevertQValues();
+            }
+            else
+            {
+
+                UpdateQValues();
+            }
+        }
         Application.Quit();
     }
 

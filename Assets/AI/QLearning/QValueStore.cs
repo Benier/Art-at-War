@@ -113,4 +113,12 @@ public class QValueStore : MonoBehaviour
     {
         return store;
     }
+
+    public void zeroOutValues()
+    {
+        foreach (StateActionPair p in store)
+        {
+            p.qVal = 0;
+        }
+    }
 }
