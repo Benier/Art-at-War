@@ -28,6 +28,7 @@ public class QLearner
         stores = new List<QValueStore>();
         gameLevel = GameObject.Find("GameLvl1").GetComponent<GameLevel1>();
         problem = new QProblem();
+        iterations = 0;
         maxIterations = gameLevel.numQValStores;
         stepsback = 4;
         unit = u;
@@ -42,21 +43,26 @@ public class QLearner
         InitializeQValues();
         if (iterations != 0)
         {
-            iterations -= 1;
-            if (iterations < stores.Count - 1)
+            int prevIterations = iterations - 1;
+            if (prevIterations < stores.Count - 1)
             {
-                stores[iterations + 1] = stores[iterations];
-                store = stores[iterations + 1];
+                stores[prevIterations].copyToStore(stores[iterations]);
+                //stores[iterations + 1] = stores[iterations];
+                store = stores[iterations];
+                //stores[iterations + 1].copyToStore(store);
             }
             else
             {
-                stores[iterations] = stores[iterations];
-                store = stores[iterations];
+                //stores[iterations] = stores[iterations];
+                store = stores[prevIterations];
+                //stores[iterations].copyToStore(stores[iterations]);
+                stores[prevIterations].copyToStore(store);
             }
         }
         else
         {
             store = stores[iterations];
+            stores[iterations].copyToStore(store);
         }
 
         rho = 3;
@@ -152,8 +158,8 @@ public class QLearner
     {
         int revertIterations = iterations - stepsback;
         revertIterations = Mathf.Clamp(revertIterations, 0, maxIterations - 1);
-        stores[0] = stores[iterations];
-        for(int i = 1; i < stores.Count; i++)
+        stores[iterations].copyToStore(stores[revertIterations]);
+        for(int i = revertIterations + 1; i < stores.Count; i++)
         {
             stores[i].zeroOutValues();
         }
@@ -551,7 +557,7 @@ public class QLearner
                     }
                 }
             }
-            if(words[0] == "<<<<<END>>>>>" && iterations < maxIterations - 1 && !empty)
+            if(words[0] == "<<<<<END>>>>>" && iterations < maxIterations && !empty)
             {
                 iterations++;
                 empty = true;

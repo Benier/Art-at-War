@@ -121,4 +121,18 @@ public class QValueStore : MonoBehaviour
             p.qVal = 0;
         }
     }
+
+    public void copyToStore(QValueStore target)
+    {
+        foreach (StateActionPair p in store)
+        {
+            foreach (StateActionPair tarp in target.store)
+            {
+                if (p.state.statename == tarp.state.statename && p.action.GetType() == tarp.action.GetType())
+                {
+                    tarp.qVal = p.qVal;
+                }
+            }
+        }
+    }
 }
