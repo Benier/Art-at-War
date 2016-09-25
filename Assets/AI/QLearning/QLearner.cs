@@ -144,7 +144,7 @@ public class QLearner
             sapList = stores[num].GetAllStateActionPairs();
             for (int i = 0; i < sapList.Count; i++)
             {
-                string outLine = sapList[i].state.statename + "," + sapList[i].action.GetName() + "," + sapList[i].qVal.ToString();
+                string outLine = sapList[i].state.statename + "," + sapList[i].action.GetName() + "," + ((int)sapList[i].qVal).ToString();
                 output.Add(outLine);
             }
             output.Add("<<<<<END>>>>>" + "," + iterations);
@@ -158,6 +158,7 @@ public class QLearner
     {
         int revertIterations = iterations - stepsback;
         revertIterations = Mathf.Clamp(revertIterations, 0, maxIterations - 1);
+        iterations = Mathf.Clamp(iterations, 0, maxIterations - 1);
         stores[iterations].copyToStore(stores[revertIterations]);
         for(int i = revertIterations + 1; i < stores.Count; i++)
         {
@@ -187,7 +188,12 @@ public class QLearner
             {
                 if(words[1] == "WanderNEAction")
                 {
-                    int QVal = int.Parse(words[2]);
+                    int QVal;
+                    bool validResult = int.TryParse(words[2], out QVal);
+                    if (validResult)
+                    {
+                        QVal = int.Parse(words[2]);
+                    }
                     stores[iterations].storeQValue(new QState("Middle"), new WanderNEAction(), QVal);
                     if(QVal != 0)
                     {

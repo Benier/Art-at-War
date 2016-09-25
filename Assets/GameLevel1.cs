@@ -15,9 +15,9 @@ public class GameLevel1 : MonoBehaviour {
     public List<QValueStore> qValStores = new List<QValueStore>();
     static int playerRangedUnitCount = 1;
     static int playerMeleeUnitCount = 0;
-    static int enemyRangedUnitCount = 3;
+    static int enemyRangedUnitCount = 1;
     static int enemyMeleeUnitCount = 0;
-    static int qEnemyRangedUnitCount = 1;
+    static int qEnemyRangedUnitCount = 3;
     static int qEnemyMeleeUnitCount = 0;
     public int curUnitInd;
     public int numQValStores = 5;
@@ -547,9 +547,9 @@ public class GameLevel1 : MonoBehaviour {
 
     void RevertQValues()
     {
-        for(int i = 0; i < qagents.Count; i++)
-        {
-            qagents[0].RevertQ();
+        qagents[0].RevertQ();
+        for (int i = 0; i < qagents.Count; i++)
+        {            
             qagents[i].SaveQToFileOverwrite();
         }
     }

@@ -38,13 +38,95 @@ SE Corner,AttackNEAction,0
 SE Corner,AttackNWAction,0
 SE Corner,AttackSEAction,0
 SE Corner,AttackSWAction,200000
-<<<<<END>>>>>,5
+<<<<<END>>>>>,4
 Middle,WanderNEAction,0
 Middle,WanderNWAction,0
 Middle,WanderSEAction,0
 Middle,WanderSWAction,0
 Middle,AttackNEAction,0
-Middle,AttackNWAction,80000
+Middle,AttackNWAction,0
+Middle,AttackSEAction,0
+Middle,AttackSWAction,0
+NW Corner,WanderNEAction,0
+NW Corner,WanderNWAction,0
+NW Corner,WanderSEAction,0
+NW Corner,WanderSWAction,0
+NW Corner,AttackNEAction,0
+NW Corner,AttackNWAction,0
+NW Corner,AttackSEAction,0
+NW Corner,AttackSWAction,0
+NE Corner,WanderNEAction,0
+NE Corner,WanderNWAction,0
+NE Corner,WanderSEAction,0
+NE Corner,WanderSWAction,0
+NE Corner,AttackNEAction,0
+NE Corner,AttackNWAction,0
+NE Corner,AttackSEAction,0
+NE Corner,AttackSWAction,0
+SW Corner,WanderNEAction,0
+SW Corner,WanderNWAction,0
+SW Corner,WanderSEAction,0
+SW Corner,WanderSWAction,0
+SW Corner,AttackNEAction,0
+SW Corner,AttackNWAction,0
+SW Corner,AttackSEAction,0
+SW Corner,AttackSWAction,0
+SE Corner,WanderNEAction,0
+SE Corner,WanderNWAction,0
+SE Corner,WanderSEAction,0
+SE Corner,WanderSWAction,0
+SE Corner,AttackNEAction,0
+SE Corner,AttackNWAction,0
+SE Corner,AttackSEAction,0
+SE Corner,AttackSWAction,630604
+<<<<<END>>>>>,4
+Middle,WanderNEAction,0
+Middle,WanderNWAction,0
+Middle,WanderSEAction,0
+Middle,WanderSWAction,0
+Middle,AttackNEAction,0
+Middle,AttackNWAction,0
+Middle,AttackSEAction,0
+Middle,AttackSWAction,0
+NW Corner,WanderNEAction,0
+NW Corner,WanderNWAction,0
+NW Corner,WanderSEAction,0
+NW Corner,WanderSWAction,0
+NW Corner,AttackNEAction,0
+NW Corner,AttackNWAction,0
+NW Corner,AttackSEAction,0
+NW Corner,AttackSWAction,0
+NE Corner,WanderNEAction,0
+NE Corner,WanderNWAction,0
+NE Corner,WanderSEAction,0
+NE Corner,WanderSWAction,0
+NE Corner,AttackNEAction,0
+NE Corner,AttackNWAction,0
+NE Corner,AttackSEAction,0
+NE Corner,AttackSWAction,0
+SW Corner,WanderNEAction,0
+SW Corner,WanderNWAction,0
+SW Corner,WanderSEAction,0
+SW Corner,WanderSWAction,0
+SW Corner,AttackNEAction,0
+SW Corner,AttackNWAction,0
+SW Corner,AttackSEAction,0
+SW Corner,AttackSWAction,507804
+SE Corner,WanderNEAction,0
+SE Corner,WanderNWAction,0
+SE Corner,WanderSEAction,0
+SE Corner,WanderSWAction,0
+SE Corner,AttackNEAction,0
+SE Corner,AttackNWAction,0
+SE Corner,AttackSEAction,0
+SE Corner,AttackSWAction,630604
+<<<<<END>>>>>,4
+Middle,WanderNEAction,0
+Middle,WanderNWAction,0
+Middle,WanderSEAction,0
+Middle,WanderSWAction,0
+Middle,AttackNEAction,0
+Middle,AttackNWAction,0
 Middle,AttackSEAction,0
 Middle,AttackSWAction,0
 NW Corner,WanderNEAction,0
@@ -62,7 +144,48 @@ NE Corner,WanderSWAction,0
 NE Corner,AttackNEAction,0
 NE Corner,AttackNWAction,0
 NE Corner,AttackSEAction,0
-NE Corner,AttackSWAction,188970
+NE Corner,AttackSWAction,0
+SW Corner,WanderNEAction,0
+SW Corner,WanderNWAction,0
+SW Corner,WanderSEAction,0
+SW Corner,WanderSWAction,0
+SW Corner,AttackNEAction,0
+SW Corner,AttackNWAction,0
+SW Corner,AttackSEAction,0
+SW Corner,AttackSWAction,507804
+SE Corner,WanderNEAction,0
+SE Corner,WanderNWAction,0
+SE Corner,WanderSEAction,0
+SE Corner,WanderSWAction,0
+SE Corner,AttackNEAction,0
+SE Corner,AttackNWAction,0
+SE Corner,AttackSEAction,0
+SE Corner,AttackSWAction,630604
+<<<<<END>>>>>,4
+Middle,WanderNEAction,0
+Middle,WanderNWAction,0
+Middle,WanderSEAction,0
+Middle,WanderSWAction,0
+Middle,AttackNEAction,0
+Middle,AttackNWAction,0
+Middle,AttackSEAction,0
+Middle,AttackSWAction,0
+NW Corner,WanderNEAction,0
+NW Corner,WanderNWAction,0
+NW Corner,WanderSEAction,0
+NW Corner,WanderSWAction,0
+NW Corner,AttackNEAction,0
+NW Corner,AttackNWAction,0
+NW Corner,AttackSEAction,0
+NW Corner,AttackSWAction,38850
+NE Corner,WanderNEAction,0
+NE Corner,WanderNWAction,0
+NE Corner,WanderSEAction,0
+NE Corner,WanderSWAction,0
+NE Corner,AttackNEAction,0
+NE Corner,AttackNWAction,0
+NE Corner,AttackSEAction,0
+NE Corner,AttackSWAction,0
 SW Corner,WanderNEAction,0
 SW Corner,WanderNWAction,0
 SW Corner,WanderSEAction,0
@@ -79,127 +202,4 @@ SE Corner,AttackNEAction,0
 SE Corner,AttackNWAction,0
 SE Corner,AttackSEAction,0
 SE Corner,AttackSWAction,522206
-<<<<<END>>>>>,5
-Middle,WanderNEAction,0
-Middle,WanderNWAction,0
-Middle,WanderSEAction,0
-Middle,WanderSWAction,0
-Middle,AttackNEAction,0
-Middle,AttackNWAction,0
-Middle,AttackSEAction,0
-Middle,AttackSWAction,0
-NW Corner,WanderNEAction,0
-NW Corner,WanderNWAction,0
-NW Corner,WanderSEAction,0
-NW Corner,WanderSWAction,0
-NW Corner,AttackNEAction,0
-NW Corner,AttackNWAction,0
-NW Corner,AttackSEAction,0
-NW Corner,AttackSWAction,0
-NE Corner,WanderNEAction,0
-NE Corner,WanderNWAction,0
-NE Corner,WanderSEAction,0
-NE Corner,WanderSWAction,0
-NE Corner,AttackNEAction,0
-NE Corner,AttackNWAction,0
-NE Corner,AttackSEAction,0
-NE Corner,AttackSWAction,0
-SW Corner,WanderNEAction,0
-SW Corner,WanderNWAction,0
-SW Corner,WanderSEAction,0
-SW Corner,WanderSWAction,0
-SW Corner,AttackNEAction,0
-SW Corner,AttackNWAction,0
-SW Corner,AttackSEAction,0
-SW Corner,AttackSWAction,0
-SE Corner,WanderNEAction,0
-SE Corner,WanderNWAction,0
-SE Corner,WanderSEAction,0
-SE Corner,WanderSWAction,0
-SE Corner,AttackNEAction,0
-SE Corner,AttackNWAction,0
-SE Corner,AttackSEAction,0
-SE Corner,AttackSWAction,0
-<<<<<END>>>>>,5
-Middle,WanderNEAction,0
-Middle,WanderNWAction,0
-Middle,WanderSEAction,0
-Middle,WanderSWAction,0
-Middle,AttackNEAction,0
-Middle,AttackNWAction,0
-Middle,AttackSEAction,0
-Middle,AttackSWAction,0
-NW Corner,WanderNEAction,0
-NW Corner,WanderNWAction,0
-NW Corner,WanderSEAction,0
-NW Corner,WanderSWAction,0
-NW Corner,AttackNEAction,0
-NW Corner,AttackNWAction,0
-NW Corner,AttackSEAction,0
-NW Corner,AttackSWAction,0
-NE Corner,WanderNEAction,0
-NE Corner,WanderNWAction,0
-NE Corner,WanderSEAction,0
-NE Corner,WanderSWAction,0
-NE Corner,AttackNEAction,0
-NE Corner,AttackNWAction,0
-NE Corner,AttackSEAction,0
-NE Corner,AttackSWAction,0
-SW Corner,WanderNEAction,0
-SW Corner,WanderNWAction,0
-SW Corner,WanderSEAction,0
-SW Corner,WanderSWAction,0
-SW Corner,AttackNEAction,0
-SW Corner,AttackNWAction,0
-SW Corner,AttackSEAction,0
-SW Corner,AttackSWAction,0
-SE Corner,WanderNEAction,0
-SE Corner,WanderNWAction,0
-SE Corner,WanderSEAction,0
-SE Corner,WanderSWAction,0
-SE Corner,AttackNEAction,0
-SE Corner,AttackNWAction,0
-SE Corner,AttackSEAction,0
-SE Corner,AttackSWAction,0
-<<<<<END>>>>>,5
-Middle,WanderNEAction,0
-Middle,WanderNWAction,0
-Middle,WanderSEAction,0
-Middle,WanderSWAction,0
-Middle,AttackNEAction,0
-Middle,AttackNWAction,0
-Middle,AttackSEAction,0
-Middle,AttackSWAction,0
-NW Corner,WanderNEAction,0
-NW Corner,WanderNWAction,0
-NW Corner,WanderSEAction,0
-NW Corner,WanderSWAction,0
-NW Corner,AttackNEAction,0
-NW Corner,AttackNWAction,0
-NW Corner,AttackSEAction,0
-NW Corner,AttackSWAction,0
-NE Corner,WanderNEAction,0
-NE Corner,WanderNWAction,0
-NE Corner,WanderSEAction,0
-NE Corner,WanderSWAction,0
-NE Corner,AttackNEAction,0
-NE Corner,AttackNWAction,0
-NE Corner,AttackSEAction,0
-NE Corner,AttackSWAction,0
-SW Corner,WanderNEAction,0
-SW Corner,WanderNWAction,0
-SW Corner,WanderSEAction,0
-SW Corner,WanderSWAction,0
-SW Corner,AttackNEAction,0
-SW Corner,AttackNWAction,0
-SW Corner,AttackSEAction,0
-SW Corner,AttackSWAction,0
-SE Corner,WanderNEAction,0
-SE Corner,WanderNWAction,0
-SE Corner,WanderSEAction,0
-SE Corner,WanderSWAction,0
-SE Corner,AttackNEAction,0
-SE Corner,AttackNWAction,0
-SE Corner,AttackSEAction,0
-SE Corner,AttackSWAction,0
-<<<<<END>>>>>,5
+<<<<<END>>>>>,4
