@@ -6,6 +6,7 @@ public class GameLevel1 : MonoBehaviour {
     [SerializeField]
     GameObject mapGenerator;
     TextureGenerator texGenerator;
+    public Canvas endGameCanvas;
     public static Dictionary<Coordinate, GameObject> map;
     List<GameObject> playerUnits = new List<GameObject>();
     List<GameObject> enemyUnits = new List<GameObject>();
@@ -15,9 +16,9 @@ public class GameLevel1 : MonoBehaviour {
     public List<QValueStore> qValStores = new List<QValueStore>();
     static int playerRangedUnitCount = 1;
     static int playerMeleeUnitCount = 0;
-    static int enemyRangedUnitCount = 1;
+    static int enemyRangedUnitCount = 3;
     static int enemyMeleeUnitCount = 0;
-    static int qEnemyRangedUnitCount = 3;
+    static int qEnemyRangedUnitCount = 1;
     static int qEnemyMeleeUnitCount = 0;
     public int curUnitInd;
     public int numQValStores = 5;
@@ -48,6 +49,8 @@ public class GameLevel1 : MonoBehaviour {
     {
         mapGen = mapGenerator.GetComponent<MapGenerator>();
         texGenerator = GameObject.Find("TexGenerator").GetComponent<TextureGenerator>();
+        endGameCanvas = GameObject.Find("EndGameCanvas").GetComponent<Canvas>();
+        endGameCanvas.enabled = false;
         map = mapGen.GenerateMap(texGenerator);
         SpawnUnits();
         curUnitInd = 0;
@@ -157,6 +160,14 @@ public class GameLevel1 : MonoBehaviour {
         
     }
 
+    void LateUpdate()
+    {
+        if(gameEnd)
+        {
+            endGameCanvas.enabled = true;
+        }
+    }
+
     public void CloseApplication()
     {
         //for repetitive value growth against statemachine, q agents play for player
@@ -174,6 +185,24 @@ public class GameLevel1 : MonoBehaviour {
             }            
         }
         Application.Quit();
+    }
+
+    public void EndGameSaveQ()
+    {
+        //for repetitive value growth against statemachine, q agents play for player
+        if (gameEnd)
+        {
+            gameEnd = false;
+            if (winner == 1)
+            {
+                RevertQValues();
+            }
+            else
+            {
+
+                UpdateQValues();
+            }
+        }
     }
 
     void SpawnUnits()
