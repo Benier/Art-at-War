@@ -19,7 +19,7 @@ public class WanderNEAction : Action
 
     public void Execute(Unit u)
     {
-        Debug.Log("Wandering NE");
+        //Debug.Log("Wandering NE");
         GameObject target = new GameObject();
         float x;
         float y;

@@ -124,7 +124,7 @@ public class TextureGenerator : MonoBehaviour {
     public Texture2D GenerateTexture()
     {
         loaded = false;
-        loadActText.SetActive(true);
+        //loadActText.SetActive(true);
         for (int i = 0; i < hitQueue.Count; i++)        
         {
             //outputTexture = container.texture;
@@ -133,7 +133,7 @@ public class TextureGenerator : MonoBehaviour {
             
         }
         loaded = true;
-        //loadActText.SetActive(false);
+        loadActText.SetActive(false);
         return outputTexture;
     }
 

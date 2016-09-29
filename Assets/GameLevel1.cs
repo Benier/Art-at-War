@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class GameLevel1 : MonoBehaviour {
     [SerializeField]
     GameObject mapGenerator;
+    public GameObject loadingActTexture;
     TextureGenerator texGenerator;
     public Canvas endGameCanvas;
     public static Dictionary<Coordinate, GameObject> map;
@@ -162,6 +164,14 @@ public class GameLevel1 : MonoBehaviour {
 
     void LateUpdate()
     {
+        if(playerTurn != 1) //if it's not player's turn
+        {
+            loadingActTexture.SetActive(true);
+        }
+        else
+        {
+            loadingActTexture.SetActive(false);
+        }
         if(gameEnd)
         {
             endGameCanvas.enabled = true;
@@ -185,6 +195,18 @@ public class GameLevel1 : MonoBehaviour {
             }            
         }
         Application.Quit();
+    }
+
+    public void BackToMainMenu()
+    {
+        EndGameSaveQ();
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void PlayAgain()
+    {
+        EndGameSaveQ();
+        SceneManager.LoadScene("GameLvl1");
     }
 
     public void EndGameSaveQ()

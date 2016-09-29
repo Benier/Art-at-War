@@ -83,7 +83,7 @@ public class QLearner
         {
             state = problem.GetRandomState();
         }
-        Debug.Log(state.statename);
+        //Debug.Log(state.statename);
         actions = problem.GetAvailableActions(state);
 
         float randrho = Random.Range(0.0f, 10.0f);

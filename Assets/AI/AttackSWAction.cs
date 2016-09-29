@@ -45,7 +45,7 @@ public class AttackSWAction : Action
         target.transform.position = new Vector3(x, 0, z);
         //u.ability = Unit.Ability.Attack;
         u.AttackTarget(target);
-        Debug.Log("Attacking SW");
+        //Debug.Log("Attacking SW");
     }
 
     Direction GetBestDir(Unit u)

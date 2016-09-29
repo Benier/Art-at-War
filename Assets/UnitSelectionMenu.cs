@@ -5,7 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class UnitSelectionMenu : MonoBehaviour {
     [SerializeField]
-    Button StartButton;
+    Button startButton;
+    [SerializeField]
+    GameObject unitCounter;
     // Use this for initialization
     void Start()
     {
@@ -20,6 +22,7 @@ public class UnitSelectionMenu : MonoBehaviour {
 
     public void OnStartClick()
     {
+        DontDestroyOnLoad(unitCounter);
         SceneManager.LoadScene("GameLvl1");
     }
 }

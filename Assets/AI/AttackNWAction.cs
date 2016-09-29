@@ -45,7 +45,7 @@ public class AttackNWAction : Action
         target.transform.position = new Vector3(x, 0, z);
         //u.ability = Unit.Ability.Attack;
         u.AttackTarget(target);
-        Debug.Log("Attacking NW");
+        //Debug.Log("Attacking NW");
     }
 
     Direction GetBestDir(Unit u)

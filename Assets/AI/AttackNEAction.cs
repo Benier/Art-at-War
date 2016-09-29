@@ -45,7 +45,7 @@ public class AttackNEAction : Action
         target.transform.position = new Vector3(x, 0, z);
         //u.ability = Unit.Ability.Attack;
         u.AttackTarget(target);
-        Debug.Log("Attacking NE");
+        //Debug.Log("Attacking NE");
     }
 
     Direction GetBestDir(Unit u)
