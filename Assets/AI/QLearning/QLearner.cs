@@ -166,6 +166,14 @@ public class QLearner
         }
     }
 
+    public void ClearAllQ()
+    {
+        for(int i = 0; i < stores.Count; i++)
+        {
+            stores[i].zeroOutValues();
+        }
+    }
+
     private string[] LoadQFromFile()
     {
         string savePath = @"QValues.txt";
