@@ -21,4 +21,14 @@ public class MainMenu : MonoBehaviour {
     {
         SceneManager.LoadScene("UnitSelection");
     }
+
+    public void OnOptionsClick()
+    {
+        SceneManager.LoadScene("Options");
+    }
+
+    public void OnQuitClick()
+    {
+        Application.Quit();
+    }
 }
