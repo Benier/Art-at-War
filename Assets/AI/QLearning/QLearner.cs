@@ -13,6 +13,8 @@ public class QLearner
     int iterations;
     int maxIterations;
     int stepsback;
+    int losingStreak;
+    int maxLosingStreak;
     float alpha;
     float gamma;
     float rho;
@@ -30,6 +32,8 @@ public class QLearner
         problem = new QProblem();
         iterations = 0;
         maxIterations = gameLevel.numQValStores;
+        losingStreak = 0;
+        maxLosingStreak = 3;
         stepsback = 4;
         unit = u;
         texGen = tg;
@@ -119,6 +123,7 @@ public class QLearner
         List<string> output = new List<string>();
         List<StateActionPair> sapList = store.GetAllStateActionPairs();
 
+        output.Add("<<<<<LOSINGSTREAK>>>>>" + "," + losingStreak);
         for (int i = 0; i < sapList.Count; i++)
         {
             string outLine = sapList[i].state.statename + "," + sapList[i].action.GetName() + "," + sapList[i].qVal.ToString();
@@ -139,6 +144,7 @@ public class QLearner
         List<string> output = new List<string>();
         List<StateActionPair> sapList;
 
+        output.Add("<<<<<LOSINGSTREAK>>>>>" + "," + losingStreak);
         for (int num = 0; num < stores.Count; num++)
         {
             sapList = stores[num].GetAllStateActionPairs();
@@ -152,6 +158,16 @@ public class QLearner
         string[] lines = output.ToArray();
 
         System.IO.File.WriteAllLines(savePath, lines);
+    }
+
+    public void IncrementLosingStreak()
+    {
+        losingStreak++;
+        if(losingStreak == maxLosingStreak)
+        {
+            RevertQ();
+            losingStreak = 0;
+        }
     }
 
     public void RevertQ()
@@ -191,8 +207,13 @@ public class QLearner
             string curLine = textLoadInput[i];
             char[] delimiterChars = { ',' };
             string[] words = curLine.Split(delimiterChars);
+
+            if(words[0] == "<<<<<LOSINGSTREAK>>>>>")
+            {
+                losingStreak = int.Parse(words[1]);
+            }
             
-            if(words[0] == "Middle")
+            if (words[0] == "Middle")
             {
                 if(words[1] == "WanderNEAction")
                 {

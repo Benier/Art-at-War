@@ -184,9 +184,9 @@ public class GameLevel1 : MonoBehaviour {
         if (gameEnd)
         {
             gameEnd = false;
-            if (winner == 1)
+            if (winner != 1)
             {
-                RevertQValues();
+                RecordLoss();
             }
             else
             {
@@ -215,13 +215,12 @@ public class GameLevel1 : MonoBehaviour {
         if (gameEnd)
         {
             gameEnd = false;
-            if (winner == 1)
+            if (winner != 1) //currently set as revert when player wins for testing
             {
-                RevertQValues();
+                RecordLoss();
             }
             else
             {
-
                 UpdateQValues();
             }
         }
@@ -596,11 +595,12 @@ public class GameLevel1 : MonoBehaviour {
         }
     }
 
-    void RevertQValues()
+    void RecordLoss()
     {
-        qagents[0].RevertQ();
+        
         for (int i = 0; i < qagents.Count; i++)
-        {            
+        {
+            qagents[i].IncrementLosingStreak();
             qagents[i].SaveQToFileOverwrite();
         }
     }
