@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-public class GameLevel1 : MonoBehaviour {
+public class GameLevel1 : MonoBehaviour
+{
     [SerializeField]
     GameObject mapGenerator;
     public GameObject loadingActTexture;
@@ -63,6 +64,31 @@ public class GameLevel1 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update ()
+    {
+        if(!texGenerator.generating)
+        {
+            StartCoroutine("UpdateCoroutine");
+        }
+        
+    }
+
+    void LateUpdate()
+    {
+        if(playerTurn != 1) //if it's not player's turn
+        {
+            loadingActTexture.SetActive(true);
+        }
+        else
+        {
+            loadingActTexture.SetActive(false);
+        }
+        if(gameEnd)
+        {
+            endGameCanvas.enabled = true;
+        }
+    }
+
+    IEnumerator UpdateCoroutine()
     {
         if (numTurns > 0)
         {
@@ -130,11 +156,11 @@ public class GameLevel1 : MonoBehaviour {
         }
         else
         {
-            if(playerPoints > enemyPoints)
+            if (playerPoints > enemyPoints)
             {
                 winner = 1;
             }
-            else if(playerPoints < enemyPoints)
+            else if (playerPoints < enemyPoints)
             {
                 winner = 2;
             }
@@ -159,23 +185,7 @@ public class GameLevel1 : MonoBehaviour {
         //        UpdateQValues();
         //    }
         //}
-        
-    }
-
-    void LateUpdate()
-    {
-        if(playerTurn != 1) //if it's not player's turn
-        {
-            loadingActTexture.SetActive(true);
-        }
-        else
-        {
-            loadingActTexture.SetActive(false);
-        }
-        if(gameEnd)
-        {
-            endGameCanvas.enabled = true;
-        }
+        yield return null;
     }
 
     public void CloseApplication()

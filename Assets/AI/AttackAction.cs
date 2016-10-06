@@ -30,6 +30,7 @@ public class AttackAction : Action
 
     public void Execute(Unit u)
     {
+        texGen.generating = true;
         GameObject target = new GameObject();
         float x = u.gameObject.transform.position.x; // = Random.Range(mapGen.MAP_WIDTH / 2 * -1, mapGen.MAP_WIDTH / 2);
         float z = u.gameObject.transform.position.z; // = Random.Range(mapGen.MAP_LENGTH / 2 * -1, mapGen.MAP_LENGTH / 2);
