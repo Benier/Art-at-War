@@ -23,6 +23,8 @@ public class GameLevel1 : MonoBehaviour
     static int enemyMeleeUnitCount = 0;
     static int qEnemyRangedUnitCount = 1;
     static int qEnemyMeleeUnitCount = 0;
+    int totalEnemyCount;
+    int numExecutedEnemies;
     public int curUnitInd;
     public int numQValStores = 5;
     int playerTurn; // 1 = player, 2 = enemy, 3 = q enemy
@@ -60,6 +62,7 @@ public class GameLevel1 : MonoBehaviour
         EnableUnit(playerUnits, curUnitInd);
         playerTurn = 1;
         gameEnd = false;
+        totalEnemyCount = enemyRangedUnitCount + enemyMeleeUnitCount + qEnemyRangedUnitCount + qEnemyMeleeUnitCount;
     }
 	
 	// Update is called once per frame
@@ -92,6 +95,10 @@ public class GameLevel1 : MonoBehaviour
     {
         if (numTurns > 0)
         {
+            if (numExecutedEnemies == totalEnemyCount)
+            {
+                numExecutedEnemies = 0;
+            }
             for (int i = 0; i < playerUnits.Count; i++)
             {
                 totalPlayerAP += playerUnits[i].GetComponent<Unit>().AP;
@@ -119,6 +126,7 @@ public class GameLevel1 : MonoBehaviour
             else if (playerTurn == 2)
             {
                 agents[curUnitInd].Update();
+
                 if (enemyUnits[curUnitInd].GetComponent<Unit>().AP <= 0)
                 {
                     if (!SelectNextUnit())
@@ -131,11 +139,13 @@ public class GameLevel1 : MonoBehaviour
                         ResetUnitsAP(playerTurn);
                         //numTurns--;
                     }
+                    numExecutedEnemies++;
                 }
             }
             else if (playerTurn == 3)
             {
                 qagents[curUnitInd].UpdateQ();
+
                 if (qEnemyUnits[curUnitInd].GetComponent<Unit>().AP <= 0)
                 {
                     if (!SelectNextUnit())
@@ -148,28 +158,31 @@ public class GameLevel1 : MonoBehaviour
                         ResetUnitsAP(playerTurn);
                         numTurns--;
                     }
+                    numExecutedEnemies++;
                 }
             }
-
             totalPlayerAP = 0;
             totalEnemyAP = 0;
         }
         else
         {
-            if (playerPoints > enemyPoints)
+            if (numExecutedEnemies == totalEnemyCount && !texGenerator.generating)
             {
-                winner = 1;
-            }
-            else if (playerPoints < enemyPoints)
-            {
-                winner = 2;
-            }
-            else
-            {
-                winner = 0;
-            }
+                if (playerPoints > enemyPoints)
+                {
+                    winner = 1;
+                }
+                else if (playerPoints < enemyPoints)
+                {
+                    winner = 2;
+                }
+                else
+                {
+                    winner = 0;
+                }
 
-            gameEnd = true;
+                gameEnd = true;
+            }
         }
         //for repetitive value growth against statemachine, q agents play for player
         //if(gameEnd)
@@ -186,6 +199,30 @@ public class GameLevel1 : MonoBehaviour
         //    }
         //}
         yield return null;
+    }
+
+    public void CheckWinner()
+    {
+        if (numExecutedEnemies == totalEnemyCount && !texGenerator.generating)
+        {
+            if (playerPoints > enemyPoints)
+            {
+                winner = 1;
+            }
+            else if (playerPoints < enemyPoints)
+            {
+                winner = 2;
+            }
+            else
+            {
+                winner = 0;
+            }
+
+            if (numTurns <= 0)
+            {
+                gameEnd = true;
+            }
+        }
     }
 
     public void CloseApplication()
