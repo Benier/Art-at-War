@@ -141,11 +141,6 @@ public class TextureGenerator : MonoBehaviour {
         return outputTexture;
     }
 
-    public void ThreadGenerateTexture()
-    {
-        GenerateTexture();
-    }
-
     /// <summary>
     /// Add Pencil Hit to queue of hits.
     /// </summary>
@@ -332,7 +327,6 @@ public class TextureGenerator : MonoBehaviour {
                 //tempTexture.SetPixel(x, y, tempCol);
             }
             yield return null;
-
         }
         tempTexture.Apply();
         mapGen.SetMapTexture(tempTexture);

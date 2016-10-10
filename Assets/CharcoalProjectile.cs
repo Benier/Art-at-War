@@ -15,7 +15,6 @@ public class CharcoalProjectile : MonoBehaviour
     {
         texGen = GameObject.Find("TexGenerator").GetComponent<TextureGenerator>();
         origin = gameObject.transform.position;
-        TexGenThread = new Thread(new ThreadStart(texGen.ThreadGenerateTexture));
     }
 
     // Update is called once per frame

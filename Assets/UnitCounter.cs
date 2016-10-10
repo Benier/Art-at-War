@@ -1,12 +1,19 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
-public class UnitCounter : MonoBehaviour {
-
+public class UnitCounter : MonoBehaviour
+{
     public bool pencilSelected;
     public bool charcoalSelected;
     public bool oilSelected;
     public bool waterSelected;
+    public string enemyFaction;
+    public string playerFaction;
+    public int numEnemy;
+    public int numQEnemy;
+    public int numPlayer;
+    public Text numEnemyText;
 	// Use this for initialization
 	void Start ()
     {
@@ -28,6 +35,8 @@ public class UnitCounter : MonoBehaviour {
         charcoalSelected = false;
         oilSelected = false;
         waterSelected = false;
+
+        playerFaction = "PencilUnitPrefab";
     }
 
     public void SelectCharcoal()

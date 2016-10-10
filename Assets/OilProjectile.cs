@@ -15,7 +15,6 @@ public class OilProjectile : MonoBehaviour
     {
         texGen = GameObject.Find("TexGenerator").GetComponent<TextureGenerator>();
         origin = gameObject.transform.position;
-        texGenThread = new Thread(new ThreadStart(texGen.ThreadGenerateTexture));
     }
 
     // Update is called once per frame
