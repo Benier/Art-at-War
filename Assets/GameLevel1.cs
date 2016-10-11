@@ -757,7 +757,6 @@ public class GameLevel1 : MonoBehaviour
     {
         GUI.Label(new Rect(0, 0 * 30, 300, 300), "Player Points: " + playerPoints);
         GUI.Label(new Rect(0, 1 * 30, 300, 300), "Enemy Points: " + enemyPoints);
-        GUI.Label(new Rect(0, 2 * 30, 300, 300), "Q Points: " + qEnemyPoints);
         if (gameEnd)
         {
             if(winner == 0)
