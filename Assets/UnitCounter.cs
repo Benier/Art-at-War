@@ -26,7 +26,7 @@ public class UnitCounter : MonoBehaviour
         oilSelected = false;
         waterSelected = false;
 
-        numEnemy = int.Parse(numEnemyText.text);
+        numEnemy = 0;
         numQEnemy = int.Parse(numEnemyText.text);
         numPlayer = int.Parse(numPlayerText.text);
 	}

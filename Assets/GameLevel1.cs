@@ -127,9 +127,18 @@ public class GameLevel1 : MonoBehaviour
                     {
                         //Debug.Log("Turn Ended");
                         curUnitInd = 0;
-                        EnableUnit(enemyUnits, curUnitInd);
-                        playerTurn = 2;
-                        EnableMove();
+                        if (enemyUnits.Count > 0)
+                        {
+                            EnableUnit(enemyUnits, curUnitInd);
+                            playerTurn = 2;
+                            EnableMove();
+                        }
+                        else
+                        {
+                            EnableUnit(qEnemyUnits, curUnitInd);
+                            playerTurn = 3;
+                            EnableMove();
+                        }
                         ResetUnitsAP(playerTurn);
                     }
                 }
@@ -144,9 +153,20 @@ public class GameLevel1 : MonoBehaviour
                     {
                         //Debug.Log("Turn Ended");
                         curUnitInd = 0;
-                        EnableUnit(qEnemyUnits, curUnitInd);
-                        playerTurn = 3;
-                        EnableMove();
+
+                        if (qEnemyUnits.Count > 0)
+                        {
+                            EnableUnit(qEnemyUnits, curUnitInd);
+                            playerTurn = 3;
+                            EnableMove();
+                        }
+                        else
+                        {
+                            EnableUnit(playerUnits, curUnitInd);
+                            playerTurn = 1;
+                            EnableMove();
+                            numTurns--;
+                        }
                         ResetUnitsAP(playerTurn);
                         //numTurns--;
                     }
@@ -333,7 +353,26 @@ public class GameLevel1 : MonoBehaviour
             float y = mapGen.map[new Coordinate(x, z)].transform.position.y;        //get height of map tile on that tile in map
 
             unitPrefab = Instantiate(Resources.Load(unitCounter.GetComponent<UnitCounter>().qEnemyFaction, typeof(GameObject))) as GameObject;
-            unitPrefab.GetComponent<Unit>().type = Unit.Type.Water;
+            Unit.Type projectileType = Unit.Type.Pencil;
+
+            if (unitCounter.GetComponent<UnitCounter>().qEnemyFaction == "PencilUnitPrefab")
+            {
+                projectileType = Unit.Type.Pencil;
+            }
+            else if (unitCounter.GetComponent<UnitCounter>().qEnemyFaction == "CharcoalUnitPrefab")
+            {
+                projectileType = Unit.Type.Charcoal;
+            }
+            else if (unitCounter.GetComponent<UnitCounter>().qEnemyFaction == "OilBrushUnitPrefab")
+            {
+                projectileType = Unit.Type.Oil;
+            }
+            else if (unitCounter.GetComponent<UnitCounter>().qEnemyFaction == "WaterBrushUnitPrefab")
+            {
+                projectileType = Unit.Type.Water;
+            }
+            unitPrefab.GetComponent<Unit>().type = projectileType;
+            unitPrefab.GetComponent<Unit>().faction = TextureGenerator.Faction.Enemy;
             unitPrefab.transform.position = new Vector3(x, y, z);
 
             mapGen.map[new Coordinate(x, z)].GetComponent<Tile>().occupied = true;
@@ -355,7 +394,26 @@ public class GameLevel1 : MonoBehaviour
             float y = mapGen.map[new Coordinate(x, z)].transform.position.y;        //get height of map tile on that tile in map
 
             unitPrefab = Instantiate(Resources.Load(unitCounter.GetComponent<UnitCounter>().qEnemyFaction, typeof(GameObject))) as GameObject;
-            unitPrefab.GetComponent<Unit>().type = Unit.Type.Oil;
+            Unit.Type projectileType = Unit.Type.Pencil;
+
+            if (unitCounter.GetComponent<UnitCounter>().qEnemyFaction == "PencilUnitPrefab")
+            {
+                projectileType = Unit.Type.Pencil;
+            }
+            else if (unitCounter.GetComponent<UnitCounter>().qEnemyFaction == "CharcoalUnitPrefab")
+            {
+                projectileType = Unit.Type.Charcoal;
+            }
+            else if (unitCounter.GetComponent<UnitCounter>().qEnemyFaction == "OilBrushUnitPrefab")
+            {
+                projectileType = Unit.Type.Oil;
+            }
+            else if (unitCounter.GetComponent<UnitCounter>().qEnemyFaction == "WaterBrushUnitPrefab")
+            {
+                projectileType = Unit.Type.Water;
+            }
+            unitPrefab.GetComponent<Unit>().type = projectileType;
+            unitPrefab.GetComponent<Unit>().faction = TextureGenerator.Faction.Enemy;
             unitPrefab.transform.position = new Vector3(x, y, z);
 
             mapGen.map[new Coordinate(x, z)].GetComponent<Tile>().occupied = true;
@@ -377,7 +435,26 @@ public class GameLevel1 : MonoBehaviour
             float y = mapGen.map[new Coordinate(x, z)].transform.position.y;        //get height of map tile on that tile in map
 
             unitPrefab = Instantiate(Resources.Load(unitCounter.GetComponent<UnitCounter>().playerFaction, typeof(GameObject))) as GameObject;
-            unitPrefab.GetComponent<Unit>().type = Unit.Type.Water;
+            Unit.Type projectileType = Unit.Type.Pencil;
+
+            if (unitCounter.GetComponent<UnitCounter>().playerFaction == "PencilUnitPrefab")
+            {
+                projectileType = Unit.Type.Pencil;
+            }
+            else if (unitCounter.GetComponent<UnitCounter>().playerFaction == "CharcoalUnitPrefab")
+            {
+                projectileType = Unit.Type.Charcoal;
+            }
+            else if (unitCounter.GetComponent<UnitCounter>().playerFaction == "OilBrushUnitPrefab")
+            {
+                projectileType = Unit.Type.Oil;
+            }
+            else if (unitCounter.GetComponent<UnitCounter>().playerFaction == "WaterBrushUnitPrefab")
+            {
+                projectileType = Unit.Type.Water;
+            }
+            unitPrefab.GetComponent<Unit>().type = projectileType;
+            unitPrefab.GetComponent<Unit>().faction = TextureGenerator.Faction.Player;
             unitPrefab.transform.position = new Vector3(x, y, z);
             mapGen.map[new Coordinate(x, z)].GetComponent<Tile>().occupied = true;
         }
@@ -398,7 +475,26 @@ public class GameLevel1 : MonoBehaviour
             float y = mapGen.map[new Coordinate(x, z)].transform.position.y;        //get height of map tile on that tile in map
 
             unitPrefab = Instantiate(Resources.Load(unitCounter.GetComponent<UnitCounter>().playerFaction, typeof(GameObject))) as GameObject;
-            unitPrefab.GetComponent<Unit>().type = Unit.Type.Oil;
+            Unit.Type projectileType = Unit.Type.Pencil;
+
+            if (unitCounter.GetComponent<UnitCounter>().playerFaction == "PencilUnitPrefab")
+            {
+                projectileType = Unit.Type.Pencil;
+            }
+            else if (unitCounter.GetComponent<UnitCounter>().playerFaction == "CharcoalUnitPrefab")
+            {
+                projectileType = Unit.Type.Charcoal;
+            }
+            else if (unitCounter.GetComponent<UnitCounter>().playerFaction == "OilBrushUnitPrefab")
+            {
+                projectileType = Unit.Type.Oil;
+            }
+            else if (unitCounter.GetComponent<UnitCounter>().playerFaction == "WaterBrushUnitPrefab")
+            {
+                projectileType = Unit.Type.Water;
+            }
+            unitPrefab.GetComponent<Unit>().type = projectileType;
+            unitPrefab.GetComponent<Unit>().faction = TextureGenerator.Faction.Player;
             unitPrefab.transform.position = new Vector3(x, y, z);
             mapGen.map[new Coordinate(x, z)].GetComponent<Tile>().occupied = true;
         }
@@ -419,7 +515,26 @@ public class GameLevel1 : MonoBehaviour
             float y = mapGen.map[new Coordinate(x, z)].transform.position.y;        //get height of map tile on that tile in map
 
             unitPrefab = Instantiate(Resources.Load(unitCounter.GetComponent<UnitCounter>().enemyFaction, typeof(GameObject))) as GameObject;
-            unitPrefab.GetComponent<Unit>().type = Unit.Type.Charcoal;
+            Unit.Type projectileType = Unit.Type.Pencil;
+
+            if (unitCounter.GetComponent<UnitCounter>().enemyFaction == "PencilUnitPrefab")
+            {
+                projectileType = Unit.Type.Pencil;
+            }
+            else if (unitCounter.GetComponent<UnitCounter>().enemyFaction == "CharcoalUnitPrefab")
+            {
+                projectileType = Unit.Type.Charcoal;
+            }
+            else if (unitCounter.GetComponent<UnitCounter>().enemyFaction == "OilBrushUnitPrefab")
+            {
+                projectileType = Unit.Type.Oil;
+            }
+            else if (unitCounter.GetComponent<UnitCounter>().enemyFaction == "WaterBrushUnitPrefab")
+            {
+                projectileType = Unit.Type.Water;
+            }
+            unitPrefab.GetComponent<Unit>().type = projectileType;
+            unitPrefab.GetComponent<Unit>().faction = TextureGenerator.Faction.Enemy;
             unitPrefab.transform.position = new Vector3(x, y, z);
 
             mapGen.map[new Coordinate(x, z)].GetComponent<Tile>().occupied = true;
@@ -441,7 +556,26 @@ public class GameLevel1 : MonoBehaviour
             float y = mapGen.map[new Coordinate(x, z)].transform.position.y;        //get height of map tile on that tile in map
 
             unitPrefab = Instantiate(Resources.Load(unitCounter.GetComponent<UnitCounter>().enemyFaction, typeof(GameObject))) as GameObject;
-            unitPrefab.GetComponent<Unit>().type = Unit.Type.Pencil;
+            Unit.Type projectileType = Unit.Type.Pencil;
+
+            if (unitCounter.GetComponent<UnitCounter>().enemyFaction == "PencilUnitPrefab")
+            {
+                projectileType = Unit.Type.Pencil;
+            }
+            else if (unitCounter.GetComponent<UnitCounter>().enemyFaction == "CharcoalUnitPrefab")
+            {
+                projectileType = Unit.Type.Charcoal;
+            }
+            else if (unitCounter.GetComponent<UnitCounter>().enemyFaction == "OilBrushUnitPrefab")
+            {
+                projectileType = Unit.Type.Oil;
+            }
+            else if (unitCounter.GetComponent<UnitCounter>().enemyFaction == "WaterBrushUnitPrefab")
+            {
+                projectileType = Unit.Type.Water;
+            }
+            unitPrefab.GetComponent<Unit>().type = projectileType;
+            unitPrefab.GetComponent<Unit>().faction = TextureGenerator.Faction.Enemy;
             unitPrefab.transform.position = new Vector3(x, y, z);
             mapGen.map[new Coordinate(x, z)].GetComponent<Tile>().occupied = true;
         }

@@ -9,7 +9,7 @@ public class OilProjectile : MonoBehaviour
 
     TextureGenerator texGen;
     Vector3 origin;
-    Thread texGenThread;
+    public TextureGenerator.Faction faction;
     // Use this for initialization
     void Start()
     {
@@ -25,7 +25,7 @@ public class OilProjectile : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        texGen.AddOilHit(collision.contacts[0].point, origin);
+        texGen.AddOilHit(collision.contacts[0].point, origin, faction);
         //
         //if (!texGenThread.IsAlive)
         //{

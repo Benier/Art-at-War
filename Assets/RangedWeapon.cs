@@ -13,7 +13,7 @@ public class RangedWeapon : MonoBehaviour {
     };
 
     public Type type;
-
+    public TextureGenerator.Faction faction;
     GameObject projectilePrefab;
     float timeToTarget = 1.0f;
     float destroyTimer = 10.0f;
@@ -35,18 +35,22 @@ public class RangedWeapon : MonoBehaviour {
         if (t == Type.Pencil)
         {
             projectilePrefab = Instantiate(Resources.Load("PencilProjectile", typeof(GameObject))) as GameObject;
+            projectilePrefab.GetComponent<PencilProjectile>().faction = faction;
         }
         if (t == Type.Charcoal)
         {
             projectilePrefab = Instantiate(Resources.Load("CharcoalProjectile", typeof(GameObject))) as GameObject;
+            projectilePrefab.GetComponent<CharcoalProjectile>().faction = faction;
         }
         if (t == Type.Water)
         {
             projectilePrefab = Instantiate(Resources.Load("WaterProjectile", typeof(GameObject))) as GameObject;
+            projectilePrefab.GetComponent<WaterProjectile>().faction = faction;
         }
         if (t == Type.Oil)
         {
             projectilePrefab = Instantiate(Resources.Load("OilProjectile", typeof(GameObject))) as GameObject;
+            projectilePrefab.GetComponent<OilProjectile>().faction = faction;
         }
         //projectilePrefab.GetComponent<Rigidbody>().velocity = BallisticVelocity(target, 60.0f);
         //Vector3 temp = projectilePrefab.GetComponent<Rigidbody>().velocity;

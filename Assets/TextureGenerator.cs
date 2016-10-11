@@ -146,7 +146,7 @@ public class TextureGenerator : MonoBehaviour {
     /// </summary>
     /// <param name="pos">Position of hit.</param>
     /// <param name="origin">Position of shooter.</param>
-    public void AddPencilHit(Vector3 pos, Vector3 origin)
+    public void AddPencilHit(Vector3 pos, Vector3 origin, Faction fact)
     {
         Vector3 texPos;
         //Correct the positions by changing it from 0,0 top left to 0, 0 centre, then adding the offset based on the position.
@@ -154,7 +154,7 @@ public class TextureGenerator : MonoBehaviour {
         correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
         texPos = new Vector3(correctX, 0, correctY);
 
-        TextureHit pHit = new TextureHit(texPos, pencilBaseTexture, pencilMaskTexture, (int)Faction.Enemy, origin);
+        TextureHit pHit = new TextureHit(texPos, pencilBaseTexture, pencilMaskTexture, (int)fact, origin);
         hitQueue.Add(pHit);
     }
 
@@ -163,7 +163,7 @@ public class TextureGenerator : MonoBehaviour {
     /// </summary>
     /// <param name="pos">Position of hit.</param>
     /// <param name="origin">Position of shooter.</param>
-    public void AddCharcoalHit(Vector3 pos, Vector3 origin)
+    public void AddCharcoalHit(Vector3 pos, Vector3 origin, Faction fact)
     {
         Vector3 texPos;
         //Correct the positions by changing it from 0,0 top left to 0, 0 centre, then adding the offset based on the position.
@@ -171,7 +171,7 @@ public class TextureGenerator : MonoBehaviour {
         correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
         texPos = new Vector3(correctX, 0, correctY);
 
-        TextureHit pHit = new TextureHit(texPos, charcoalBaseTexture, charcoalMaskTexture, (int)Faction.Enemy, origin);
+        TextureHit pHit = new TextureHit(texPos, charcoalBaseTexture, charcoalMaskTexture, (int)fact, origin);
         hitQueue.Add(pHit);
     }
 
@@ -180,7 +180,7 @@ public class TextureGenerator : MonoBehaviour {
     /// </summary>
     /// <param name="pos">Position of hit.</param>
     /// <param name="origin">Position of shooter.</param>
-    public void AddWaterHit(Vector3 pos, Vector3 origin)
+    public void AddWaterHit(Vector3 pos, Vector3 origin, Faction fact)
     {
         Vector3 texPos;
         //Correct the positions by changing it from 0,0 top left to 0, 0 centre, then adding the offset based on the position.
@@ -188,7 +188,7 @@ public class TextureGenerator : MonoBehaviour {
         correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
         texPos = new Vector3(correctX, 0, correctY);
 
-        TextureHit pHit = new TextureHit(texPos, waterBaseTexture, waterMaskTexture, (int)Faction.Player, origin);
+        TextureHit pHit = new TextureHit(texPos, waterBaseTexture, waterMaskTexture, (int)fact, origin);
         hitQueue.Add(pHit);
     }
 
@@ -197,7 +197,7 @@ public class TextureGenerator : MonoBehaviour {
     /// </summary>
     /// <param name="pos">Position of hit.</param>
     /// <param name="origin">Position of shooter.</param>
-    public void AddOilHit(Vector3 pos, Vector3 origin)
+    public void AddOilHit(Vector3 pos, Vector3 origin, Faction fact)
     {
         Vector3 texPos;
         //Correct the positions by changing it from 0,0 top left to 0, 0 centre, then adding the offset based on the position.
@@ -205,7 +205,7 @@ public class TextureGenerator : MonoBehaviour {
         correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
         texPos = new Vector3(correctX, 0, correctY);
 
-        TextureHit pHit = new TextureHit(texPos, oilBaseTexture, oilMaskTexture, (int)Faction.Player, origin);
+        TextureHit pHit = new TextureHit(texPos, oilBaseTexture, oilMaskTexture, (int)fact, origin);
         hitQueue.Add(pHit);
     }
 

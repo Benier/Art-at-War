@@ -7,6 +7,7 @@ public class PencilProjectile : MonoBehaviour {
 
     TextureGenerator texGen;
     Vector3 origin;
+    public TextureGenerator.Faction faction;
 	// Use this for initialization
 	void Start () {
         texGen = GameObject.Find("TexGenerator").GetComponent<TextureGenerator>();
@@ -20,7 +21,7 @@ public class PencilProjectile : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision)
     {
-        texGen.AddPencilHit(collision.contacts[0].point, origin);
+        texGen.AddPencilHit(collision.contacts[0].point, origin, faction);
         texGen.GenerateTexture();
         //StartCoroutine(texGen.CoroutineGenerateTexture());
         gameObject.SetActive(false);

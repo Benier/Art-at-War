@@ -41,6 +41,8 @@ public class Unit : MonoBehaviour{
     public bool active;
     public int AP;
     public float mobilityDist;
+    public TextureGenerator.Faction faction;
+    TextureGenerator texGen;
 
     #region A* variables
     Heap frontier;
@@ -67,6 +69,7 @@ public class Unit : MonoBehaviour{
         attRange = 8;
         mobilityDist = 6;
         startNode = new Node((int)transform.position.x, (int)transform.position.z);
+        texGen = GameObject.Find("TexGenerator").GetComponent<TextureGenerator>();
     }
 	// Use this for initialization
 	void Start () {
@@ -274,9 +277,12 @@ public class Unit : MonoBehaviour{
     /// <param name="targ">target GameObject</param>
     public void AttackTarget(GameObject targ)
     {
+        texGen.generating = true;
         RangedWeapon.Type t = (RangedWeapon.Type)type;
         SetTarget(targ);
+        weapon.GetComponent<RangedWeapon>().faction = faction;
         weapon.GetComponent<RangedWeapon>().FireWeapon(t);
+
         AP -= 2;
     }
 
