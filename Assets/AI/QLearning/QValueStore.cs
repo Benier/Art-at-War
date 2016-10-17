@@ -30,6 +30,10 @@ public class QValueStore : MonoBehaviour
         AttackNWAction attNW = new AttackNWAction();
         AttackSEAction attSE = new AttackSEAction();
         AttackSWAction attSW = new AttackSWAction();
+        TarNEAction tarNE = new TarNEAction();
+        TarNWAction tarNW = new TarNWAction();
+        TarSEAction tarSE = new TarSEAction();
+        TarSWAction tarSW = new TarSWAction();
         possibleActions.Add(wanNE);
         possibleActions.Add(wanNW);
         possibleActions.Add(wanSE);
@@ -38,6 +42,10 @@ public class QValueStore : MonoBehaviour
         possibleActions.Add(attNW);
         possibleActions.Add(attSE);
         possibleActions.Add(attSW);
+        possibleActions.Add(tarNE);
+        possibleActions.Add(tarNW);
+        possibleActions.Add(tarSE);
+        possibleActions.Add(tarSW);
         store = new List<StateActionPair>();
 
         foreach (QState s in stateList)

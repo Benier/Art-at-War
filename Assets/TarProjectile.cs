@@ -27,6 +27,7 @@ public class TarProjectile : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         texGen.AddTarHit(collision.contacts[0].point, origin);
+        texGen.GenerateTexture();
         //display.GetComponent<Renderer>().material.SetTexture("_MainTex", texGen.GenerateTexture());
         gameObject.SetActive(false);
     }

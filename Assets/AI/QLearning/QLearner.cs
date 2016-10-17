@@ -291,6 +291,42 @@ public class QLearner
                         empty = false;
                     }
                 }
+                if (words[1] == "TarNEAction")
+                {
+                    int QVal = int.Parse(words[2]);
+                    stores[iterations].storeQValue(new QState("Middle"), new TarNEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
+                }
+                if (words[1] == "TarNWAction")
+                {
+                    int QVal = int.Parse(words[2]);
+                    stores[iterations].storeQValue(new QState("Middle"), new TarNWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
+                }
+                if (words[1] == "TarSEAction")
+                {
+                    int QVal = int.Parse(words[2]);
+                    stores[iterations].storeQValue(new QState("Middle"), new TarSEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
+                }
+                if (words[1] == "TarSWAction")
+                {
+                    int QVal = int.Parse(words[2]);
+                    stores[iterations].storeQValue(new QState("Middle"), new TarSWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
+                }
             }
             if (words[0] == "NW Corner")
             {
@@ -361,6 +397,42 @@ public class QLearner
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("NW Corner"), new AttackSWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
+                }
+                if (words[1] == "TarNEAction")
+                {
+                    int QVal = int.Parse(words[2]);
+                    stores[iterations].storeQValue(new QState("NW Corner"), new TarNEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
+                }
+                if (words[1] == "TarNWAction")
+                {
+                    int QVal = int.Parse(words[2]);
+                    stores[iterations].storeQValue(new QState("NW Corner"), new TarNWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
+                }
+                if (words[1] == "TarSEAction")
+                {
+                    int QVal = int.Parse(words[2]);
+                    stores[iterations].storeQValue(new QState("NW Corner"), new TarSEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
+                }
+                if (words[1] == "TarSWAction")
+                {
+                    int QVal = int.Parse(words[2]);
+                    stores[iterations].storeQValue(new QState("NW Corner"), new TarSWAction(), QVal);
                     if (QVal != 0)
                     {
                         empty = false;
@@ -441,6 +513,42 @@ public class QLearner
                         empty = false;
                     }
                 }
+                if (words[1] == "TarNEAction")
+                {
+                    int QVal = int.Parse(words[2]);
+                    stores[iterations].storeQValue(new QState("NE Corner"), new TarNEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
+                }
+                if (words[1] == "TarNWAction")
+                {
+                    int QVal = int.Parse(words[2]);
+                    stores[iterations].storeQValue(new QState("NE Corner"), new TarNWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
+                }
+                if (words[1] == "TarSEAction")
+                {
+                    int QVal = int.Parse(words[2]);
+                    stores[iterations].storeQValue(new QState("NE Corner"), new TarSEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
+                }
+                if (words[1] == "TarSWAction")
+                {
+                    int QVal = int.Parse(words[2]);
+                    stores[iterations].storeQValue(new QState("NE Corner"), new TarSWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
+                }
             }
             if (words[0] == "SW Corner")
             {
@@ -516,6 +624,42 @@ public class QLearner
                         empty = false;
                     }
                 }
+                if (words[1] == "TarNEAction")
+                {
+                    int QVal = int.Parse(words[2]);
+                    stores[iterations].storeQValue(new QState("SW Corner"), new TarNEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
+                }
+                if (words[1] == "TarNWAction")
+                {
+                    int QVal = int.Parse(words[2]);
+                    stores[iterations].storeQValue(new QState("SW Corner"), new TarNWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
+                }
+                if (words[1] == "TarSEAction")
+                {
+                    int QVal = int.Parse(words[2]);
+                    stores[iterations].storeQValue(new QState("SW Corner"), new TarSEAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
+                }
+                if (words[1] == "TarSWAction")
+                {
+                    int QVal = int.Parse(words[2]);
+                    stores[iterations].storeQValue(new QState("SW Corner"), new TarSWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
+                }
             }
             if (words[0] == "SE Corner")
             {
@@ -586,6 +730,42 @@ public class QLearner
                 {
                     int QVal = int.Parse(words[2]);
                     stores[iterations].storeQValue(new QState("SE Corner"), new AttackSWAction(), QVal);
+                    if (QVal != 0)
+                    {
+                        empty = false;
+                    }
+                }
+                if (words[1] == "TarNEAction")
+                {
+                    int QVal = int.Parse(words[2]);
+                    stores[iterations].storeQValue(new QState("SE Corner"), new TarNEAction(), QVal);
+                    if (QVal != 0)                                              
+                    {                                                           
+                        empty = false;                                          
+                    }                                                           
+                }                                                               
+                if (words[1] == "TarNWAction")                                  
+                {                                                               
+                    int QVal = int.Parse(words[2]);                              
+                    stores[iterations].storeQValue(new QState("SE Corner"), new TarNWAction(), QVal);
+                    if (QVal != 0)                                              
+                    {                                                           
+                        empty = false;                                          
+                    }                                                           
+                }                                                               
+                if (words[1] == "TarSEAction")                                  
+                {                                                               
+                    int QVal = int.Parse(words[2]);                             
+                    stores[iterations].storeQValue(new QState("SE Corner"), new TarSEAction(), QVal);
+                    if (QVal != 0)                                              
+                    {                                                           
+                        empty = false;                                          
+                    }                                                           
+                }                                                               
+                if (words[1] == "TarSWAction")                                  
+                {                                                               
+                    int QVal = int.Parse(words[2]);                              
+                    stores[iterations].storeQValue(new QState("SE Corner"), new TarSWAction(), QVal);
                     if (QVal != 0)
                     {
                         empty = false;

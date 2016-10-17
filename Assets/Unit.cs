@@ -289,6 +289,7 @@ public class Unit : MonoBehaviour{
     public void TarTarget(GameObject targ)
     {
         SetTarget(targ);
+        weapon.GetComponent<RangedWeapon>().faction = faction;
         weapon.GetComponent<RangedWeapon>().FireTar();
         AP -= 2;
     }
