@@ -21,6 +21,7 @@ public class PencilProjectile : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision)
     {
+        texGen.generating = true;
         texGen.AddPencilHit(collision.contacts[0].point, origin, faction);
         texGen.GenerateTexture();
         //StartCoroutine(texGen.CoroutineGenerateTexture());

@@ -24,7 +24,7 @@ public class LoadingActionTexture : MonoBehaviour
 
     public void Load(int index)
     {
-        if(!texGen.loaded)
+        if(texGen.generating)
         {
             instance.GetComponent<GUITexture>().enabled = true;
         }

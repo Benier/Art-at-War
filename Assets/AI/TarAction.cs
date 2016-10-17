@@ -117,7 +117,7 @@ public class TarAction : Action
                 if (!(x < 0) && !(x >= texGen.inputBaseTexture.width)
                     && !(y < 0) && !(y >= texGen.inputBaseTexture.height))
                 {
-                    if (texGen.pixels[x, y].faction == (int)TextureGenerator.Faction.None)
+                    if (texGen.pixels[x, y].faction == (int)TextureGenerator.Faction.Player)
                     {
                         potential++;
                     }
@@ -151,7 +151,7 @@ public class TarAction : Action
                 if (!(x < 0) && !(x >= texGen.inputBaseTexture.width)
                     && !(y < 0) && !(y >= texGen.inputBaseTexture.height))
                 {
-                    if (texGen.pixels[x, y].faction == (int)TextureGenerator.Faction.None)
+                    if (texGen.pixels[x, y].faction == (int)TextureGenerator.Faction.Player)
                     {
                         potential++;
                     }
@@ -185,7 +185,7 @@ public class TarAction : Action
                 if (!(x < 0) && !(x >= texGen.inputBaseTexture.width)
                     && !(y < 0) && !(y >= texGen.inputBaseTexture.height))
                 {
-                    if (texGen.pixels[x, y].faction == (int)TextureGenerator.Faction.None)
+                    if (texGen.pixels[x, y].faction == (int)TextureGenerator.Faction.Player)
                     {
                         potential++;
                     }
@@ -219,7 +219,7 @@ public class TarAction : Action
                 if (!(x < 0) && !(x >= texGen.inputBaseTexture.width)
                     && !(y < 0) && !(y >= texGen.inputBaseTexture.height))
                 {
-                    if (texGen.pixels[x, y].faction == (int)TextureGenerator.Faction.None)
+                    if (texGen.pixels[x, y].faction == (int)TextureGenerator.Faction.Player)
                     {
                         potential++;
                     }

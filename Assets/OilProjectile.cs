@@ -25,6 +25,7 @@ public class OilProjectile : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        texGen.generating = true;
         texGen.AddOilHit(collision.contacts[0].point, origin, faction);
         //
         //if (!texGenThread.IsAlive)
