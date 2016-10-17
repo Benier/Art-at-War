@@ -323,6 +323,7 @@ public class TextureGenerator : MonoBehaviour {
                     }
 
                 }
+
                 //Color tempCol = new Color(hit.baseTexture.GetPixel(x, y).r, hit.baseTexture.GetPixel(x, y).g, hit.baseTexture.GetPixel(x, y).b, hit.maskTexture.GetPixel(x, y).a);
                 //tempTexture.SetPixel(x, y, tempCol);
             }

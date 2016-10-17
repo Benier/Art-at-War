@@ -284,14 +284,17 @@ public class Unit : MonoBehaviour{
         weapon.GetComponent<RangedWeapon>().FireWeapon(t);
 
         AP -= 2;
+        this.active = false;
     }
 
     public void TarTarget(GameObject targ)
     {
+        texGen.generating = true;
         SetTarget(targ);
         weapon.GetComponent<RangedWeapon>().faction = faction;
         weapon.GetComponent<RangedWeapon>().FireTar();
         AP -= 2;
+        this.active = false;
     }
 
     /// <summary>
@@ -310,6 +313,10 @@ public class Unit : MonoBehaviour{
         {
             gameObject.transform.position = targ.transform.position;
             AP -= 2;
+        }
+        if(AP <= 0)
+        {
+            this.active = false;
         }
 
     }

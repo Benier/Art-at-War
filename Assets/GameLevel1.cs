@@ -132,12 +132,16 @@ public class GameLevel1 : MonoBehaviour
                             EnableUnit(enemyUnits, curUnitInd);
                             playerTurn = 2;
                             EnableMove();
+                            EnableAttack();
+                            EnableTar();
                         }
                         else
                         {
                             EnableUnit(qEnemyUnits, curUnitInd);
                             playerTurn = 3;
                             EnableMove();
+                            EnableAttack();
+                            EnableTar();
                         }
                         ResetUnitsAP(playerTurn);
                     }
@@ -159,12 +163,16 @@ public class GameLevel1 : MonoBehaviour
                             EnableUnit(qEnemyUnits, curUnitInd);
                             playerTurn = 3;
                             EnableMove();
+                            EnableAttack();
+                            EnableTar();
                         }
                         else
                         {
                             EnableUnit(playerUnits, curUnitInd);
                             playerTurn = 1;
                             EnableMove();
+                            EnableAttack();
+                            EnableTar();
                             numTurns--;
                         }
                         ResetUnitsAP(playerTurn);
@@ -186,6 +194,8 @@ public class GameLevel1 : MonoBehaviour
                         EnableUnit(playerUnits, curUnitInd);
                         playerTurn = 1;
                         EnableMove();
+                        EnableAttack();
+                        EnableTar();
                         ResetUnitsAP(playerTurn);
                         numTurns--;
                     }

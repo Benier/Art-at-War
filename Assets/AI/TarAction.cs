@@ -243,6 +243,6 @@ public class TarAction : Action
 
     public string GetName()
     {
-        return "Attack";
+        return "Tar";
     }
 }
