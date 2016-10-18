@@ -197,6 +197,7 @@ public class Unit : MonoBehaviour{
             case Ability.Attack:
                 if (Input.GetMouseButtonDown(0) && CalculateDistance(gameObject.transform.position, hitInfo.transform.gameObject.transform.position) < attRange)
                 {
+                    texGen.generating = true;
                     AttackTarget(hitInfo.transform.gameObject);
                     hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = Color.red;
                 }

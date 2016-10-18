@@ -88,7 +88,7 @@ public class GameLevel1 : MonoBehaviour
 
     void LateUpdate()
     {
-        if(playerTurn != 1) //if it's not player's turn
+        if(playerTurn != 1 && texGenerator.generating) //if it's not player's turn
         {
             loadingActTexture.SetActive(true);
         }

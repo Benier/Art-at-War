@@ -15,10 +15,10 @@ public class QLearner
     int stepsback;
     int losingStreak;
     int maxLosingStreak;
-    float alpha;
-    float gamma;
-    float rho;
-    float nu;
+    float alpha; //learning rate
+    float gamma; //reinforcement value
+    float rho; //random action threshold
+    float nu; //random state threshold
     QState state;
     List<Action> actions;
     Action action;
@@ -69,7 +69,7 @@ public class QLearner
             stores[iterations].copyToStore(store);
         }
 
-        rho = 3;
+        rho = 10;
         nu = 0;
         alpha = 1;
         gamma = 0.2f;
