@@ -150,16 +150,12 @@ public class Unit : MonoBehaviour{
     /// </summary>
     void HandleInput()
     {
-        if (/*Input.GetMouseButtonDown(0) &&*/ !EventSystem.current.IsPointerOverGameObject())
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            //Debug.Log("LMB Down");
             RaycastHit hitInfo = new RaycastHit();
             bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
             if (hit)
             {
-                //Debug.Log("Hit " + hitInfo.transform.gameObject.name);
-                //Debug.Log(hitInfo.transform.gameObject.GetComponent<Renderer>().material.name);
-
                 ExecuteAbility(hitInfo);
 
                 if (hitInfo.transform.gameObject.tag == "GroundTile")
@@ -190,9 +186,17 @@ public class Unit : MonoBehaviour{
         }
         if (prevTile != hitInfo.transform.gameObject)
         {
-            prevTile.GetComponent<Renderer>().material.color = Color.white;
+            if (CalculateDistance(gameObject.transform.position, hitInfo.transform.gameObject.transform.position) < attRange)
+            {
+                prevTile.GetComponent<Renderer>().material.color = Color.cyan;
+            }
+            else
+            {
+                prevTile.GetComponent<Renderer>().material.color = Color.white;
+            }
         }
-        switch(ability)
+
+        switch (ability)
         {
             case Ability.Attack:
                 if (Input.GetMouseButtonDown(0) && CalculateDistance(gameObject.transform.position, hitInfo.transform.gameObject.transform.position) < attRange)

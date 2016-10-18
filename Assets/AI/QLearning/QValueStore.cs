@@ -35,16 +35,16 @@ public class QValueStore : MonoBehaviour
         TarSEAction tarSE = new TarSEAction();
         TarSWAction tarSW = new TarSWAction();
         possibleActions.Add(wanNE);
-        possibleActions.Add(wanNW);
-        possibleActions.Add(wanSE);
-        possibleActions.Add(wanSW);
         possibleActions.Add(attNE);
-        possibleActions.Add(attNW);
-        possibleActions.Add(attSE);
-        possibleActions.Add(attSW);
         possibleActions.Add(tarNE);
+        possibleActions.Add(wanNW);
+        possibleActions.Add(attNW);
         possibleActions.Add(tarNW);
+        possibleActions.Add(wanSE);
+        possibleActions.Add(attSE);
         possibleActions.Add(tarSE);
+        possibleActions.Add(wanSW);
+        possibleActions.Add(attSW);
         possibleActions.Add(tarSW);
         store = new List<StateActionPair>();
 

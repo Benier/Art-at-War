@@ -69,7 +69,7 @@ public class QLearner
             stores[iterations].copyToStore(store);
         }
 
-        rho = 10;
+        rho = 10 - iterations;
         nu = 0;
         alpha = 1;
         gamma = 0.2f;

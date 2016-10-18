@@ -6,13 +6,15 @@ using UnityEngine.SceneManagement;
 public class GameLevel1 : MonoBehaviour
 {
     [SerializeField]
-    GameObject mapGenerator;
+    public GameObject mapGenerator;
     [SerializeField]
     GameObject unitCounter;
     public GameObject loadingActTexture;
+    public GameObject loadingEnemyActTexture;
     TextureGenerator texGenerator;
     public Canvas endGameCanvas;
     public static Dictionary<Coordinate, GameObject> map;
+    public GameObject curUnitLight;
     List<GameObject> playerUnits = new List<GameObject>();
     List<GameObject> enemyUnits = new List<GameObject>();
     List<GameObject> qEnemyUnits = new List<GameObject>();
@@ -33,10 +35,11 @@ public class GameLevel1 : MonoBehaviour
     int totalPlayerAP;
     int totalEnemyAP;
     int totalQEnemyAP;
-    int numTurns = 1;
+    int numTurns = 2;
     public int playerPoints;
     public int enemyPoints;
     public int qEnemyPoints;
+    public float lightHoverHeight;
     int winner; //0 = none, 1 = player, 2 = enemy, 3 = q enemy
     bool gameEnd;
 
@@ -73,11 +76,14 @@ public class GameLevel1 : MonoBehaviour
         EnableUnit(playerUnits, curUnitInd);
         playerTurn = 1;
         gameEnd = false;
+        lightHoverHeight = 2.0f;
         totalEnemyCount = enemyRangedUnitCount + enemyMeleeUnitCount + qEnemyRangedUnitCount + qEnemyMeleeUnitCount;
+
+        ColourRangeTiles(playerUnits[curUnitInd], playerUnits[curUnitInd].GetComponent<Unit>().attRange);
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update ()
     {
         if(!texGenerator.generating)
         {
@@ -88,13 +94,21 @@ public class GameLevel1 : MonoBehaviour
 
     void LateUpdate()
     {
-        if(playerTurn != 1 && texGenerator.generating) //if it's not player's turn
+        if(texGenerator.generating) //if it's not player's turn
         {
-            loadingActTexture.SetActive(true);
+            if (playerTurn != 1)
+            {
+                loadingEnemyActTexture.SetActive(true);
+            }
+            else
+            {
+                loadingActTexture.SetActive(true);
+            }
         }
         else
         {
             loadingActTexture.SetActive(false);
+            loadingEnemyActTexture.SetActive(false);
         }
         if(gameEnd)
         {
@@ -121,10 +135,12 @@ public class GameLevel1 : MonoBehaviour
 
             if (playerTurn == 1)
             {
+                curUnitLight.transform.position = new Vector3(playerUnits[curUnitInd].transform.position.x, playerUnits[curUnitInd].transform.position.y + lightHoverHeight, playerUnits[curUnitInd].transform.position.z);
                 if (playerUnits[curUnitInd].GetComponent<Unit>().AP <= 0)
                 {
-                    if (!SelectNextUnit())
+                    if (!SelectNextUnit() && !texGenerator.generating)
                     {
+                        ClearTiles();
                         //Debug.Log("Turn Ended");
                         curUnitInd = 0;
                         if (enemyUnits.Count > 0)
@@ -149,11 +165,14 @@ public class GameLevel1 : MonoBehaviour
             }
             else if (playerTurn == 2)
             {
+                curUnitLight.transform.position = new Vector3(enemyUnits[curUnitInd].transform.position.x, 
+                    enemyUnits[curUnitInd].transform.position.y + lightHoverHeight, 
+                    enemyUnits[curUnitInd].transform.position.z);
                 agents[curUnitInd].Update();
 
                 if (enemyUnits[curUnitInd].GetComponent<Unit>().AP <= 0)
                 {
-                    if (!SelectNextUnit())
+                    if (!SelectNextUnit() && !texGenerator.generating)
                     {
                         //Debug.Log("Turn Ended");
                         curUnitInd = 0;
@@ -174,6 +193,7 @@ public class GameLevel1 : MonoBehaviour
                             EnableAttack();
                             EnableTar();
                             numTurns--;
+                            ColourRangeTiles(playerUnits[curUnitInd], playerUnits[curUnitInd].GetComponent<Unit>().attRange);
                         }
                         ResetUnitsAP(playerTurn);
                         //numTurns--;
@@ -183,11 +203,14 @@ public class GameLevel1 : MonoBehaviour
             }
             else if (playerTurn == 3)
             {
+                curUnitLight.transform.position = new Vector3(qEnemyUnits[curUnitInd].transform.position.x, 
+                    qEnemyUnits[curUnitInd].transform.position.y + lightHoverHeight, 
+                    qEnemyUnits[curUnitInd].transform.position.z);
                 qagents[curUnitInd].UpdateQ();
 
                 if (qEnemyUnits[curUnitInd].GetComponent<Unit>().AP <= 0)
                 {
-                    if (!SelectNextUnit())
+                    if (!SelectNextUnit() && !texGenerator.generating)
                     {
                         //Debug.Log("Turn Ended");
                         curUnitInd = 0;
@@ -198,6 +221,7 @@ public class GameLevel1 : MonoBehaviour
                         EnableTar();
                         ResetUnitsAP(playerTurn);
                         numTurns--;
+                        ColourRangeTiles(playerUnits[curUnitInd], playerUnits[curUnitInd].GetComponent<Unit>().attRange);
                     }
                     numExecutedEnemies++;
                 }
@@ -265,6 +289,31 @@ public class GameLevel1 : MonoBehaviour
             }
         }
     }
+
+    void ColourRangeTiles(GameObject unit, float range)
+    {
+        foreach (KeyValuePair<Coordinate, GameObject> b in map)
+        {
+            if(Mathf.Sqrt(Mathf.Pow((b.Value.transform.position.x - unit.transform.position.x), 2.0f) 
+                + Mathf.Pow((b.Value.transform.position.z - unit.transform.position.z), 2.0f)) < range)
+            {
+                b.Value.GetComponent<Renderer>().material.color = Color.cyan;
+            }
+            else
+            {
+                b.Value.GetComponent<Renderer>().material.color = Color.white;
+            }
+        }
+    }
+
+    void ClearTiles()
+    {
+        foreach (KeyValuePair<Coordinate, GameObject> b in map)
+        {
+            b.Value.GetComponent<Renderer>().material.color = Color.white;
+        }
+    }
+
 
     public void CloseApplication()
     {
@@ -621,6 +670,10 @@ public class GameLevel1 : MonoBehaviour
             curUnitInd++;
             EnableUnit(unitsList, curUnitInd);
             EnableMove();
+            if(playerTurn == 1)
+            {
+                ColourRangeTiles(unitsList[curUnitInd], unitsList[curUnitInd].GetComponent<Unit>().attRange);
+            }
             return true;
         }
         else
