@@ -333,6 +333,7 @@ public class TextureGenerator : MonoBehaviour {
         mapGen.SetMapTexture(tempTexture);
         outputTexture = tempTexture;
         generating = false;
+        hitQueue.Clear();
         //return tempTexture;
     }
 
