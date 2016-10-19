@@ -7,6 +7,7 @@ using System.Linq;
 public class QLearner
 {
     List<QValueStore> stores;
+    OptionsHolder optionsHolder;
     GameLevel1 gameLevel;
     QValueStore store;
     QProblem problem;
@@ -27,14 +28,15 @@ public class QLearner
 
     public QLearner(Unit u, TextureGenerator tg)
     {
+        optionsHolder = GameObject.Find("OptionsHolder").GetComponent<OptionsHolder>();
         stores = new List<QValueStore>();
         gameLevel = GameObject.Find("GameLvl1").GetComponent<GameLevel1>();
         problem = new QProblem();
         iterations = 0;
         maxIterations = gameLevel.numQValStores;
         losingStreak = 0;
-        maxLosingStreak = 3;
-        stepsback = 4;
+        maxLosingStreak = optionsHolder.maxLosingStreak;
+        stepsback = optionsHolder.stepsback;
         unit = u;
         texGen = tg;
         state = problem.GetRandomState();
@@ -69,10 +71,10 @@ public class QLearner
             stores[iterations].copyToStore(store);
         }
 
-        rho = 10 - iterations;
-        nu = 0;
-        alpha = 1;
-        gamma = 0.2f;
+        rho = optionsHolder.rho - iterations;
+        nu = optionsHolder.nu;
+        alpha = optionsHolder.alpha;
+        gamma = optionsHolder.gamma;
     }
     	
 	public void UpdateQ ()

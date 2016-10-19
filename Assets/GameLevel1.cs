@@ -12,6 +12,7 @@ public class GameLevel1 : MonoBehaviour
     public GameObject loadingActTexture;
     public GameObject loadingEnemyActTexture;
     TextureGenerator texGenerator;
+    GameObject optionsHolder;
     public Canvas endGameCanvas;
     public static Dictionary<Coordinate, GameObject> map;
     public GameObject curUnitLight;
@@ -30,12 +31,12 @@ public class GameLevel1 : MonoBehaviour
     int totalEnemyCount;
     int numExecutedEnemies;
     public int curUnitInd;
-    public int numQValStores = 5;
+    public int numQValStores;
     int playerTurn; // 1 = player, 2 = enemy, 3 = q enemy
     int totalPlayerAP;
     int totalEnemyAP;
     int totalQEnemyAP;
-    int numTurns = 2;
+    int numTurns = 1;
     public int playerPoints;
     public int enemyPoints;
     public int qEnemyPoints;
@@ -47,6 +48,8 @@ public class GameLevel1 : MonoBehaviour
 
     void Awake()
     {
+        optionsHolder = GameObject.Find("OptionsHolder");
+        numQValStores = optionsHolder.GetComponent<OptionsHolder>().maxIterations;
         GameObject qvs;
         for (int num = 0; num < numQValStores; num++)
         {
@@ -70,6 +73,7 @@ public class GameLevel1 : MonoBehaviour
         enemyMeleeUnitCount = 0;
         qEnemyRangedUnitCount = unitCounter.GetComponent<UnitCounter>().numQEnemy;
         qEnemyMeleeUnitCount = 0;
+        numTurns = unitCounter.GetComponent<UnitCounter>().numTurns;
 
         SpawnUnits();
         curUnitInd = 0;
@@ -210,7 +214,7 @@ public class GameLevel1 : MonoBehaviour
 
                 if (qEnemyUnits[curUnitInd].GetComponent<Unit>().AP <= 0)
                 {
-                    if (!SelectNextUnit() && !texGenerator.generating)
+                    if (!SelectNextUnit())
                     {
                         //Debug.Log("Turn Ended");
                         curUnitInd = 0;
@@ -337,6 +341,7 @@ public class GameLevel1 : MonoBehaviour
     public void BackToMainMenu()
     {
         EndGameSaveQ();
+        DontDestroyOnLoad(optionsHolder);
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -344,6 +349,7 @@ public class GameLevel1 : MonoBehaviour
     {
         EndGameSaveQ();
         DontDestroyOnLoad(unitCounter);
+        DontDestroyOnLoad(optionsHolder);
         SceneManager.LoadScene("GameLvl1");
     }
 

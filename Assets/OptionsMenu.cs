@@ -3,13 +3,13 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class OptionsMenu : MonoBehaviour {
-    QLearner invisQLearner;
-    TextureGenerator invisTexGen;
+    OptionsQLearner invisQLearner;
+    GameObject optionsHolder;
 	// Use this for initialization
 	void Start ()
     {
-        invisTexGen = new TextureGenerator();
-        invisQLearner = new QLearner(SpawnInvisibleQRangedEnemyUnit().GetComponent<Unit>(), invisTexGen);
+        invisQLearner = new OptionsQLearner();
+        optionsHolder = GameObject.Find("OptionsHolder");
     }
 	
 	// Update is called once per frame
@@ -20,6 +20,7 @@ public class OptionsMenu : MonoBehaviour {
 
     public void BackToMainMenu()
     {
+        DontDestroyOnLoad(optionsHolder);
         SceneManager.LoadScene("MainMenu");
     }
 

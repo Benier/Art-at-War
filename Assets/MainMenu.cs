@@ -6,9 +6,16 @@ using System.Collections;
 public class MainMenu : MonoBehaviour {
     [SerializeField]
     Button PlayButton;
+    public GameObject optionsHolder;
+
 	// Use this for initialization
-	void Start () {
-	
+	void Start ()
+    {
+	    if(optionsHolder.GetComponent<OptionsHolder>().initialStart)
+        {
+            optionsHolder.GetComponent<OptionsHolder>().InitializeValues();
+            optionsHolder.GetComponent<OptionsHolder>().initialStart = false;
+        }
 	}
 	
 	// Update is called once per frame
@@ -19,11 +26,13 @@ public class MainMenu : MonoBehaviour {
 
     public void OnPlayClick()
     {
+        DontDestroyOnLoad(optionsHolder);
         SceneManager.LoadScene("UnitSelection");
     }
 
     public void OnOptionsClick()
     {
+        DontDestroyOnLoad(optionsHolder);
         SceneManager.LoadScene("Options");
     }
 

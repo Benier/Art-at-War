@@ -16,7 +16,9 @@ public class UnitCounter : MonoBehaviour
     public int numPlayer;
     public Text numEnemyText;
     public Text numPlayerText;
+    public Text numTurnsText;
     public Toggle qLearningEnemyToggle;
+    public int numTurns;
     ArrayList enemyList = new ArrayList();
 	// Use this for initialization
 	void Start ()
@@ -27,9 +29,11 @@ public class UnitCounter : MonoBehaviour
         waterSelected = false;
 
         numEnemy = 0;
+        numTurns = 1;
         numQEnemy = int.Parse(numEnemyText.text);
         numPlayer = int.Parse(numPlayerText.text);
-	}
+        SelectOil();
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -77,8 +81,20 @@ public class UnitCounter : MonoBehaviour
 
     public void DecrementPlayer()
     {
-        numPlayer++;
+        numPlayer--;
         numPlayerText.text = numPlayer.ToString();
+    }
+
+    public void IncrementTurns()
+    {
+        numTurns++;
+        numTurnsText.text = numTurns.ToString();
+    }
+
+    public void DecrementTurns()
+    {
+        numTurns--;
+        numTurnsText.text = numTurns.ToString();
     }
 
     public void SelectPencil()
