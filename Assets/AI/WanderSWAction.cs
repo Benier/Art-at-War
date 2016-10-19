@@ -33,6 +33,7 @@ public class WanderSWAction : Action
         y = mapGen.map[new Coordinate(x, z)].transform.position.y;
         target.transform.position = new Vector3(x, y, z);
         //u.ability = Unit.Ability.Attack;
+        reward = CalculateDistance(target.transform.position, new Vector3());
         u.MoveToTarget(target);
     }
 
@@ -44,5 +45,16 @@ public class WanderSWAction : Action
     public string GetName()
     {
         return "WanderSWAction";
+    }
+
+    /// <summary>
+    /// Calculates distance between two points
+    /// </summary>
+    /// <param name="orig">Origin point</param>
+    /// <param name="dest">Destination point</param>
+    /// <returns>float distance between two points using pythagoras</returns>
+    float CalculateDistance(Vector3 orig, Vector3 dest)
+    {
+        return Mathf.Sqrt(Mathf.Pow((dest.x - orig.x), 2.0f) + Mathf.Pow((dest.z - orig.z), 2.0f));
     }
 }
