@@ -1,0 +1,58 @@
+Mono path[0] = 'D:/RuCloud/BTech/Term4/Practicum-QLearning/repo/ArtAtWar_Data/Managed'
+Mono path[1] = 'D:/RuCloud/BTech/Term4/Practicum-QLearning/repo/ArtAtWar_Data/Mono'
+Mono config path = 'D:/RuCloud/BTech/Term4/Practicum-QLearning/repo/ArtAtWar_Data/Mono/etc'
+PlayerConnection initialized from D:/RuCloud/BTech/Term4/Practicum-QLearning/repo/ArtAtWar_Data (debug = 0)
+PlayerConnection initialized network socket : 0.0.0.0 55321
+Multi-casting "[IP] 192.168.100.200 [Port] 55321 [Flags] 2 [Guid] 3100336596 [EditorId] 2395369872 [Version] 1048832 [Id] WindowsPlayer(TIMSHIP-PC) [Debug] 0" to [225.0.0.222:54997]...
+PlayerConnection already initialized - listening to [192.168.100.200:55321]
+Initialize engine version: 5.3.2f1 (e87ab445ead0)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 965M (ID=0x1619)
+    Vendor:   NVIDIA
+    VRAM:     2016 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\RuCloud\BTech\Term4\Practicum-QLearning\repo\ArtAtWar_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\RuCloud\BTech\Term4\Practicum-QLearning\repo\ArtAtWar_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\RuCloud\BTech\Term4\Practicum-QLearning\repo\ArtAtWar_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\RuCloud\BTech\Term4\Practicum-QLearning\repo\ArtAtWar_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\RuCloud\BTech\Term4\Practicum-QLearning\repo\ArtAtWar_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\RuCloud\BTech\Term4\Practicum-QLearning\repo\ArtAtWar_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: D:\RuCloud\BTech\Term4\Practicum-QLearning\repo\ArtAtWar_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading D:\RuCloud\BTech\Term4\Practicum-QLearning\repo\ArtAtWar_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.052 seconds
+Platform assembly: D:\RuCloud\BTech\Term4\Practicum-QLearning\repo\ArtAtWar_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: D:\RuCloud\BTech\Term4\Practicum-QLearning\repo\ArtAtWar_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 75Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.665679 ms
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 1618 -> priority: 1 
+  Thread -> id: 15d8 -> priority: 1 
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 6.831015 ms
+System memory in use before: 17.4 MB.
+System memory in use after: 17.4 MB.
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 382.
+Total: 0.340543 ms (FindLiveObjects: 0.027259 ms CreateObjectMapping: 0.019358 ms MarkObjects: 0.283654 ms  DeleteObjects: 0.009086 ms)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.099062 ms
+System memory in use before: 28.5 MB.
+System memory in use after: 28.5 MB.
+
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 435.
+Total: 7.722669 ms (FindLiveObjects: 0.020148 ms CreateObjectMapping: 0.031209 ms MarkObjects: 7.657089 ms  DeleteObjects: 0.013037 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 8.980151 ms
+System memory in use before: 38.0 MB.
+System memory in use after: 36.8 MB.
+
+Unloading 1672 unused Assets to reduce memory usage. Loaded Objects now: 307.
+Total: 3.246223 ms (FindLiveObjects: 0.239407 ms CreateObjectMapping: 0.107851 ms MarkObjects: 0.295901 ms  DeleteObjects: 2.602667 ms)
+

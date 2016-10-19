@@ -57,6 +57,15 @@ public class QLearner
                 store = stores[iterations];
                 //stores[iterations + 1].copyToStore(store);
             }
+            //else if(prevIterations >= maxIterations - 1)
+            //{
+            //    QValueStore tempStore = new QValueStore();
+            //    stores[prevIterations].copyToStore(tempStore);
+            //    ClearAllQ();
+            //    iterations = 0;
+            //    tempStore.copyToStore(stores[iterations]);
+            //    store = stores[iterations];
+            //}
             else
             {
                 //stores[iterations] = stores[iterations];

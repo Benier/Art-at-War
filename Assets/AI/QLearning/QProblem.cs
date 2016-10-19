@@ -24,6 +24,10 @@ public class QProblem
         middleState.AddAction(new AttackNWAction());
         middleState.AddAction(new AttackSEAction());
         middleState.AddAction(new AttackSWAction());
+        middleState.AddAction(new TarNEAction());
+        middleState.AddAction(new TarNWAction());
+        middleState.AddAction(new TarSEAction());
+        middleState.AddAction(new TarSWAction());
 
         nwCornerState = new QState("NW Corner");
         nwCornerState.AddAction(new WanderNEAction());
@@ -34,6 +38,10 @@ public class QProblem
         nwCornerState.AddAction(new AttackNWAction());
         nwCornerState.AddAction(new AttackSEAction());
         nwCornerState.AddAction(new AttackSWAction());
+        nwCornerState.AddAction(new TarNEAction());
+        nwCornerState.AddAction(new TarNWAction());
+        nwCornerState.AddAction(new TarSEAction());
+        nwCornerState.AddAction(new TarSWAction());
 
         neCornerState = new QState("NE Corner");
         neCornerState.AddAction(new WanderNEAction());
@@ -44,6 +52,10 @@ public class QProblem
         neCornerState.AddAction(new AttackNWAction());
         neCornerState.AddAction(new AttackSEAction());
         neCornerState.AddAction(new AttackSWAction());
+        neCornerState.AddAction(new TarNEAction());
+        neCornerState.AddAction(new TarNWAction());
+        neCornerState.AddAction(new TarSEAction());
+        neCornerState.AddAction(new TarSWAction());
 
         swCornerState = new QState("SW Corner");
         swCornerState.AddAction(new WanderNEAction());
@@ -54,6 +66,10 @@ public class QProblem
         swCornerState.AddAction(new AttackNWAction());
         swCornerState.AddAction(new AttackSEAction());
         swCornerState.AddAction(new AttackSWAction());
+        swCornerState.AddAction(new TarNEAction());
+        swCornerState.AddAction(new TarNWAction());
+        swCornerState.AddAction(new TarSEAction());
+        swCornerState.AddAction(new TarSWAction());
 
         seCornerState = new QState("SE Corner");
         seCornerState.AddAction(new WanderNEAction());
@@ -64,6 +80,10 @@ public class QProblem
         seCornerState.AddAction(new AttackNWAction());
         seCornerState.AddAction(new AttackSEAction());
         seCornerState.AddAction(new AttackSWAction());
+        seCornerState.AddAction(new TarNEAction());
+        seCornerState.AddAction(new TarNWAction());
+        seCornerState.AddAction(new TarSEAction());
+        seCornerState.AddAction(new TarSWAction());
 
         states.Add(middleState);
         states.Add(nwCornerState);
