@@ -100,10 +100,7 @@ public class TarNWAction : Action
                     {
                         potential++;
                     }
-                    else
-                    {
-                        potential--;
-                    }
+
                     reward = potential;
                 }
             }
@@ -134,10 +131,7 @@ public class TarNWAction : Action
                     {
                         potential++;
                     }
-                    else
-                    {
-                        potential--;
-                    }
+
                     reward = potential;
                 }
             }
@@ -168,10 +162,7 @@ public class TarNWAction : Action
                     {
                         potential++;
                     }
-                    else
-                    {
-                        potential--;
-                    }
+
                     reward = potential;
                 }
             }
@@ -202,10 +193,7 @@ public class TarNWAction : Action
                     {
                         potential++;
                     }
-                    else
-                    {
-                        potential--;
-                    }
+
                     reward = potential;
                 }
             }

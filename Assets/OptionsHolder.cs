@@ -29,7 +29,7 @@ public class OptionsHolder : MonoBehaviour {
         nu = 0;
         alpha = 1;
         gamma = 0.2f;
-        maxIterations = 10;
+        maxIterations = 20;
         maxLosingStreak = 3;
         stepsback = 4;
     }

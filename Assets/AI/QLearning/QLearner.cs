@@ -71,7 +71,7 @@ public class QLearner
             stores[iterations].copyToStore(store);
         }
 
-        rho = optionsHolder.rho - iterations;
+        rho = optionsHolder.rho;
         nu = optionsHolder.nu;
         alpha = optionsHolder.alpha;
         gamma = optionsHolder.gamma;
@@ -170,6 +170,11 @@ public class QLearner
             RevertQ();
             losingStreak = 0;
         }
+    }
+
+    public void ResetLosingStreak()
+    {
+        losingStreak = 0;
     }
 
     public void RevertQ()

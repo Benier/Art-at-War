@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameLevel1 : MonoBehaviour
@@ -41,6 +42,7 @@ public class GameLevel1 : MonoBehaviour
     public int enemyPoints;
     public int qEnemyPoints;
     public float lightHoverHeight;
+    public Text winLossText;
     int winner; //0 = none, 1 = player, 2 = enemy, 3 = q enemy
     bool gameEnd;
 
@@ -331,7 +333,7 @@ public class GameLevel1 : MonoBehaviour
             }
             else
             {
-
+                RecordWin();
                 UpdateQValues();
             }            
         }
@@ -365,6 +367,7 @@ public class GameLevel1 : MonoBehaviour
             }
             else
             {
+                RecordWin();
                 UpdateQValues();
             }
         }
@@ -830,19 +833,19 @@ public class GameLevel1 : MonoBehaviour
         {
             if(winner == 0)
             {
-                GUI.Label(new Rect(0, 3 * 30, 300, 300), "Game Tied");
+                winLossText.text = "Tie Game";
             }
             else if(winner == 1)
             {
-                GUI.Label(new Rect(0, 3 * 30, 300, 300), "Player Won");
+                winLossText.text = "You Win";
             }
             else if(winner == 2)
             {
-                GUI.Label(new Rect(0, 3 * 30, 300, 300), "Enemy Won");
+                winLossText.text = "You Lost";
             }
             else if(winner == 3)
             {
-                GUI.Label(new Rect(0, 3 * 30, 300, 300), "Q Enemy Won");
+                winLossText.text = "You Lost";
             }
         }
         GUI.Label(new Rect(0, 4 * 30, 300, 300), "Turns Remaining: " + numTurns);
@@ -863,6 +866,14 @@ public class GameLevel1 : MonoBehaviour
         {
             qagents[i].IncrementLosingStreak();
             qagents[i].SaveQToFileOverwrite();
+        }
+    }
+
+    void RecordWin()
+    {
+        for (int i = 0; i < qagents.Count; i++)
+        {
+            qagents[i].ResetLosingStreak();
         }
     }
 }
