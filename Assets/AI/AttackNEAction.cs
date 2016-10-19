@@ -100,10 +100,6 @@ public class AttackNEAction : Action
                     {
                         potential++;
                     }
-                    else
-                    {
-                        potential--;
-                    }
                     reward = potential;
                 }
             }
@@ -133,10 +129,6 @@ public class AttackNEAction : Action
                     if (texGen.pixels[x, y].faction == (int)TextureGenerator.Faction.None)
                     {
                         potential++;
-                    }
-                    else
-                    {
-                        potential--;
                     }
                     reward = potential;
                 }
@@ -168,10 +160,6 @@ public class AttackNEAction : Action
                     {
                         potential++;
                     }
-                    else
-                    {
-                        potential--;
-                    }
                     reward = potential;
                 }
             }
@@ -201,10 +189,6 @@ public class AttackNEAction : Action
                     if (texGen.pixels[x, y].faction == (int)TextureGenerator.Faction.None)
                     {
                         potential++;
-                    }
-                    else
-                    {
-                        potential--;
                     }
                     reward = potential;
                 }
