@@ -343,6 +343,7 @@ public class GameLevel1 : MonoBehaviour
     public void BackToMainMenu()
     {
         EndGameSaveQ();
+        DontDestroyOnLoad(unitCounter);
         DontDestroyOnLoad(optionsHolder);
         SceneManager.LoadScene("MainMenu");
     }
