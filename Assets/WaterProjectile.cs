@@ -27,7 +27,7 @@ public class WaterProjectile : MonoBehaviour
         texGen.generating = true;
         texGen.AddWaterHit(collision.contacts[0].point, origin, faction);
         texGen.GenerateTexture();
-        //StartCoroutine(texGen.CoroutineGenerateTexture());
+
         gameObject.SetActive(false);
     }
 }

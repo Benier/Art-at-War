@@ -17,7 +17,7 @@ public class WanderCondition : Condition {
 
     public bool Test(Unit u, TextureGenerator texGen)
     {
-        if (/*Input.GetKey(KeyCode.W)*/GetPotential(u, texGen) <= 0 /*threshold*/)
+        if (GetPotential(u, texGen) <= 0)
         {
             return true;
         }

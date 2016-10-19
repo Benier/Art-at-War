@@ -33,8 +33,8 @@ public class TarAction : Action
     {
         texGen.generating = true;
         GameObject target = new GameObject();
-        float x = u.gameObject.transform.position.x; // = Random.Range(mapGen.MAP_WIDTH / 2 * -1, mapGen.MAP_WIDTH / 2);
-        float z = u.gameObject.transform.position.z; // = Random.Range(mapGen.MAP_LENGTH / 2 * -1, mapGen.MAP_LENGTH / 2);
+        float x = u.gameObject.transform.position.x; 
+        float z = u.gameObject.transform.position.z; 
         if (GetBestDir(u) != Direction.None)
         {
             dir = GetBestDir(u);
@@ -65,9 +65,8 @@ public class TarAction : Action
         z = Mathf.Clamp(z, u.gameObject.transform.position.z - u.attRange, u.gameObject.transform.position.z + u.attRange);
 
         target.transform.position = new Vector3(x, 0, z);
-        //u.ability = Unit.Ability.Attack;
+
         u.TarTarget(target);
-        //Debug.Log("Attacking");
     }
 
     Direction GetBestDir(Unit u)

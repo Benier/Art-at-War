@@ -24,7 +24,6 @@ public class QPrintAction : QAction
 
     public void Execute(Unit u)
     {
-        //Debug.Log(output);
         u.AP -= 2;
     }
 

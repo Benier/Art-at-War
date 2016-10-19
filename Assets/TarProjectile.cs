@@ -29,7 +29,7 @@ public class TarProjectile : MonoBehaviour
         texGen.generating = true;
         texGen.AddTarHit(collision.contacts[0].point, origin);
         texGen.GenerateTexture();
-        //display.GetComponent<Renderer>().material.SetTexture("_MainTex", texGen.GenerateTexture());
+
         gameObject.SetActive(false);
     }
 }

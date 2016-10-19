@@ -9,11 +9,6 @@ public class LoadingActionTexture : MonoBehaviour
 
     void Awake()
     {
-        //if(instance)
-        //{
-        //    Destroy(gameObject);
-        //    return;
-        //}
         instance = this;
         gameObject.AddComponent<GUITexture>().enabled = false;
         gameObject.GetComponent<GUITexture>().texture = texture;

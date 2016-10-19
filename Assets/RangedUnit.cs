@@ -25,9 +25,6 @@ public class RangedUnit : MonoBehaviour{
     public Ability ability;
     int enemyInd;
     ArrayList availEnem;
-    //public bool attackAbil;
-    //public bool tarAbil;
-    //public bool moveAbil;
     public bool active;
     public float accuracy;
     public int type; //0 is melee, 1 is ranged
@@ -48,13 +45,8 @@ public class RangedUnit : MonoBehaviour{
     {
         ability = Ability.Move;
         availEnem = new ArrayList();
-        //damage = 2;
-        //health = 5;
         enemyInd = 0;
         active = false;
-        //attackAbil = false;
-        //tarAbil = false;
-        //moveAbil = true;
         accuracy = 80.0f;
         attRange = 8;
         AP = 2;
@@ -123,30 +115,13 @@ public class RangedUnit : MonoBehaviour{
     /// </summary>
     void HandleInput()
     {
-        if (/*Input.GetMouseButtonDown(0) &&*/ !EventSystem.current.IsPointerOverGameObject())
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            //Debug.Log("LMB Down");
             RaycastHit hitInfo = new RaycastHit();
             bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
             if (hit)
             {
-                //Debug.Log("Hit " + hitInfo.transform.gameObject.name);
-                //Debug.Log(hitInfo.transform.gameObject.GetComponent<Renderer>().material.name);
-
                 ExecuteAbility(hitInfo);
-
-                if (hitInfo.transform.gameObject.tag == "GroundTile")
-                {
-                    //Debug.Log("Hit Ground");
-                }
-                else
-                {
-                    //Debug.Log("Hit something else");
-                }
-            }
-            else
-            {
-                //Debug.Log("Hit nothing");
             }
         }
     }
@@ -373,12 +348,6 @@ public class RangedUnit : MonoBehaviour{
             }
         }
         path.Reverse();
-
-        //color the path tiles red
-        //foreach (Node n in path)
-        //{
-        //    ((GameObject)floorTiles[n.X, n.Y]).GetComponent<MeshRenderer>().material.color = Color.red;
-        //}
         return path;
     }
 
@@ -397,34 +366,22 @@ public class RangedUnit : MonoBehaviour{
         //Check South neighbour
         if (n.Y > 0)
         {
-            //if (layOut[(int)n.Y - 1, (int)n.X] != 'X')
-            //{
-                n.AddNeighbour(nodeGrid[n.Y - 1, n.X]);
-            //}
+            n.AddNeighbour(nodeGrid[n.Y - 1, n.X]);
         }
         //Check North neighbour
         if (n.Y < nodeGrid.GetUpperBound(0))
         {
-            //if (layOut[(int)n.Y + 1, (int)n.X] != 'X')
-            //{
-                n.AddNeighbour(nodeGrid[n.Y + 1, n.X]);
-            //}
+            n.AddNeighbour(nodeGrid[n.Y + 1, n.X]);
         }
         //Check West neighbour
         if (n.X > 0)
         {
-            //if (layOut[(int)n.Y, (int)n.X - 1] != 'X')
-            //{
-                n.AddNeighbour(nodeGrid[n.Y, n.X - 1]);
-            //}
+            n.AddNeighbour(nodeGrid[n.Y, n.X - 1]);
         }
         //Check East neighbour
         if (n.X < nodeGrid.GetUpperBound(1))
         {
-            //if (layOut[(int)n.Y, (int)n.X + 1] != 'X')
-            //{
-                n.AddNeighbour(nodeGrid[n.Y, n.X + 1]);
-            //}
+            n.AddNeighbour(nodeGrid[n.Y, n.X + 1]);
         }
     }
     #endregion
@@ -449,7 +406,6 @@ public class RangedUnit : MonoBehaviour{
             GameObject enemy = hitColliders[i].gameObject;
             if (enemy.GetComponent<Agent>() != null)
             {
-                //Debug.Log("Ayyyy");
                 if (!availEnem.Contains(enemy.GetComponent<Agent>()))
                 {
                     availEnem.Add(enemy.GetComponent<Agent>());

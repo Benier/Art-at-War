@@ -13,17 +13,6 @@ public class QState
         actions.Add(action);
     }
 
-    //public QState(string stateName, QLearning q)
-    //{
-    //    q.StateLookup.Add(stateName, this);
-    //    StateName = stateName;
-    //    actions = new List<QAction>();
-    //}
-
-    //public override string ToString()
-    //{
-    //    return string.Format("StateName {0}", StateName);
-    //}
     #endregion
 
     public QState(string name)

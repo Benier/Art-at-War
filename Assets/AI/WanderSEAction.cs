@@ -19,7 +19,6 @@ public class WanderSEAction : Action
 
     public void Execute(Unit u)
     {
-        //Debug.Log("Wandering SE");
         GameObject target = new GameObject();
         float x;
         float y;
@@ -33,7 +32,7 @@ public class WanderSEAction : Action
         y = mapGen.map[new Coordinate(x, z)].transform.position.y;
         target.transform.position = new Vector3(x, y, z);
         reward = CalculateDistance(target.transform.position, new Vector3());
-        //u.ability = Unit.Ability.Attack;
+
         u.MoveToTarget(target);
     }
 

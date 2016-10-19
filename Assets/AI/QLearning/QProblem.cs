@@ -107,14 +107,7 @@ public class QProblem
     {
         QState newState;
         a.Execute(u);
-        //if(attCon.GetPotential(u, tg) <= 0.35f)
-        //{
-        //    newState = barrenState;
-        //}
-        //else
-        //{
-        //    newState = lushState;
-        //}
+
         return new StateRewardPair(s, a.GetReward()); 
     }
 }

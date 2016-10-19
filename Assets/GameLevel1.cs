@@ -147,7 +147,6 @@ public class GameLevel1 : MonoBehaviour
                     if (!SelectNextUnit() && !texGenerator.generating)
                     {
                         ClearTiles();
-                        //Debug.Log("Turn Ended");
                         curUnitInd = 0;
                         if (enemyUnits.Count > 0)
                         {
@@ -180,7 +179,6 @@ public class GameLevel1 : MonoBehaviour
                 {
                     if (!SelectNextUnit() && !texGenerator.generating)
                     {
-                        //Debug.Log("Turn Ended");
                         curUnitInd = 0;
 
                         if (qEnemyUnits.Count > 0)
@@ -202,7 +200,6 @@ public class GameLevel1 : MonoBehaviour
                             ColourRangeTiles(playerUnits[curUnitInd], playerUnits[curUnitInd].GetComponent<Unit>().attRange);
                         }
                         ResetUnitsAP(playerTurn);
-                        //numTurns--;
                     }
                     numExecutedEnemies++;
                 }
@@ -218,7 +215,6 @@ public class GameLevel1 : MonoBehaviour
                 {
                     if (!SelectNextUnit())
                     {
-                        //Debug.Log("Turn Ended");
                         curUnitInd = 0;
                         EnableUnit(playerUnits, curUnitInd);
                         playerTurn = 1;
@@ -255,20 +251,7 @@ public class GameLevel1 : MonoBehaviour
                 gameEnd = true;
             }
         }
-        //for repetitive value growth against statemachine, q agents play for player
-        //if(gameEnd)
-        //{
-        //    UpdateQValues();
-        //    if (winner == 1)
-        //    {
-        //        RevertQValues();
-        //    }
-        //    else
-        //    {
 
-        //        UpdateQValues();
-        //    }
-        //}
         yield return null;
     }
 
@@ -748,9 +731,6 @@ public class GameLevel1 : MonoBehaviour
             unitsList = qEnemyUnits;
         }
         unitsList[curUnitInd].GetComponent<Unit>().ability = Unit.Ability.Attack;
-        //playerUnits[curUnitInd].GetComponent<Unit>().attackAbil = true;
-        //playerUnits[curUnitInd].GetComponent<Unit>().tarAbil = false;
-        //playerUnits[curUnitInd].GetComponent<Unit>().moveAbil = false;
     }
 
     public void EnableTar()
@@ -769,9 +749,6 @@ public class GameLevel1 : MonoBehaviour
             unitsList = qEnemyUnits;
         }
         unitsList[curUnitInd].GetComponent<Unit>().ability = Unit.Ability.Tar;
-        //playerUnits[curUnitInd].GetComponent<Unit>().attackAbil = false;
-        //playerUnits[curUnitInd].GetComponent<Unit>().tarAbil = true;
-        //playerUnits[curUnitInd].GetComponent<Unit>().moveAbil = false;
     }
 
     public void EnableMove()
@@ -790,9 +767,6 @@ public class GameLevel1 : MonoBehaviour
             unitsList = qEnemyUnits;
         }
         unitsList[curUnitInd].GetComponent<Unit>().ability = Unit.Ability.Move;
-        //playerUnits[curUnitInd].GetComponent<Unit>().attackAbil = false;
-        //playerUnits[curUnitInd].GetComponent<Unit>().tarAbil = false;
-        //playerUnits[curUnitInd].GetComponent<Unit>().moveAbil = true;
     }
 
     void EnableUnit(List<GameObject> units, int index)

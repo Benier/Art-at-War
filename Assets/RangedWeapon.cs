@@ -52,8 +52,6 @@ public class RangedWeapon : MonoBehaviour {
             projectilePrefab = Instantiate(Resources.Load("OilProjectile", typeof(GameObject))) as GameObject;
             projectilePrefab.GetComponent<OilProjectile>().faction = faction;
         }
-        //projectilePrefab.GetComponent<Rigidbody>().velocity = BallisticVelocity(target, 60.0f);
-        //Vector3 temp = projectilePrefab.GetComponent<Rigidbody>().velocity;
         projectilePrefab.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
         projectilePrefab.GetComponent<Rigidbody>().AddForce(CalculateThrowSpeed(this.transform.position, target.transform.position, timeToTarget), ForceMode.VelocityChange);
         Destroy(projectilePrefab, destroyTimer);

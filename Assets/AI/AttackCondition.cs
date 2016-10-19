@@ -15,7 +15,7 @@ public class AttackCondition : Condition {
 
     public bool Test(Unit u, TextureGenerator texGen)
     {        
-        if (/*Input.GetKey(KeyCode.A) && u.AP > 0*/GetPotential(u, texGen) > 0 /*threshold*/)
+        if (GetPotential(u, texGen) > 0)
         {
             return true;
         }

@@ -26,6 +26,11 @@ public class QLearner
     Unit unit;
     TextureGenerator texGen;
 
+    /// <summary>
+    /// Constructor for Q Learners. Initializes Q learning variables and storage parameters with OptionsHolder values.
+    /// </summary>
+    /// <param name="u">Unit that the Q Learner will control</param>
+    /// <param name="tg">TextureGenerator that Q Learner actions will apply to</param>
     public QLearner(Unit u, TextureGenerator tg)
     {
         optionsHolder = GameObject.Find("OptionsHolder").GetComponent<OptionsHolder>();
@@ -53,24 +58,11 @@ public class QLearner
             if (prevIterations < stores.Count - 1)
             {
                 stores[prevIterations].copyToStore(stores[iterations]);
-                //stores[iterations + 1] = stores[iterations];
                 store = stores[iterations];
-                //stores[iterations + 1].copyToStore(store);
             }
-            //else if(prevIterations >= maxIterations - 1)
-            //{
-            //    QValueStore tempStore = new QValueStore();
-            //    stores[prevIterations].copyToStore(tempStore);
-            //    ClearAllQ();
-            //    iterations = 0;
-            //    tempStore.copyToStore(stores[iterations]);
-            //    store = stores[iterations];
-            //}
             else
             {
-                //stores[iterations] = stores[iterations];
                 store = stores[prevIterations];
-                //stores[iterations].copyToStore(stores[iterations]);
                 stores[prevIterations].copyToStore(store);
             }
         }
@@ -98,7 +90,6 @@ public class QLearner
         {
             state = problem.GetRandomState();
         }
-        //Debug.Log(state.statename);
         actions = problem.GetAvailableActions(state);
 
         float randrho = Random.Range(0.0f, 10.0f);
@@ -123,7 +114,6 @@ public class QLearner
         qVal = (1 - alpha) * qVal + alpha * (reward + gamma * maxQ);
 
         store.storeQValue(state, action, qVal);
-        //Debug.Log("Q: " + qVal + ", Action: " + action.GetType() + ", Best Action: " + store.GetBestAction(state).GetType());
 
         state = newState;
 	}

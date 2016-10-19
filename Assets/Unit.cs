@@ -355,7 +355,6 @@ public class Unit : MonoBehaviour{
                 newTarg.transform.position.y + Random.Range(1, 5),
                 newTarg.transform.position.z + Random.Range(1, 5));
             weapon.GetComponent<RangedWeapon>().target = newTarg;
-            //Debug.Log("Tough Luck");
         }
     }
 

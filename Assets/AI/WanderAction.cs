@@ -19,7 +19,7 @@ public class WanderAction : Action
 
     public void Execute(Unit u)
     {
-        //Debug.Log("Wandering");
+
         GameObject target = new GameObject();
         float x = Random.Range(mapGen.MAP_WIDTH / 2 * -1, mapGen.MAP_WIDTH / 2);
         float y;
@@ -28,7 +28,7 @@ public class WanderAction : Action
         z = Mathf.Clamp(z, u.gameObject.transform.position.z - u.attRange, u.gameObject.transform.position.z + u.attRange);
         y = mapGen.map[new Coordinate(x, z)].transform.position.y;
         target.transform.position = new Vector3(x, y, z);
-        //u.ability = Unit.Ability.Attack;
+
         u.MoveToTarget(target);
     }
 

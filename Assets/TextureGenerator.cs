@@ -48,8 +48,8 @@ public class TextureGenerator : MonoBehaviour {
 
     public int correctX;
     public int correctY;
-    float xInterval; //number of pixels across X per tile
-    float yInterval; //number of pixels across Y per tile
+    float xInterval; 
+    float yInterval; 
 
     // Use this for initialization
     void Awake ()
@@ -68,11 +68,6 @@ public class TextureGenerator : MonoBehaviour {
         tarMaskTexture = Resources.Load("TarStrokes") as Texture2D;
         tarBaseTexture = Resources.Load("A_la_Recherche_du_Temps_Perdu_TAR") as Texture2D;
 
-        //pencilHit = new TextureHit(new Vector3(200, 0, 200), pencilBaseTexture, pencilMaskTexture);
-        //tarHit = new TextureHit(new Vector3(300, 600, 400), inputBaseTexture, pencilMaskTexture);
-        //hitQueue.Add(pencilHit);
-        //hitQueue.Add(tarHit);
-        //SetTexture();
         pixels = new ScorePixel[inputBaseTexture.width, inputBaseTexture.height];
 
         //Set up matrix of pixels that can hold a score value.
@@ -107,18 +102,6 @@ public class TextureGenerator : MonoBehaviour {
         display.GetComponent<Renderer>().material.SetTexture("_MainTex", GenerateTexture());
     }
 
-    /// <summary>
-    /// Using Coroutine, generate a new texture by generating as many passes are there are hits in the queue.
-    /// </summary>
-    /// <returns></returns>
-    public IEnumerator CoroutineGenerateTexture()
-    {
-        for (int i = 0; i < hitQueue.Count; i++)
-        {
-            //outputTexture = GeneratePass(hitQueue[i], outputTexture);
-            yield return outputTexture;
-        }
-    }
 
     /// <summary>
     /// Generate a new texture by generating as many passes are there are hits in the queue.
@@ -127,14 +110,10 @@ public class TextureGenerator : MonoBehaviour {
     public Texture2D GenerateTexture()
     {
         loaded = false;
-        //loadActText.SetActive(true);
         for (int i = 0; i < hitQueue.Count; i++)        
         {
             tempHit = hitQueue[i];
-            //outputTexture = container.texture;
-            StartCoroutine("GeneratePass");
-            //StartCoroutine(CoroutineGeneratePass(hitQueue[i], outputTexture, container));
-            
+            StartCoroutine("GeneratePass");            
         }
         loaded = true;
         loadActText.SetActive(false);
@@ -150,8 +129,8 @@ public class TextureGenerator : MonoBehaviour {
     {
         Vector3 texPos;
         //Correct the positions by changing it from 0,0 top left to 0, 0 centre, then adding the offset based on the position.
-        correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);//(int)((pos.x * xInterval) + ((mapGen.MAP_WIDTH * xInterval) / 2));
-        correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
+        correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);
+        correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);
         texPos = new Vector3(correctX, 0, correctY);
 
         TextureHit pHit = new TextureHit(texPos, pencilBaseTexture, pencilMaskTexture, (int)fact, origin);
@@ -167,8 +146,8 @@ public class TextureGenerator : MonoBehaviour {
     {
         Vector3 texPos;
         //Correct the positions by changing it from 0,0 top left to 0, 0 centre, then adding the offset based on the position.
-        correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);//(int)((pos.x * xInterval) + ((mapGen.MAP_WIDTH * xInterval) / 2));
-        correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
+        correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);
+        correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);
         texPos = new Vector3(correctX, 0, correctY);
 
         TextureHit pHit = new TextureHit(texPos, charcoalBaseTexture, charcoalMaskTexture, (int)fact, origin);
@@ -184,8 +163,8 @@ public class TextureGenerator : MonoBehaviour {
     {
         Vector3 texPos;
         //Correct the positions by changing it from 0,0 top left to 0, 0 centre, then adding the offset based on the position.
-        correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);//(int)((pos.x * xInterval) + ((mapGen.MAP_WIDTH * xInterval) / 2));
-        correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
+        correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);
+        correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);
         texPos = new Vector3(correctX, 0, correctY);
 
         TextureHit pHit = new TextureHit(texPos, waterBaseTexture, waterMaskTexture, (int)fact, origin);
@@ -201,8 +180,8 @@ public class TextureGenerator : MonoBehaviour {
     {
         Vector3 texPos;
         //Correct the positions by changing it from 0,0 top left to 0, 0 centre, then adding the offset based on the position.
-        correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);//(int)((pos.x * xInterval) + ((mapGen.MAP_WIDTH * xInterval) / 2));
-        correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
+        correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);
+        correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);
         texPos = new Vector3(correctX, 0, correctY);
 
         TextureHit pHit = new TextureHit(texPos, oilBaseTexture, oilMaskTexture, (int)fact, origin);
@@ -218,8 +197,8 @@ public class TextureGenerator : MonoBehaviour {
     {
         Vector3 texPos;
         //Correct the positions by changing it from 0,0 top left to 0, 0 centre, then adding the offset based on the position.
-        correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);//(int)((pos.x * xInterval) + ((mapGen.MAP_WIDTH * xInterval) / 2));
-        correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);//(int)((pos.z * yInterval) + ((mapGen.MAP_LENGTH * yInterval) / 2));
+        correctX = (int)((pos.x + mapGen.MAP_WIDTH / 2) * xInterval);
+        correctY = (int)((pos.z + mapGen.MAP_LENGTH / 2) * yInterval);
         texPos = new Vector3(correctX, 0, correctY);
 
         TextureHit pHit = new TextureHit(texPos, tarBaseTexture, tarMaskTexture, (int)Faction.None, origin);
@@ -321,11 +300,7 @@ public class TextureGenerator : MonoBehaviour {
                         List<List<int>> debugLIst = mapGen.map[new Coordinate(worldPos.x, worldPos.z)].GetComponent<Tile>().ToList();
 
                     }
-
                 }
-
-                //Color tempCol = new Color(hit.baseTexture.GetPixel(x, y).r, hit.baseTexture.GetPixel(x, y).g, hit.baseTexture.GetPixel(x, y).b, hit.maskTexture.GetPixel(x, y).a);
-                //tempTexture.SetPixel(x, y, tempCol);
             }
             yield return null;
         }
@@ -334,7 +309,6 @@ public class TextureGenerator : MonoBehaviour {
         outputTexture = tempTexture;
         generating = false;
         hitQueue.Clear();
-        //return tempTexture;
     }
 
 
@@ -346,11 +320,8 @@ public class TextureGenerator : MonoBehaviour {
     /// <returns></returns>
     public IEnumerator CoroutineGeneratePass(TextureHit hit, Texture2D outputText, TextureContainer container)
     {
-        Texture2D tempTexture = outputText;//new Texture2D(hit.baseTexture.width, hit.baseTexture.height);
-        //TextureScale.Point(hitMask, hitMask.width / (int)hit.distance, hitMask.height / (int)hit.distance);
+        Texture2D tempTexture = outputText;
 
-        //hitMask.Resize(hitMask.width / 1, hitMask.height / 1);
-        //(int)hit.distance, hitMask.height / (int)hit.distance);
         for (int x = 0; x < hit.maskWidth; x++)
         {
             for (int y = 0; y < hit.maskHeight; y++)
@@ -416,8 +387,6 @@ public class TextureGenerator : MonoBehaviour {
                         List<List<int>> debugLIst = mapGen.map[new Coordinate(worldPos.x, worldPos.z)].GetComponent<Tile>().ToList();
                     }
                 }
-                //Color tempCol = new Color(hit.baseTexture.GetPixel(x, y).r, hit.baseTexture.GetPixel(x, y).g, hit.baseTexture.GetPixel(x, y).b, hit.maskTexture.GetPixel(x, y).a);
-                //tempTexture.SetPixel(x, y, tempCol);
             }
 
         }

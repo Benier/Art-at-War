@@ -17,7 +17,7 @@ public class MapGenerator : MonoBehaviour {
     float max_radius = 4;
     static CoordinateComparer coordComp = new CoordinateComparer();
     public Dictionary<Coordinate, GameObject> map = new Dictionary<Coordinate, GameObject>(coordComp);
-    //int[,] map;
+
     Node[,] nodeGrid;
    
     // Use this for initialization
@@ -45,7 +45,6 @@ public class MapGenerator : MonoBehaviour {
     public Dictionary<Coordinate, GameObject> GenerateMap(TextureGenerator texGen)
     {
         GameObject blockPrefab;
-        //map = new int[MAP_WIDTH, MAP_LENGTH];
         nodeGrid = new Node[MAP_LENGTH, MAP_WIDTH];
         for(int x = MAP_WIDTH / 2 * -1; x < MAP_WIDTH / 2; x++)
         {
@@ -73,20 +72,13 @@ public class MapGenerator : MonoBehaviour {
                 float y = Mathf.Pow(radius, 2) - (Mathf.Pow((g.Key.GetX() - x), 2) + Mathf.Pow((g.Key.GetZ() - z), 2));
                 if(y > 0)
                 {
-                    //float ynorm = (y - y_min) / (y_max - y_min);
                     float ynorm = Mathf.InverseLerp(0, 1, y);
                     g.Key.SetY(ynorm);
 
                     g.Value.transform.position += new Vector3(0, g.Key.GetY(), 0);
                 }
             }
-            //map[x, z] += 1;
         }
-        if(map.ContainsKey(new Coordinate(0, 0)))
-        {
-            //Debug.Log("boo");
-        }
-        //map[new Coordinate(0, 0)].transform.position += new Vector3(0, 2 * scale_factor, 0);
         
         return map;
     }

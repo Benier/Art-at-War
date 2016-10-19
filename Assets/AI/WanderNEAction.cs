@@ -19,7 +19,6 @@ public class WanderNEAction : Action
 
     public void Execute(Unit u)
     {
-        //Debug.Log("Wandering NE");
         GameObject target = new GameObject();
         float x;
         float y;
@@ -32,7 +31,7 @@ public class WanderNEAction : Action
         z = Mathf.Clamp(z, u.gameObject.transform.position.z - u.attRange, u.gameObject.transform.position.z + u.attRange);
         y = mapGen.map[new Coordinate(x, z)].transform.position.y;
         target.transform.position = new Vector3(x, y, z);
-        //u.ability = Unit.Ability.Attack;
+
         reward = CalculateDistance(target.transform.position, new Vector3());
         u.MoveToTarget(target);
     }

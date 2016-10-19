@@ -27,14 +27,8 @@ public class OilProjectile : MonoBehaviour
     {
         texGen.generating = true;
         texGen.AddOilHit(collision.contacts[0].point, origin, faction);
-        //
-        //if (!texGenThread.IsAlive)
-        //{
-        //    texGenThread.Start();
-        //}
 
         texGen.GenerateTexture();
-        //StartCoroutine(texGen.CoroutineGenerateTexture());
         gameObject.SetActive(false);
     }
 }
